@@ -1,5 +1,5 @@
 {
-  "name": "CyrilTiger_7_06072021",
+  "name": "openclassroom-p7",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,8 +7,15 @@
     "type": "git",
     "url": "git+https://github.com/Allandrow/CyrilTiger_7_06072021.git"
   },
+  "scripts": {
+    "sass": "sass --watch ./scss:./dist/style.css"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "homepage": "https://github.com/Allandrow/CyrilTiger_7_06072021/index.html"
+  "homepage": "https://github.com/Allandrow/CyrilTiger_7_06072021/index.html",
+  "devDependencies": {
+    "eslint": "^7.30.0",
+    "sass": "^1.35.1"
+  }
 }
