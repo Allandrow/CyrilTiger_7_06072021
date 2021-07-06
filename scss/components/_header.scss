@@ -1,0 +1,17 @@
+@use '../abstracts/' as *;
+
+header {
+  display: flex;
+  justify-content: center;
+}
+
+h1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: $color-primary-400;
+  font-family: $font-title, sans-serif;
+  img {
+    width: 50px;
+  }
+}
