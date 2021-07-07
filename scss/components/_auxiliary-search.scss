@@ -1,0 +1,33 @@
+@use '../abstracts/' as *;
+
+.auxiliary-search {
+  display: flex;
+  cursor: pointer;
+
+  .select {
+    color: #fff;
+    display: flex;
+    min-width: 170px;
+    justify-content: space-between;
+    padding: 1rem;
+    border-radius: 5px;
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+
+  &.ingredient-color {
+    .select {
+      @include tag-background($color-accent-first);
+    }
+  }
+  &.equipment-color {
+    .select {
+      @include tag-background($color-accent-second);
+    }
+  }
+  &.ustensils-color {
+    .select {
+      @include tag-background($color-accent-third);
+    }
+  }
+}
