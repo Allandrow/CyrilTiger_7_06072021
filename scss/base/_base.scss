@@ -1,3 +1,16 @@
+@use '../abstracts/' as *;
+
 body {
-  margin-top: 3rem;
+  padding-top: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: $font-primary, sans-serif;
+}
+
+main {
+  margin-top: 1rem;
+}
+
+::placeholder {
+  opacity: 0.75;
 }

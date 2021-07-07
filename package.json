@@ -8,7 +8,7 @@
     "url": "git+https://github.com/Allandrow/CyrilTiger_7_06072021.git"
   },
   "scripts": {
-    "sass": "sass --watch ./scss:./dist/"
+    "sass": "sass --watch ./scss:./dist/css --style=compressed"
   },
   "keywords": [],
   "author": "",
