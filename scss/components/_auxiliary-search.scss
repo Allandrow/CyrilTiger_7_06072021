@@ -9,18 +9,23 @@
     display: flex;
     min-width: 170px;
     justify-content: space-between;
+    align-items: center;
     padding: 1rem;
     border-radius: 5px;
     font-size: 1.125rem;
     font-weight: 700;
+
+    span::first-letter {
+      text-transform: uppercase;
+    }
   }
 
-  &.ingredient-color {
+  &.ingredients-color {
     .select {
       @include tag-background($color-accent-first);
     }
   }
-  &.equipment-color {
+  &.appliance-color {
     .select {
       @include tag-background($color-accent-second);
     }

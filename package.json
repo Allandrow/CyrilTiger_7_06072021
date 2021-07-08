@@ -16,6 +16,8 @@
   "homepage": "https://github.com/Allandrow/CyrilTiger_7_06072021/index.html",
   "devDependencies": {
     "eslint": "^7.30.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
     "sass": "^1.35.1"
   }
 }
