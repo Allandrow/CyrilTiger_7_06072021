@@ -2,7 +2,6 @@
 
 .auxiliary-search {
   display: flex;
-  cursor: pointer;
 
   .select {
     color: #fff;
@@ -13,6 +12,7 @@
     padding: 1rem;
     border-radius: 5px;
     font-size: 1.125rem;
+    cursor: pointer;
     font-weight: 700;
 
     span::first-letter {
