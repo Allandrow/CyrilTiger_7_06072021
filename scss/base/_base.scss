@@ -28,4 +28,7 @@ main {
 
 .result-group {
   margin: 1.5rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
 }
