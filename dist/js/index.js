@@ -5,7 +5,7 @@ import recipes from './recipes.js';
 
 // TEMP method to include recipe list in DOM
 const getRecipes = () => {
-  const displayedRecipes = [];
+  // const displayedRecipes = [];
 
   const container = document.createElement('div');
   container.id = 'jsResults';
