@@ -19,7 +19,7 @@ export default class Recipe {
     contentHead.className = `${contentBEM}__head`;
 
     const title = document.createElement('h2');
-    title.appendChild(document.createTextNode(name));
+    title.textContent = name;
 
     const timer = document.createElement('div');
     timer.className = 'timer';
@@ -28,7 +28,7 @@ export default class Recipe {
     img.src = 'dist/img/timer.svg';
 
     const timerText = document.createElement('span');
-    timerText.appendChild(document.createTextNode(`${time} min`));
+    timerText.textContent = `${time} min`;
     timer.append(img, timerText);
     contentHead.append(title, timer);
 
@@ -42,48 +42,34 @@ export default class Recipe {
 
       const li = document.createElement('li');
       const ingredientName = document.createElement('strong');
-      ingredientName.appendChild(document.createTextNode(`${ingredient}: `));
-
-      const quantityElement = document.createElement('span');
-      // TODO : filter display according to if quantity is undefined or not
-      console.log(quantity);
-      let quantityText;
-      if (unit !== undefined) {
-        quantityText = `${quantity} ${unit}`;
+      if (quantity) {
+        ingredientName.textContent = `${ingredient} : `;
+        const quantityElement = document.createElement('span');
+        let quantityText;
+        // TODO : abbreviation of unit in certain cases
+        if (unit !== undefined) {
+          quantityText = `${quantity} ${unit}`;
+        } else {
+          quantityText = `${quantity}`;
+        }
+        quantityElement.textContent = quantityText;
+        li.append(ingredientName, quantityElement);
       } else {
-        quantityText = `${quantity}`;
+        ingredientName.textContent = ingredient;
+        li.appendChild(ingredientName);
       }
-      quantityElement.appendChild(document.createTextNode(quantityText));
-      li.append(ingredientName, quantityElement);
+
       list.appendChild(li);
     });
 
+    // TODO : clamp description past a certain number of lines/characters
     const paragraph = document.createElement('p');
     paragraph.className = 'description';
-    paragraph.appendChild(document.createTextNode(description));
+    paragraph.textContent = description;
 
     contentBody.append(list, paragraph);
     content.append(contentHead, contentBody);
     article.appendChild(content);
     return article;
   }
-
-  //   <article class="result-card">
-  //   <div class="result-card__content">
-
-  //     <div class="result-card__content__body">
-  //       <ul class="ingredients">
-  //         <li>
-  //           <strong>Lait de coco:</strong>
-  //           <span>400ml</span>
-  //         </li>
-  //       </ul>
-  //       <p class="description">
-  //         Mettre les glaçons à votre goût dans le blender, ajouter le lait, la
-  //         crème de coco, le jus de 2 citrons et le surcre. Mixer jusqu'à avoir la
-  //         consistence désirée.
-  //       </p>
-  //     </div>
-  //   </div>
-  // </article>
 }

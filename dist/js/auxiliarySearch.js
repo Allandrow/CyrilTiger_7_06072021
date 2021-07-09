@@ -12,7 +12,7 @@ export default class AuxiliarySearch {
     button.className = 'select';
 
     const span = document.createElement('span');
-    span.appendChild(document.createTextNode(this.text));
+    span.textContent = this.text;
 
     const arrow = document.createElement('img');
     arrow.src = 'dist/img/arrow.svg';
