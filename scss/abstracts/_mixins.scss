@@ -1,7 +1,7 @@
 @use 'sass:color';
 @use 'vars';
 
-@mixin tag-background($color) {
+@mixin darken-hover($color) {
   background-color: $color;
 
   &:hover {

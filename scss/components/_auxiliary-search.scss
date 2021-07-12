@@ -4,7 +4,7 @@
   display: flex;
   position: relative;
 
-  .select {
+  label {
     color: #fff;
     display: flex;
     min-width: 170px;
@@ -28,26 +28,28 @@
     position: absolute;
   }
 
-  .focus,
-  .focus + ul {
-    visibility: visible;
-    width: 100%;
-    height: auto;
+  &.open {
+    input,
+    ul {
+      visibility: visible;
+      width: 100%;
+      height: auto;
+    }
   }
 
   &.ingredients-color {
-    .select {
-      @include tag-background($color-accent-first);
+    label {
+      @include darken-hover($color-accent-first);
     }
   }
   &.appliance-color {
-    .select {
-      @include tag-background($color-accent-second);
+    label {
+      @include darken-hover($color-accent-second);
     }
   }
   &.ustensils-color {
-    .select {
-      @include tag-background($color-accent-third);
+    label {
+      @include darken-hover($color-accent-third);
     }
   }
 }

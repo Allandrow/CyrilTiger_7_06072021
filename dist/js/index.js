@@ -41,6 +41,28 @@ const getDOM = () => {
 
   // TEMP display of results
   form.appendChild(getRecipes());
+
+  // DOM Events
+
+  // closing auxiliary search
+  const searchLabels = Array.from(document.querySelectorAll('.auxiliary-search label'));
+  window.addEventListener('click', (e) => {
+    const isTargetLabel = searchLabels.find((label) => label === e.target);
+    const openSearch = document.querySelector('.open');
+    if (isTargetLabel) {
+      const parent = e.target.closest('.auxiliary-search');
+      if (openSearch && !parent.classList.contains('open')) {
+        openSearch.classList.remove('open');
+        parent.classList.add('open');
+      } else {
+        parent.classList.add('open');
+      }
+    } else if (!e.target.closest('.auxiliary-search')) {
+      if (openSearch) {
+        openSearch.classList.remove('open');
+      }
+    }
+  });
 };
 
 const onLoad = () => {

@@ -12,14 +12,14 @@
   font-size: 0.875rem;
 
   &.ingredient-color {
-    @include tag-background($color-accent-first);
+    @include darken-hover($color-accent-first);
   }
 
   &.equipment-color {
-    @include tag-background($color-accent-second);
+    @include darken-hover($color-accent-second);
   }
 
   &.ustensils-color {
-    @include tag-background($color-accent-third);
+    @include darken-hover($color-accent-third);
   }
 }

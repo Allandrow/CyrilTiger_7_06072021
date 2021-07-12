@@ -4,14 +4,16 @@ export default class AuxiliarySearch {
   constructor(name, text) {
     this.name = name;
     this.text = text;
+    this.label = this.createLabel();
+    this.input = this.createInput();
   }
 
-  static setMap(map, key, id) {
+  static setMap(map, key, recipe) {
     if (map.get(key) === undefined) {
-      map.set(key, [id]);
+      map.set(key, [recipe]);
     } else {
       const arr = map.get(key);
-      arr.push(id);
+      arr.push(recipe);
     }
   }
 
@@ -24,15 +26,15 @@ export default class AuxiliarySearch {
       switch (this.name) {
         case 'ingredients':
           recipe.ingredients.forEach((ingredient) => {
-            AuxiliarySearch.setMap(map, ingredient.ingredient, recipe.id);
+            AuxiliarySearch.setMap(map, ingredient.ingredient, recipe);
           });
           break;
         case 'appliance':
-          AuxiliarySearch.setMap(map, recipe.appliance, recipe.id);
+          AuxiliarySearch.setMap(map, recipe.appliance, recipe);
           break;
         case 'ustensils':
           recipe.ustensils.forEach((ustensil) => {
-            AuxiliarySearch.setMap(map, ustensil, recipe.id);
+            AuxiliarySearch.setMap(map, ustensil, recipe);
           });
           break;
         default:
@@ -42,22 +44,27 @@ export default class AuxiliarySearch {
     return map;
   }
 
+  createLabel() {
+    const label = document.createElement('label');
+    label.setAttribute('for', `${this.name}Search`);
+    label.textContent = this.text;
+    return label;
+  }
+
+  createInput() {
+    const input = document.createElement('input');
+    input.id = `${this.name}Search`;
+    input.type = 'text';
+    return input;
+  }
+
   getDOM() {
     const div = document.createElement('div');
     div.classList.add('auxiliary-search', `${this.name}-color`);
 
-    const label = document.createElement('label');
-    label.className = 'select';
-    label.setAttribute('for', `${this.name}Search`);
-    label.textContent = this.text;
-
     const img = document.createElement('img');
     img.src = 'dist/img/arrow.svg';
-    label.appendChild(img);
-
-    const input = document.createElement('input');
-    input.id = `${this.name}Search`;
-    input.type = 'text';
+    this.label.appendChild(img);
 
     const map = this.getMap();
 
@@ -69,8 +76,7 @@ export default class AuxiliarySearch {
       list.appendChild(li);
     });
 
-    div.append(label, input, list);
-
+    div.append(this.label, this.input, list);
     this.getMap();
 
     return div;
