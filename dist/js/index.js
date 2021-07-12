@@ -4,20 +4,20 @@ import Recipe from './recipe.js';
 import recipes from './recipes.js';
 
 // TEMP method to include recipe list in DOM
-const getRecipes = () => {
-  // const displayedRecipes = [];
+// const getRecipes = () => {
+//   // const displayedRecipes = [];
 
-  const container = document.createElement('div');
-  container.id = 'jsResults';
-  container.className = 'result-group';
+//   const container = document.createElement('div');
+//   container.id = 'jsResults';
+//   container.className = 'result-group';
 
-  recipes.forEach((item) => {
-    const recipe = new Recipe(item);
-    container.appendChild(recipe.getDOM());
-  });
+//   recipes.forEach((item) => {
+//     const recipe = new Recipe(item);
+//     container.appendChild(recipe.getDOM());
+//   });
 
-  return container;
-};
+//   return container;
+// };
 
 const getDOM = () => {
   const form = document.getElementById('jsForm');
@@ -40,7 +40,7 @@ const getDOM = () => {
   form.append(MainSearch.getDOM(), filterTags, auxiliarySearchGroup);
 
   // TEMP display of results
-  form.appendChild(getRecipes());
+  // form.appendChild(getRecipes());
 
   // DOM Events
 

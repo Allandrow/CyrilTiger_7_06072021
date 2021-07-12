@@ -55,6 +55,8 @@ export default class AuxiliarySearch {
     const input = document.createElement('input');
     input.id = `${this.name}Search`;
     input.type = 'text';
+    // TODO : create prop to use for placeholder with correct text
+    input.placeholder = `Recherche un ${this.text}`;
     return input;
   }
 
@@ -72,7 +74,9 @@ export default class AuxiliarySearch {
 
     map.forEach((value, key) => {
       const li = document.createElement('li');
-      li.textContent = key;
+      const button = document.createElement('button');
+      button.textContent = key;
+      li.appendChild(button);
       list.appendChild(li);
     });
 

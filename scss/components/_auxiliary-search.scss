@@ -3,18 +3,17 @@
 .auxiliary-search {
   display: flex;
   position: relative;
+  border-radius: 5px;
+  font-size: 1.125rem;
 
   label {
     color: #fff;
     display: flex;
-    min-width: 170px;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
-    border-radius: 5px;
-    font-size: 1.125rem;
     cursor: pointer;
     font-weight: 700;
+    padding: 1rem;
   }
 
   input,
@@ -26,30 +25,58 @@
 
   input {
     position: absolute;
+    border-radius: 5px;
   }
 
   &.open {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      visibility: hidden;
+    }
+
+    ::placeholder {
+      color: #fff;
+      opacity: 0.5;
+    }
+
     input,
     ul {
       visibility: visible;
       width: 100%;
       height: auto;
+      padding: 1rem;
+    }
+
+    input {
+      width: 100%;
+      color: #fff;
+    }
+
+    ul {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      row-gap: 0.5rem;
+
+      button {
+        color: #fff;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
     }
   }
 
   &.ingredients-color {
-    label {
-      @include darken-hover($color-accent-first);
-    }
+    @include darken-hover($color-accent-first);
   }
   &.appliance-color {
-    label {
-      @include darken-hover($color-accent-second);
-    }
+    @include darken-hover($color-accent-second);
   }
   &.ustensils-color {
-    label {
-      @include darken-hover($color-accent-third);
-    }
+    @include darken-hover($color-accent-third);
   }
 }
