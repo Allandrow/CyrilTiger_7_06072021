@@ -6,28 +6,40 @@ export default class AuxiliarySearch {
     this.text = text;
   }
 
-  getSet() {
-    const set = new Set();
+  static setMap(map, key, id) {
+    if (map.get(key) === undefined) {
+      map.set(key, [id]);
+    } else {
+      const arr = map.get(key);
+      arr.push(id);
+    }
+  }
+
+  getMap() {
+    const map = new Map();
+    // Generate a map associating each ingredient, appliance or ustensil as key
+    // if key isn't in map, set key with an array containing recipe id
+    // if key is in map, get value of key and push recipe id in it
     recipes.forEach((recipe) => {
       switch (this.name) {
         case 'ingredients':
           recipe.ingredients.forEach((ingredient) => {
-            set.add(ingredient.ingredient);
+            AuxiliarySearch.setMap(map, ingredient.ingredient, recipe.id);
           });
           break;
         case 'appliance':
-          set.add(recipe.appliance);
+          AuxiliarySearch.setMap(map, recipe.appliance, recipe.id);
           break;
         case 'ustensils':
           recipe.ustensils.forEach((ustensil) => {
-            set.add(ustensil);
+            AuxiliarySearch.setMap(map, ustensil, recipe.id);
           });
           break;
         default:
-          console.log('Not available for auxiliary search');
+          throw new Error('Not available for auxiliary search');
       }
     });
-    return set;
+    return map;
   }
 
   getDOM() {
@@ -47,16 +59,19 @@ export default class AuxiliarySearch {
     input.id = `${this.name}Search`;
     input.type = 'text';
 
-    const listSet = this.getSet();
+    const map = this.getMap();
+
     const list = document.createElement('ul');
 
-    listSet.forEach((item) => {
+    map.forEach((value, key) => {
       const li = document.createElement('li');
-      li.textContent = item;
+      li.textContent = key;
       list.appendChild(li);
     });
 
     div.append(label, input, list);
+
+    this.getMap();
 
     return div;
   }
