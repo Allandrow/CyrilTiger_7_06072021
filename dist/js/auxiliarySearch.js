@@ -7,11 +7,19 @@ export default class AuxiliarySearch {
   }
 
   createInput() {
+    const div = document.createElement('div');
+    div.className = 'inputRow';
+
     const input = document.createElement('input');
     input.id = `${this.name}Search`;
     input.type = 'text';
     input.placeholder = `Recherche un ${this.text}`;
-    return input;
+
+    const img = document.createElement('img');
+    img.src = 'dist/img/arrow.svg';
+
+    div.append(input, img);
+    return div;
   }
 
   createMapElementsList(map) {
@@ -36,11 +44,13 @@ export default class AuxiliarySearch {
     const summary = document.createElement('summary');
     summary.textContent = this.text;
 
-    const div = document.createElement('div');
+    const img = document.createElement('img');
+    img.src = 'dist/img/arrow.svg';
+    summary.appendChild(img);
+
     const input = this.input;
     const list = this.createMapElementsList(this.map);
-    div.append(input, list);
-    details.append(summary, div);
+    details.append(summary, input, list);
 
     //toggle events
     details.addEventListener('toggle', (e) => {

@@ -7,6 +7,7 @@
   border-radius: 5px;
   font-size: 1.125rem;
   min-width: 170px;
+  z-index: 2;
 
   ::placeholder {
     color: #fff;
@@ -30,17 +31,32 @@
     padding-bottom: 1rem;
   }
 
+  .inputRow {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 0 1rem 0 0;
+
+    input {
+      flex: 1;
+      padding: 1rem 0 1rem 1rem;
+    }
+
+    img {
+      transform: rotate(180deg);
+    }
+  }
+
   input {
-    padding: 1rem;
     color: #fff;
   }
 
   ul {
     display: grid;
-    padding: 0.5rem 1rem 0 1rem;
-    grid-template-columns: 1fr 1fr 1fr;
+    padding: 0.5rem 1rem 1rem 1rem;
+    grid-template-columns: repeat(3, 1fr);
     row-gap: 0.5rem;
-    max-height: 24rem;
+    max-height: 24.5rem;
     overflow-y: auto;
 
     button {
@@ -52,6 +68,12 @@
       &:hover {
         text-decoration: underline;
       }
+    }
+  }
+
+  &[open] {
+    summary {
+      display: none;
     }
   }
 
