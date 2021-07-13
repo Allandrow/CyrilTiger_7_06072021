@@ -5,6 +5,7 @@
   position: relative;
   border-radius: 5px;
   font-size: 1.125rem;
+  min-width: 170px;
 
   label {
     color: #fff;
@@ -14,6 +15,7 @@
     cursor: pointer;
     font-weight: 700;
     padding: 1rem;
+    width: 100%;
   }
 
   input,
@@ -28,6 +30,7 @@
     border-radius: 5px;
   }
 
+  // TODO : make a new stacking context to go over recipes when open
   &.open {
     display: flex;
     flex-direction: column;
