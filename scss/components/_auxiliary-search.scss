@@ -18,25 +18,17 @@
     width: 100%;
   }
 
-  input,
-  ul {
-    visibility: hidden;
-    width: 0;
-    height: 0;
-  }
-
-  input {
-    position: absolute;
+  div {
+    display: none;
     border-radius: 5px;
   }
 
   // TODO : make a new stacking context to go over recipes when open
   &.open {
-    display: flex;
     flex-direction: column;
 
     label {
-      visibility: hidden;
+      display: none;
     }
 
     ::placeholder {
@@ -44,27 +36,30 @@
       opacity: 0.5;
     }
 
-    input,
-    ul {
-      visibility: visible;
-      width: 100%;
-      height: auto;
-      padding: 1rem;
+    div {
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 1rem;
     }
 
     input {
-      width: 100%;
+      padding: 1rem;
       color: #fff;
     }
 
     ul {
       display: grid;
+      padding: 0.5rem 1rem 0 1rem;
       grid-template-columns: 1fr 1fr 1fr;
       row-gap: 0.5rem;
+      max-height: 24rem;
+      overflow-y: scroll;
 
       button {
         color: #fff;
         cursor: pointer;
+        text-align: left;
+        padding: 0;
 
         &:hover {
           text-decoration: underline;

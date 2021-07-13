@@ -1,3 +1,5 @@
+import MainSearch from './mainSearch.js';
+import AuxiliarySearch from './auxiliarySearch.js';
 import recipes from './recipes.js';
 
 const setMap = (map, key, value) => {
@@ -37,13 +39,37 @@ const initMaps = () => {
   };
 };
 
-// set maps for searches
-// init object instances
-// display DOM from header function + objects
+const displayPage = (mainSearchDOM, AuxiliaryElements) => {
+  // DOM Elements
+  const container = document.getElementById('jsForm');
+  const auxiliaryContainer = document.createElement('div');
+  auxiliaryContainer.className = 'auxiliary-search-group';
+
+  AuxiliaryElements.forEach((element) => auxiliaryContainer.appendChild(element));
+
+  container.append(mainSearchDOM, auxiliaryContainer);
+  document.querySelector('.auxiliary-search').classList.add('open');
+};
+
 const onLoad = () => {
   const maps = initMaps();
-  // console.log('onLoad ~ maps', maps);
-  // console.log(maps.ustensilMap);
+  const { ingredientMap, applianceMap, ustensilMap } = maps;
+
+  // Objects instances
+  const mainSearch = new MainSearch();
+  const ingredientAuxiliary = new AuxiliarySearch('ingredients', 'Ingrédients', ingredientMap);
+  const applianceAuxiliary = new AuxiliarySearch('appliance', 'Appareil', applianceMap);
+  const ustensilAuiliary = new AuxiliarySearch('ustensils', 'Ustensiles', ustensilMap);
+
+  // Objects DOMs
+  const mainSearchDOM = mainSearch.getDOM();
+  const AuxiliaryElements = [
+    ingredientAuxiliary.getDOM(),
+    applianceAuxiliary.getDOM(),
+    ustensilAuiliary.getDOM(),
+  ];
+
+  displayPage(mainSearchDOM, AuxiliaryElements);
 };
 
 window.addEventListener('DOMContentLoaded', onLoad);
