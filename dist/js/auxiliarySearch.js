@@ -2,21 +2,8 @@ export default class AuxiliarySearch {
   constructor(name, text, map) {
     this.name = name;
     this.text = text;
-    this.label = this.createLabel();
     this.input = this.createInput();
     this.map = map;
-  }
-
-  createLabel() {
-    const label = document.createElement('label');
-    label.setAttribute('for', `${this.name}Search`);
-    label.textContent = this.text;
-
-    const img = document.createElement('img');
-    img.src = 'dist/img/arrow.svg';
-
-    label.appendChild(img);
-    return label;
   }
 
   createInput() {
@@ -43,17 +30,29 @@ export default class AuxiliarySearch {
   }
 
   createDOM() {
+    const details = document.createElement('details');
+    details.classList.add('auxiliary-search', `${this.name}-color`);
+
+    const summary = document.createElement('summary');
+    summary.textContent = this.text;
+
     const div = document.createElement('div');
-    div.classList.add('auxiliary-search', `${this.name}-color`);
-
-    const label = this.label;
-
-    const openedBlock = document.createElement('div');
     const input = this.input;
     const list = this.createMapElementsList(this.map);
-    openedBlock.append(input, list);
-    div.append(label, openedBlock);
-    return div;
+    div.append(input, list);
+    details.append(summary, div);
+
+    //toggle events
+    details.addEventListener('toggle', (e) => {
+      if (!e.target.open) return;
+      const openDropdowns = document.querySelectorAll('.auxiliary-search[open]');
+      openDropdowns.forEach((dropdown) => {
+        if (dropdown === e.target) return;
+        dropdown.removeAttribute('open');
+      });
+    });
+
+    return details;
   }
 
   getDOM() {

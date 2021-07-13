@@ -43,12 +43,12 @@ const displayPage = (mainSearchDOM, AuxiliaryElements) => {
   // DOM Elements
   const container = document.getElementById('jsForm');
   const auxiliaryContainer = document.createElement('div');
+  auxiliaryContainer.id = 'jsAuxiliaryGroup';
   auxiliaryContainer.className = 'auxiliary-search-group';
 
   AuxiliaryElements.forEach((element) => auxiliaryContainer.appendChild(element));
 
   container.append(mainSearchDOM, auxiliaryContainer);
-  document.querySelector('.auxiliary-search').classList.add('open');
 };
 
 const onLoad = () => {

@@ -3,11 +3,17 @@
 .auxiliary-search {
   display: flex;
   position: relative;
+  flex-direction: column;
   border-radius: 5px;
   font-size: 1.125rem;
   min-width: 170px;
 
-  label {
+  ::placeholder {
+    color: #fff;
+    opacity: 0.5;
+  }
+
+  summary {
     color: #fff;
     display: flex;
     justify-content: space-between;
@@ -19,51 +25,32 @@
   }
 
   div {
-    display: none;
-    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 1rem;
   }
 
-  // TODO : make a new stacking context to go over recipes when open
-  &.open {
-    flex-direction: column;
+  input {
+    padding: 1rem;
+    color: #fff;
+  }
 
-    label {
-      display: none;
-    }
+  ul {
+    display: grid;
+    padding: 0.5rem 1rem 0 1rem;
+    grid-template-columns: 1fr 1fr 1fr;
+    row-gap: 0.5rem;
+    max-height: 24rem;
+    overflow-y: auto;
 
-    ::placeholder {
+    button {
       color: #fff;
-      opacity: 0.5;
-    }
+      cursor: pointer;
+      text-align: left;
+      padding: 0;
 
-    div {
-      display: flex;
-      flex-direction: column;
-      padding-bottom: 1rem;
-    }
-
-    input {
-      padding: 1rem;
-      color: #fff;
-    }
-
-    ul {
-      display: grid;
-      padding: 0.5rem 1rem 0 1rem;
-      grid-template-columns: 1fr 1fr 1fr;
-      row-gap: 0.5rem;
-      max-height: 24rem;
-      overflow-y: scroll;
-
-      button {
-        color: #fff;
-        cursor: pointer;
-        text-align: left;
-        padding: 0;
-
-        &:hover {
-          text-decoration: underline;
-        }
+      &:hover {
+        text-decoration: underline;
       }
     }
   }
