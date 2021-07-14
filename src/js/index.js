@@ -70,6 +70,13 @@ const onLoad = () => {
   ];
 
   displayPage(mainSearchDOM, AuxiliaryElements);
+
+  // close open details on click outside
+  window.addEventListener('click', (e) => {
+    const openDropdown = document.querySelector('.auxiliary-search[open');
+    if (!openDropdown || e.target.closest('[open]')) return;
+    openDropdown.removeAttribute('open');
+  });
 };
 
 window.addEventListener('DOMContentLoaded', onLoad);
