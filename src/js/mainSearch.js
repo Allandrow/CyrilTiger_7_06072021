@@ -1,6 +1,14 @@
+// Main Search field
+// After 3 caracters in input value,
+// Create an empty Set
+//filter title, description and ingredients maps to find match values
+// for each match, add the recipe to the set to avoid duplicated recipes
+// loop through the set values to display recipes
+// filter ingredients, appliance and ustensils map to be based off the set recipes
 export default class MainSearch {
-  constructor() {
+  constructor(maps) {
     this.container = this.createDOM();
+    this.maps = maps;
   }
 
   createDOM() {
@@ -19,4 +27,6 @@ export default class MainSearch {
   getDOM() {
     return this.container;
   }
+
+  searchRecipes() {}
 }

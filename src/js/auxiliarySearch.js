@@ -4,6 +4,8 @@ export default class AuxiliarySearch {
     this.text = text;
     this.input = this.createInput();
     this.map = map;
+    this.open = false;
+    this.details = this.createDOM();
   }
 
   createInput() {
@@ -66,6 +68,14 @@ export default class AuxiliarySearch {
   }
 
   getDOM() {
-    return this.createDOM();
+    return this.details;
+  }
+
+  closeOpenDetails(e) {
+    // on click outside of an open details, close it
+    if (this.details.open) {
+      if (e.target.closest('[open]') === this.details) return;
+      this.details.removeAttribute('open');
+    }
   }
 }

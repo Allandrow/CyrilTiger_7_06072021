@@ -2,6 +2,7 @@ import MainSearch from './mainSearch.js';
 import AuxiliarySearch from './auxiliarySearch.js';
 import recipes from './recipes.js';
 
+// Set key/value pair in a map, if key exists, push new value into array associated with key
 const setMap = (map, key, value) => {
   if (map.get(key) === undefined) {
     map.set(key, [value]);
@@ -39,16 +40,16 @@ const initMaps = () => {
   };
 };
 
-const displayPage = (mainSearchDOM, AuxiliaryElements) => {
+const displayPage = (mainSearch, auxiliaries) => {
   // DOM Elements
   const container = document.getElementById('jsForm');
   const auxiliaryContainer = document.createElement('div');
   auxiliaryContainer.id = 'jsAuxiliaryGroup';
   auxiliaryContainer.className = 'auxiliary-search-group';
 
-  AuxiliaryElements.forEach((element) => auxiliaryContainer.appendChild(element));
+  auxiliaries.forEach((element) => auxiliaryContainer.appendChild(element.getDOM()));
 
-  container.append(mainSearchDOM, auxiliaryContainer);
+  container.append(mainSearch.getDOM(), auxiliaryContainer);
 };
 
 const onLoad = () => {
@@ -56,26 +57,21 @@ const onLoad = () => {
   const { ingredientMap, applianceMap, ustensilMap } = maps;
 
   // Objects instances
-  const mainSearch = new MainSearch();
+  const mainSearch = new MainSearch(maps);
   const ingredientAuxiliary = new AuxiliarySearch('ingredients', 'Ingrédients', ingredientMap);
   const applianceAuxiliary = new AuxiliarySearch('appliance', 'Appareil', applianceMap);
   const ustensilAuiliary = new AuxiliarySearch('ustensils', 'Ustensiles', ustensilMap);
 
   // Objects DOMs
-  const mainSearchDOM = mainSearch.getDOM();
-  const AuxiliaryElements = [
-    ingredientAuxiliary.getDOM(),
-    applianceAuxiliary.getDOM(),
-    ustensilAuiliary.getDOM(),
-  ];
+  const auxiliaries = [ingredientAuxiliary, applianceAuxiliary, ustensilAuiliary];
 
-  displayPage(mainSearchDOM, AuxiliaryElements);
+  displayPage(mainSearch, auxiliaries);
 
   // close open details on click outside
   window.addEventListener('click', (e) => {
-    const openDropdown = document.querySelector('.auxiliary-search[open');
-    if (!openDropdown || e.target.closest('[open]')) return;
-    openDropdown.removeAttribute('open');
+    auxiliaries.forEach((auxiliary) => {
+      auxiliary.closeOpenDetails(e);
+    });
   });
 };
 
