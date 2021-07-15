@@ -2,11 +2,11 @@
 
 .auxiliary-search {
   display: flex;
-  position: relative;
   flex-direction: column;
   border-radius: 5px;
   font-size: 1.125rem;
   min-width: 170px;
+  position: relative;
   z-index: 2;
 
   ::placeholder {

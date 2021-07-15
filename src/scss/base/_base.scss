@@ -26,11 +26,15 @@ main {
   display: flex;
   gap: 1rem;
   align-items: start;
+  max-width: 1200px;
+  position: absolute;
 }
 
 .result-group {
-  margin: 1.5rem 0;
+  margin: 6.5rem 0 1.5rem 0;
   display: flex;
   flex-wrap: wrap;
+  position: relative;
+
   gap: 3rem;
 }
