@@ -54,7 +54,7 @@
   ul {
     display: grid;
     padding: 0.5rem 1rem 1rem 1rem;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
     row-gap: 0.5rem;
     column-gap: 0.5rem;
     max-height: 24.5rem;
