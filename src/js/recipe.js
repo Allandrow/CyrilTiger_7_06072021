@@ -1,9 +1,6 @@
-// Recipe
 export default class Recipe {
   constructor(recipe) {
     this.recipe = recipe;
-    this.recipeDOM = this.createDOM();
-    this.container = document.getElementById('jsResults');
   }
 
   createDOM() {
@@ -80,6 +77,6 @@ export default class Recipe {
   }
 
   getDOM() {
-    return this.recipeDOM;
+    return this.createDOM();
   }
 }
