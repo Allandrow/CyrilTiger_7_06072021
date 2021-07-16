@@ -59,7 +59,7 @@ const searchRecipesByMainSearch = (mainSearch, container) => {
     if (mainInput.value.length < 3) {
       return;
     }
-    const matchingRecipes = mainSearch.searchMatchingRecipes(mainInput.value);
+    const matchingRecipes = mainSearch.getMatchingRecipes(mainInput.value);
 
     // clear displayed recipes
     while (container.firstChild) {
