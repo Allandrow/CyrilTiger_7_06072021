@@ -52,20 +52,24 @@ const debounce = (func, timeout = 500) => {
   };
 };
 
-const searchRecipesByMainSearch = (mainSearch) => {
+const searchRecipesByMainSearch = (mainSearch, container) => {
   const mainInput = mainSearch.getInput();
 
   const displayRecipes = debounce(() => {
     if (mainInput.value.length < 3) {
       return;
     }
-    //
     const matchingRecipes = mainSearch.searchMatchingRecipes(mainInput.value);
+
+    // clear displayed recipes
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
 
     // for each recipe in
     matchingRecipes.forEach((recipeResult) => {
       const recipe = new Recipe(recipeResult);
-      recipe.container.appendChild(recipe.getDOM());
+      container.appendChild(recipe.getDOM());
     });
 
     return matchingRecipes;
@@ -75,7 +79,7 @@ const searchRecipesByMainSearch = (mainSearch) => {
   mainInput.addEventListener('keydown', (e) => {
     if (e.code === 13 || e.key === 'Enter') e.preventDefault();
   });
-  mainInput.addEventListener('keyup', displayRecipes);
+  mainInput.addEventListener('keydown', displayRecipes);
 };
 
 const displayPage = (mainSearch, auxiliaries) => {
@@ -94,7 +98,7 @@ const displayPage = (mainSearch, auxiliaries) => {
 
   // DOM Events
   closeDetailsOnOutsideClick(auxiliaries);
-  const recipeResults = searchRecipesByMainSearch(mainSearch);
+  const recipeResults = searchRecipesByMainSearch(mainSearch, resultsContainer);
 };
 
 const closeDetailsOnOutsideClick = (auxiliaries) => {
