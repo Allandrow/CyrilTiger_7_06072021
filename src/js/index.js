@@ -2,6 +2,7 @@ import AuxiliarySearch from './auxiliarySearch.js';
 import MainSearch from './mainSearch.js';
 import SearchResults from './searchResults.js';
 import recipes from './recipes.js';
+import * as search from './tmpSearch.js';
 
 const createAuxiliaryGroup = (auxiliaries) => {
   const container = document.createElement('div');
@@ -30,6 +31,7 @@ const onLoad = () => {
   const auxiliaryContainer = createAuxiliaryGroup(auxiliaries);
 
   displayDOM(mainSearch, auxiliaryContainer, searchResults);
+  search.searchRecipesByMainInput(recipes);
 };
 
 window.addEventListener('DOMContentLoaded', onLoad);
