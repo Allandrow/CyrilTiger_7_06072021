@@ -1,6 +1,6 @@
 // Temp file for search algorithm implementation
 
-const generateAuxiliaryListItems = (container, list) => {
+const displayAuxiliaryListItems = (container, list) => {
   while (container.lastElementChild) container.removeChild(container.lastElementChild);
 
   list.forEach((item) => {
@@ -13,7 +13,7 @@ const generateAuxiliaryListItems = (container, list) => {
   });
 };
 
-const generateAuxiliaryLists = (recipes) => {
+const setAuxiliaryLists = (recipes) => {
   const ingredientsList = document.getElementById('ingredientsList');
   const applianceList = document.getElementById('applianceList');
   const ustensilsList = document.getElementById('ustensilsList');
@@ -30,12 +30,12 @@ const generateAuxiliaryLists = (recipes) => {
     ustensils.forEach((ustensil) => ustensilSet.add(ustensil));
   });
 
-  generateAuxiliaryListItems(ingredientsList, ingredientSet);
-  generateAuxiliaryListItems(applianceList, applianceSet);
-  generateAuxiliaryListItems(ustensilsList, ustensilSet);
+  displayAuxiliaryListItems(ingredientsList, ingredientSet);
+  displayAuxiliaryListItems(applianceList, applianceSet);
+  displayAuxiliaryListItems(ustensilsList, ustensilSet);
 };
 
-const createResultArticle = (recipe) => {
+const getResultArticle = (recipe) => {
   const { description, ingredients, name, time } = recipe;
 
   const containerBEM = 'result-card';
@@ -108,13 +108,13 @@ const createResultArticle = (recipe) => {
   return article;
 };
 
-const generateResults = (recipes) => {
+const displayResults = (recipes) => {
   const container = document.getElementById('jsResults');
 
   while (container.lastElementChild) container.removeChild(container.lastElementChild);
 
   recipes.forEach((recipe) => {
-    const article = createResultArticle(recipe);
+    const article = getResultArticle(recipe);
     container.appendChild(article);
   });
 };
@@ -145,7 +145,7 @@ export const searchRecipesByMainInput = (recipes) => {
         }
       });
     });
-    generateAuxiliaryLists(recipeSet);
-    generateResults(recipeSet);
+    setAuxiliaryLists(recipeSet);
+    displayResults(recipeSet);
   });
 };
