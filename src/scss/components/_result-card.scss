@@ -20,6 +20,7 @@
       justify-content: space-between;
       font-size: 1.125rem;
       margin-bottom: 1rem;
+      align-items: start;
 
       h2 {
         font-weight: 400;
@@ -31,6 +32,7 @@
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        min-width: 6rem;
       }
     }
 
