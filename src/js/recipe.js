@@ -52,7 +52,18 @@ export default class Recipe {
         let quantityText;
 
         if (unit !== undefined) {
-          quantityText = `${quantity} ${unit}`;
+          switch (unit) {
+            case 'grammes':
+              quantityText = `${quantity} g`;
+              break;
+            case 'litre':
+            case 'litres':
+            case 'Litres':
+              quantityText = `${quantity} L`;
+              break;
+            default:
+              quantityText = `${quantity} ${unit}`;
+          }
         } else {
           quantityText = `${quantity}`;
         }

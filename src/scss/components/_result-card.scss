@@ -37,10 +37,10 @@
     &__body {
       font-size: 0.75rem;
       display: flex;
+      justify-content: space-between;
 
-      ul,
-      p {
-        width: 50%;
+      ul {
+        width: 40%;
       }
 
       li {
@@ -55,6 +55,7 @@
         display: -webkit-box;
         max-height: calc(7 * 1rem);
         overflow: hidden;
+        width: 55%;
       }
     }
   }
