@@ -49,6 +49,12 @@
 
       p {
         line-height: 1.2;
+        -webkit-line-clamp: 7;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        max-height: calc(7 * 1rem);
+        overflow: hidden;
       }
     }
   }
