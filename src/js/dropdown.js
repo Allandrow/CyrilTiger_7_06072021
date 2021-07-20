@@ -79,6 +79,7 @@ export default class Dropdown {
   // clear list and fill with new results
   onChange(results) {
     const keywordSet = new Set();
+    // TODO : find a way to get rid of searching DOM for container
     const listDOM = document.getElementById(`${this.id}List`);
 
     // fill set for each dropdown

@@ -58,11 +58,16 @@ const displayPage = (mainSearch, keywords, ingredientsDD, applianceDD, ustensils
   const ingredientsListDOM = ingredientsDD.getDOM();
   const applianceListDOM = applianceDD.getDOM();
   const ustensilsListDOM = ustensilsDD.getDOM();
-  dropdownsContainer.append(ingredientsListDOM, applianceListDOM, ustensilsListDOM);
 
+  dropdownsContainer.append(ingredientsListDOM, applianceListDOM, ustensilsListDOM);
   const resultsDOM = results.getDOM();
 
   container.append(mainSearchDOM, keywordsDOM, dropdownsContainer, resultsDOM);
+
+  ingredientsDD.onChange(recipes);
+  applianceDD.onChange(recipes);
+  ustensilsDD.onChange(recipes);
+  results.onChange(recipes);
 };
 
 const onLoad = () => {
@@ -83,10 +88,6 @@ const onLoad = () => {
     ustensilsDropdown,
     recipeResults,
   );
-
-  ingredientsDropdown.onChange(recipes);
-  applianceDropdown.onChange(recipes);
-  ustensilsDropdown.onChange(recipes);
 };
 
 window.addEventListener('DOMContentLoaded', onLoad);
