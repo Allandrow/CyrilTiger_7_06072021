@@ -25,6 +25,24 @@ export default class Dropdown {
     return img;
   }
 
+  attachDropdownEvents(details) {
+    // toggle events
+    details.addEventListener('toggle', (e) => {
+      if (!e.target.open) return;
+      const openDropdowns = document.querySelectorAll('.auxiliary-search[open]');
+      openDropdowns.forEach((dropdown) => {
+        if (dropdown === e.target) return;
+        dropdown.removeAttribute('open');
+      });
+    });
+
+    // click outside of an open details closes it
+    window.addEventListener('click', (e) => {
+      if (!details.open || e.target.closest('[open]') === details) return;
+      details.removeAttribute('open');
+    });
+  }
+
   // create a dropdown
   createDOM() {
     const details = document.createElement('details');
@@ -47,6 +65,8 @@ export default class Dropdown {
     list.id = `${this.id}List`;
 
     details.append(summary, inputDiv, list);
+
+    this.attachDropdownEvents(details);
 
     return details;
   }
