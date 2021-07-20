@@ -77,91 +77,40 @@ export default class Dropdown {
   }
 
   // clear list and fill with new results
-  onChange(results) {}
+  onChange(results) {
+    const keywordSet = new Set();
+    const listDOM = document.getElementById(`${this.id}List`);
+
+    // fill set for each dropdown
+    results.forEach((result) => {
+      switch (this.id) {
+        case 'ingredients':
+          result.ingredients.forEach((ingredientItem) => {
+            keywordSet.add(ingredientItem.ingredient);
+          });
+          break;
+        case 'appliance':
+          keywordSet.add(result.appliance);
+          break;
+        case 'ustensils':
+          result.ustensils.forEach((ustensil) => keywordSet.add(ustensil));
+          break;
+      }
+    });
+
+    // clear displayed list
+    while (listDOM.lastElementChild) listDOM.removeChild(listDOM.lastElementChild);
+
+    // display new list
+    keywordSet.forEach((keyword) => {
+      const li = document.createElement('li');
+      const btn = document.createElement('button');
+      btn.textContent = keyword;
+      li.appendChild(btn);
+      listDOM.appendChild(li);
+    });
+  }
 
   // filter list of displayed keywords based on search terms from dropdown input
   filterKeywords(dropdownSearchTerms) {}
 }
-
-//   getAuxiliaryListElements(recipes = this.recipes) {
-//     const auxiliarySet = new Set();
-//     recipes.forEach((recipe) => {
-//       switch (this.name) {
-//         case 'ingredients':
-//           recipe.ingredients.forEach((ingredientItem) => {
-//             auxiliarySet.add(ingredientItem.ingredient);
-//           });
-//           break;
-//         case 'appliance':
-//           auxiliarySet.add(recipe.appliance);
-//           break;
-//         case 'ustensils':
-//           recipe.ustensils.forEach((ustensil) => auxiliarySet.add(ustensil));
-//           break;
-//       }
-//     });
-//     return auxiliarySet;
-//   }
-
-//   createDOM() {
-//     const details = document.createElement('details');
-//     details.classList.add('auxiliary-search', `${this.name}-color`);
-
-//     const summary = document.createElement('summary');
-//     summary.textContent = this.summaryText;
-
-//     const arrow = document.createElement('img');
-//     arrow.src = 'dist/img/arrow.svg';
-//     summary.appendChild(arrow);
-
-//     const div = document.createElement('div');
-//     div.className = 'inputRow';
-
-//     const input = document.createElement('input');
-//     input.id = `${this.name}Search`;
-//     input.type = 'text';
-//     input.placeholder = `Recherche un ${this.placeholder}`;
-
-//     const img = document.createElement('img');
-//     img.src = 'dist/img/arrow.svg';
-
-//     div.append(input, img);
-
-//     const list = document.createElement('ul');
-//     list.id = `${this.name}List`;
-
-//     const listItems = this.getAuxiliaryListElements();
-//     listItems.forEach((item) => {
-//       const li = document.createElement('li');
-//       const btn = document.createElement('button');
-//       btn.className = 'auxiliary-btn';
-//       btn.textContent = item;
-//       li.appendChild(btn);
-//       list.appendChild(li);
-//     });
-
-//     details.append(summary, div, list);
-
-//     //toggle events
-//     details.addEventListener('toggle', (e) => {
-//       if (!e.target.open) return;
-//       const openDropdowns = document.querySelectorAll('.auxiliary-search[open]');
-//       openDropdowns.forEach((dropdown) => {
-//         if (dropdown === e.target) return;
-//         dropdown.removeAttribute('open');
-//       });
-//     });
-
-//     // click outside of an open details closes it
-//     window.addEventListener('click', (e) => {
-//       if (!details.open || e.target.closest('[open]') === details) return;
-//       details.removeAttribute('open');
-//     });
-
-//     return details;
-//   }
-
-//   getDOM() {
-//     return this.createDOM();
-//   }
-// }

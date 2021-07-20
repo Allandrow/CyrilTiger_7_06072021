@@ -45,6 +45,7 @@ import Keywords from './keywords.js';
 import MainSearchBar from './mainSearchBar.js';
 import Results from './results.js';
 import Search from './search.js';
+import recipes from './recipes.js';
 
 const displayPage = (mainSearch, keywords, ingredientsDD, applianceDD, ustensilsDD, results) => {
   const container = document.getElementById('jsForm');
@@ -82,6 +83,10 @@ const onLoad = () => {
     ustensilsDropdown,
     recipeResults,
   );
+
+  ingredientsDropdown.onChange(recipes);
+  applianceDropdown.onChange(recipes);
+  ustensilsDropdown.onChange(recipes);
 };
 
 window.addEventListener('DOMContentLoaded', onLoad);
