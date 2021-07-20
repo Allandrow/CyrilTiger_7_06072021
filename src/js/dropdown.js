@@ -1,24 +1,67 @@
-// export default class AuxiliarySearch {
-//   constructor(name, recipes) {
-//     this.name = name;
-//     this.recipes = recipes;
+export default class Dropdown {
+  constructor(id) {
+    this.id = id;
 
-//     // Create text and placeholder based on name
-//     switch (name) {
-//       case 'ingredients':
-//         this.summaryText = 'Ingrédients';
-//         this.placeholder = 'ingrédient';
-//         break;
-//       case 'appliance':
-//         this.summaryText = 'Appareil';
-//         this.placeholder = 'appareil';
-//         break;
-//       case 'ustensils':
-//         this.summaryText = 'Ustensiles';
-//         this.placeholder = 'ustensile';
-//         break;
-//     }
-//   }
+    // Create text and placeholder based on id
+    switch (id) {
+      case 'ingredients':
+        this.summaryText = 'Ingrédients';
+        this.placeholder = 'ingrédient';
+        break;
+      case 'appliance':
+        this.summaryText = 'Appareil';
+        this.placeholder = 'appareil';
+        break;
+      case 'ustensils':
+        this.summaryText = 'Ustensiles';
+        this.placeholder = 'ustensile';
+        break;
+    }
+  }
+
+  createArrowIMG() {
+    const img = document.createElement('img');
+    img.src = 'dist/img/arrow.svg';
+    return img;
+  }
+
+  // create a dropdown
+  createDOM() {
+    const details = document.createElement('details');
+    details.classList.add('dropdown', `${this.id}-color`);
+
+    const summary = document.createElement('summary');
+    summary.textContent = this.summaryText;
+    summary.appendChild(this.createArrowIMG());
+
+    const inputDiv = document.createElement('div');
+    inputDiv.className = 'inputGroup';
+
+    const input = document.createElement('input');
+    input.id = `${this.id}Search`;
+    input.type = 'text';
+    input.placeholder = `Recherche un ${this.placeholder}`;
+    inputDiv.append(input, this.createArrowIMG());
+
+    const list = document.createElement('ul');
+    list.id = `${this.id}List`;
+
+    details.append(summary, inputDiv, list);
+
+    return details;
+  }
+
+  // return DOM of dropdown
+  getDOM() {
+    return this.createDOM();
+  }
+
+  // clear list and fill with new results
+  onChange(results) {}
+
+  // filter list of displayed keywords based on search terms from dropdown input
+  filterKeywords(dropdownSearchTerms) {}
+}
 
 //   getAuxiliaryListElements(recipes = this.recipes) {
 //     const auxiliarySet = new Set();

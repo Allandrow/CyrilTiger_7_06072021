@@ -1,6 +1,6 @@
 @use '../abstracts/' as *;
 
-.auxiliary-search {
+.dropdown {
   display: flex;
   flex-direction: column;
   border-radius: 5px;
@@ -31,7 +31,7 @@
     padding-bottom: 1rem;
   }
 
-  .inputRow {
+  .inputGroup {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
