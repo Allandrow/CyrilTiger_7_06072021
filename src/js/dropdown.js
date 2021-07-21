@@ -67,6 +67,7 @@ export default class Dropdown {
     details.append(summary, inputDiv, list);
 
     this.attachDropdownEvents(details);
+    this.filterKeywords(input, list);
 
     return details;
   }
@@ -113,5 +114,16 @@ export default class Dropdown {
   }
 
   // filter list of displayed keywords based on search terms from dropdown input
-  filterKeywords(dropdownSearchTerms) {}
+  filterKeywords(input, list) {
+    input.addEventListener('input', () => {
+      Array.from(list.childNodes).forEach((listItem) => {
+        const itemText = listItem.textContent.toLowerCase();
+        if (!itemText.includes(input.value)) {
+          listItem.style.display = 'none';
+        } else {
+          listItem.style.display = 'block';
+        }
+      });
+    });
+  }
 }
