@@ -21,20 +21,16 @@ export default class Keywords {
     return this.selectedKeywords;
   }
 
-  createKeywordButton(mapKeyword, mapHash) {
+  // create keyword DOM element
+  createKeywordButton(mapKeyword) {
     const button = document.createElement('button');
     button.classList.add('keyword', `${mapKeyword.id}-color`);
     button.textContent = mapKeyword.keyword;
 
     const img = document.createElement('img');
     img.src = 'dist/img/cross.svg';
-    button.appendChild(img);
 
-    button.addEventListener('click', (e) => {
-      e.preventDefault();
-      this.selectedKeywords.delete(mapHash);
-      button.remove();
-    });
+    button.appendChild(img);
     return button;
   }
 
@@ -42,8 +38,7 @@ export default class Keywords {
   updateKeywordList(mapHash) {
     const container = document.getElementById('jsKeywords');
     const mapKeyword = this.selectedKeywords.get(mapHash);
-
-    const btn = this.createKeywordButton(mapKeyword, mapHash);
+    const btn = this.createKeywordButton(mapKeyword);
     container.appendChild(btn);
   }
 

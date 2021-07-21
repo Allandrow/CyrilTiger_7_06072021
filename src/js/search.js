@@ -2,13 +2,14 @@ import recipes from './recipes.js';
 
 export default class Search {
   constructor() {
+    this.searchTerms = '';
     this.funcs = [];
     this.recipes = recipes;
     this.results = new Set();
   }
 
   // search matching results from recipes and add match to results
-  launchSearch(searchTerms, keywords) {}
+  launchSearch() {}
 
   // fires funcs to redo lists of dropdowns and results
   displayResults(results) {

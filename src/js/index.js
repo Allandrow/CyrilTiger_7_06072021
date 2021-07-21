@@ -77,6 +77,25 @@ const handleDropdownKeywordSelection = (keywords) => {
   });
 };
 
+// remove element from dom and keyword list then search with updated list
+const handleKeywordDeletion = (keywords) => {
+  window.addEventListener('click', (e) => {
+    if (e.target.classList.contains('keyword')) {
+      e.preventDefault();
+      const btn = e.target;
+      console.log(keywords.selectedKeywords);
+    }
+  });
+};
+
+const handleSearch = () => {
+  const input = document.getElementById('mainSearch');
+
+  input.addEventListener('input', (e) => {
+    if (input.value.length < 3) return;
+  });
+};
+
 const onLoad = () => {
   // init objects
   const mainSearchBar = new MainSearchBar();
@@ -101,6 +120,8 @@ const onLoad = () => {
   // Handle click event on keyword from dropdown list to add to keyword selection and search
 
   handleDropdownKeywordSelection(keywords);
+  handleKeywordDeletion(keywords);
+  handleSearch();
 };
 
 window.addEventListener('DOMContentLoaded', onLoad);
