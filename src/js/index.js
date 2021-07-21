@@ -71,7 +71,8 @@ const handleDropdownKeywordSelection = (keywords) => {
       const parentList = e.target.closest('ul');
       const parentId = parentList.id;
       const keywordId = parentId.substring(0, parentId.length - 4);
-      keywords.onChange('add', keywordId, btn.textContent);
+      keywords.onChange(keywordId, btn.textContent);
+      e.target.closest('details').removeAttribute('open');
     });
   });
 };
