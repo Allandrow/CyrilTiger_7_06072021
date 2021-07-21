@@ -63,11 +63,6 @@ const displayPage = (mainSearch, keywords, ingredientsDD, applianceDD, ustensils
   const resultsDOM = results.getDOM();
 
   container.append(mainSearchDOM, keywordsDOM, dropdownsContainer, resultsDOM);
-
-  ingredientsDD.onChange(recipes);
-  applianceDD.onChange(recipes);
-  ustensilsDD.onChange(recipes);
-  results.onChange(recipes);
 };
 
 const onLoad = () => {
@@ -80,6 +75,7 @@ const onLoad = () => {
   const keywords = new Keywords();
   const search = new Search();
 
+  // Display DOM with empty list and results
   displayPage(
     mainSearchBar,
     keywords,
@@ -88,6 +84,17 @@ const onLoad = () => {
     ustensilsDropdown,
     recipeResults,
   );
+
+  // Push functions that will generate lists and results in DOM to search
+  search.funcs = [
+    ingredientsDropdown.onChange.bind(ingredientsDropdown),
+    applianceDropdown.onChange.bind(applianceDropdown),
+    ustensilsDropdown.onChange.bind(ustensilsDropdown),
+    recipeResults.onChange.bind(recipeResults),
+  ];
+
+  // Fill lists and results on load based off all recipes
+  search.displayResults(recipes);
 };
 
 window.addEventListener('DOMContentLoaded', onLoad);

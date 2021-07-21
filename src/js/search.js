@@ -2,7 +2,7 @@ import recipes from './recipes.js';
 
 export default class Search {
   constructor() {
-    this.callBacks = [];
+    this.funcs = [];
     this.recipes = recipes;
     this.results = new Set();
   }
@@ -10,6 +10,10 @@ export default class Search {
   // search matching results from recipes and add match to results
   launchSearch(searchTerms, keywords) {}
 
-  // fires callbacks to redo lists of dropdowns and results
-  getResults() {}
+  // fires funcs to redo lists of dropdowns and results
+  displayResults(results) {
+    this.funcs.forEach((func) => {
+      func(results);
+    });
+  }
 }
