@@ -33,7 +33,7 @@
 
     - keyword deletion event :
       - index.js
-        - onChange(remove, clickedKeyword)
+        - keywords.onChange(remove, clickedKeyword)
         - mainSearchBar.getSearchTerms()
         - keywords.getKeywords()
         - search.launchSearch(searchTerms, keywords)
@@ -47,22 +47,33 @@ import Results from './results.js';
 import Search from './search.js';
 import recipes from './recipes.js';
 
-const displayPage = (mainSearch, keywords, ingredientsDD, applianceDD, ustensilsDD, results) => {
+const displayPage = (mainSearch, keywords, dropdowns, results) => {
   const container = document.getElementById('jsForm');
-  const dropdownsContainer = document.createElement('div');
-  dropdownsContainer.className = 'dropdowns-container';
 
   const mainSearchDOM = mainSearch.getDOM();
   const keywordsDOM = keywords.getDOM();
 
-  const ingredientsListDOM = ingredientsDD.getDOM();
-  const applianceListDOM = applianceDD.getDOM();
-  const ustensilsListDOM = ustensilsDD.getDOM();
+  const dropdownsContainer = document.createElement('div');
+  dropdownsContainer.className = 'dropdowns-container';
+  dropdowns.forEach((dropdown) => dropdownsContainer.appendChild(dropdown.getDOM()));
 
-  dropdownsContainer.append(ingredientsListDOM, applianceListDOM, ustensilsListDOM);
   const resultsDOM = results.getDOM();
 
   container.append(mainSearchDOM, keywordsDOM, dropdownsContainer, resultsDOM);
+};
+
+const handleDropdownKeywordSelection = (keywords) => {
+  const buttons = document.querySelectorAll('.dropdown button');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const parentList = e.target.closest('ul');
+      const parentId = parentList.id;
+      const keywordId = parentId.substring(0, parentId.length - 4);
+      keywords.onChange('add', keywordId, btn.textContent);
+    });
+  });
 };
 
 const onLoad = () => {
@@ -74,27 +85,21 @@ const onLoad = () => {
   const recipeResults = new Results();
   const keywords = new Keywords();
   const search = new Search();
+  const dropdowns = [ingredientsDropdown, applianceDropdown, ustensilsDropdown];
 
   // Display DOM with empty list and results
-  displayPage(
-    mainSearchBar,
-    keywords,
-    ingredientsDropdown,
-    applianceDropdown,
-    ustensilsDropdown,
-    recipeResults,
-  );
+  displayPage(mainSearchBar, keywords, dropdowns, recipeResults);
 
   // Push functions that will generate lists and results in DOM to search
-  search.funcs = [
-    ingredientsDropdown.onChange.bind(ingredientsDropdown),
-    applianceDropdown.onChange.bind(applianceDropdown),
-    ustensilsDropdown.onChange.bind(ustensilsDropdown),
-    recipeResults.onChange.bind(recipeResults),
-  ];
+  dropdowns.forEach((dropdown) => search.funcs.push(dropdown.onChange.bind(dropdown)));
+  search.funcs.push(recipeResults.onChange.bind(recipeResults));
 
   // Fill lists and results on load based off all recipes
   search.displayResults(recipes);
+
+  // Handle click event on keyword from dropdown list to add to keyword selection and search
+
+  handleDropdownKeywordSelection(keywords);
 };
 
 window.addEventListener('DOMContentLoaded', onLoad);

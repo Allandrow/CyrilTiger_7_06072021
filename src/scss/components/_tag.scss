@@ -1,6 +1,6 @@
 @use '../abstracts/' as *;
 
-.tag {
+.keyword {
   border: none;
   cursor: pointer;
   color: #fff;
@@ -11,11 +11,11 @@
   align-items: center;
   font-size: 0.875rem;
 
-  &.ingredient-color {
+  &.ingredients-color {
     @include darken-hover($color-accent-first);
   }
 
-  &.equipment-color {
+  &.appliance-color {
     @include darken-hover($color-accent-second);
   }
 
