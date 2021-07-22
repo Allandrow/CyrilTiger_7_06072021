@@ -63,17 +63,16 @@ const displayPage = (mainSearch, keywords, dropdowns, results) => {
 };
 
 const handleKeywordAddition = (keywords, search) => {
-  const buttons = document.querySelectorAll('.dropdown button');
-
-  buttons.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
+  window.addEventListener('click', (e) => {
+    const isKeywordInDropdown = e.target.closest('.dropdown button');
+    if (isKeywordInDropdown) {
       e.preventDefault();
       const parentId = e.target.closest('ul').id;
       const keywordId = parentId.substring(0, parentId.length - 4);
-      keywords.onChange(keywordId, btn.textContent);
+      keywords.onChange(keywordId, isKeywordInDropdown.textContent);
       e.target.closest('details').removeAttribute('open');
       search.launchSearch();
-    });
+    }
   });
 };
 

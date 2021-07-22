@@ -37,7 +37,6 @@ export default class Search {
         }
       });
     });
-    console.log(this.results);
   }
 
   // search matching results from recipes and add match to results
