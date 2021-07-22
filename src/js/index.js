@@ -62,7 +62,7 @@ const displayPage = (mainSearch, keywords, dropdowns, results) => {
   container.append(mainSearchDOM, keywordsDOM, dropdownsContainer, resultsDOM);
 };
 
-const handleDropdownKeywordSelection = (keywords) => {
+const handleDropdownKeywordSelection = (keywords, search) => {
   const buttons = document.querySelectorAll('.dropdown button');
 
   buttons.forEach((btn) => {
@@ -78,21 +78,31 @@ const handleDropdownKeywordSelection = (keywords) => {
 };
 
 // remove element from dom and keyword list then search with updated list
-const handleKeywordDeletion = (keywords) => {
+const handleKeywordDeletion = (keywords, search) => {
   window.addEventListener('click', (e) => {
     if (e.target.classList.contains('keyword')) {
       e.preventDefault();
+      const keywordSelection = keywords.selectedKeywords;
       const btn = e.target;
-      console.log(keywords.selectedKeywords);
+      const btnId = e.target.getAttribute('data-id');
+      const btnText = e.target.textContent;
+      const hashKeyword = keywordSelection.get(`${btnId}-${btnText}`);
+      keywordSelection.delete(hashKeyword);
+      btn.remove();
+
+      search.keywords = keywordSelection;
+      search.launchSearch();
     }
   });
 };
 
-const handleSearch = () => {
+const handleMainSearchBarSearch = (search) => {
   const input = document.getElementById('mainSearch');
 
   input.addEventListener('input', (e) => {
     if (input.value.length < 3) return;
+    search.searchTerms = input.value;
+    search.launchSearch();
   });
 };
 
@@ -119,9 +129,9 @@ const onLoad = () => {
 
   // Handle click event on keyword from dropdown list to add to keyword selection and search
 
-  handleDropdownKeywordSelection(keywords);
-  handleKeywordDeletion(keywords);
-  handleSearch();
+  handleDropdownKeywordSelection(keywords, search);
+  handleKeywordDeletion(keywords, search);
+  handleMainSearchBarSearch(search);
 };
 
 window.addEventListener('DOMContentLoaded', onLoad);

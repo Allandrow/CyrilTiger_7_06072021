@@ -25,6 +25,7 @@ export default class Keywords {
   createKeywordButton(mapKeyword) {
     const button = document.createElement('button');
     button.classList.add('keyword', `${mapKeyword.id}-color`);
+    button.setAttribute('data-id', mapKeyword.id);
     button.textContent = mapKeyword.keyword;
 
     const img = document.createElement('img');
