@@ -18,9 +18,34 @@ export default class Search {
     };
   }
 
+  // filter results based on searchTerms
+  setResults(recipeList, searchTerms) {
+    this.results.clear();
+
+    recipeList.forEach((recipe) => {
+      const { name, description, ingredients } = recipe;
+      const isInName = name.includes(searchTerms);
+      const isInDescription = description.includes(searchTerms);
+
+      if (isInName || isInDescription) {
+        this.results.add(recipe);
+        return;
+      }
+      ingredients.forEach((ingredient) => {
+        if (ingredient.ingredient.includes(searchTerms)) {
+          this.results.add(recipe);
+        }
+      });
+    });
+    console.log(this.results);
+  }
+
   // search matching results from recipes and add match to results
+  // TODO : handle keywords in search and case with no recipe as result
   launchSearch() {
     const data = this.getSearchData();
+    this.setResults(this.recipes, data.searchTerms);
+    this.displayResults(this.results);
   }
 
   // fires resultFuncs to redo lists of dropdowns and results

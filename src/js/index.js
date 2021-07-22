@@ -94,7 +94,6 @@ const handleMainSearchBarSearch = (mainSearchBar, search) => {
   const input = document.getElementById('mainSearch');
 
   input.addEventListener('input', (e) => {
-    if (input.value.length < 3) return;
     mainSearchBar.setSearchTerms(input.value);
     search.launchSearch();
   });
