@@ -1,23 +1,31 @@
-import recipes from './recipes.js';
-
 export default class Search {
-  constructor() {
-    this.searchTerms = '';
-    this.keywords = new Map();
-    this.funcs = [];
+  constructor(recipes) {
+    this.dataFuncs = [];
+    this.resultFuncs = [];
     this.recipes = recipes;
     this.results = new Set();
   }
 
-  // search matching results from recipes and add match to results
-  launchSearch() {
-    console.log(`this search terms : ${this.searchTerms}`);
-    console.log(`this keywords : ${this.keywords}`);
+  getSearchData() {
+    let searchTerms = '';
+    let searchKeywords;
+    this.dataFuncs.forEach((func) => {
+      typeof func() === 'string' ? (searchTerms = func()) : (searchKeywords = func());
+    });
+    return {
+      searchTerms,
+      searchKeywords,
+    };
   }
 
-  // fires funcs to redo lists of dropdowns and results
+  // search matching results from recipes and add match to results
+  launchSearch() {
+    const data = this.getSearchData();
+  }
+
+  // fires resultFuncs to redo lists of dropdowns and results
   displayResults(results) {
-    this.funcs.forEach((func) => {
+    this.resultFuncs.forEach((func) => {
       func(results);
     });
   }

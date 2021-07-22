@@ -62,46 +62,40 @@ const displayPage = (mainSearch, keywords, dropdowns, results) => {
   container.append(mainSearchDOM, keywordsDOM, dropdownsContainer, resultsDOM);
 };
 
-const handleDropdownKeywordSelection = (keywords, search) => {
+const handleKeywordAddition = (keywords, search) => {
   const buttons = document.querySelectorAll('.dropdown button');
 
   buttons.forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      const parentList = e.target.closest('ul');
-      const parentId = parentList.id;
+      const parentId = e.target.closest('ul').id;
       const keywordId = parentId.substring(0, parentId.length - 4);
       keywords.onChange(keywordId, btn.textContent);
       e.target.closest('details').removeAttribute('open');
+      search.launchSearch();
     });
   });
 };
 
-// remove element from dom and keyword list then search with updated list
 const handleKeywordDeletion = (keywords, search) => {
   window.addEventListener('click', (e) => {
-    if (e.target.classList.contains('keyword')) {
+    const isKeywordButton = e.target.closest('.keyword');
+    if (isKeywordButton) {
       e.preventDefault();
-      const keywordSelection = keywords.selectedKeywords;
-      const btn = e.target;
-      const btnId = e.target.getAttribute('data-id');
-      const btnText = e.target.textContent;
-      const hashKeyword = keywordSelection.get(`${btnId}-${btnText}`);
-      keywordSelection.delete(hashKeyword);
-      btn.remove();
-
-      search.keywords = keywordSelection;
+      const btnId = isKeywordButton.getAttribute('data-id');
+      const btnText = isKeywordButton.textContent;
+      keywords.onChange(btnId, btnText);
       search.launchSearch();
     }
   });
 };
 
-const handleMainSearchBarSearch = (search) => {
+const handleMainSearchBarSearch = (mainSearchBar, search) => {
   const input = document.getElementById('mainSearch');
 
   input.addEventListener('input', (e) => {
     if (input.value.length < 3) return;
-    search.searchTerms = input.value;
+    mainSearchBar.setSearchTerms(input.value);
     search.launchSearch();
   });
 };
@@ -114,24 +108,28 @@ const onLoad = () => {
   const ustensilsDropdown = new Dropdown('ustensils');
   const recipeResults = new Results();
   const keywords = new Keywords();
-  const search = new Search();
+  const search = new Search(recipes);
   const dropdowns = [ingredientsDropdown, applianceDropdown, ustensilsDropdown];
 
   // Display DOM with empty list and results
   displayPage(mainSearchBar, keywords, dropdowns, recipeResults);
 
+  // Push functions that will get search Terms and keywords for search
+  search.dataFuncs.push(mainSearchBar.getSearchTerms.bind(mainSearchBar));
+  search.dataFuncs.push(keywords.getKeywords.bind(keywords));
+
   // Push functions that will generate lists and results in DOM to search
-  dropdowns.forEach((dropdown) => search.funcs.push(dropdown.onChange.bind(dropdown)));
-  search.funcs.push(recipeResults.onChange.bind(recipeResults));
+  dropdowns.forEach((dropdown) => search.resultFuncs.push(dropdown.onChange.bind(dropdown)));
+  search.resultFuncs.push(recipeResults.onChange.bind(recipeResults));
 
   // Fill lists and results on load based off all recipes
   search.displayResults(recipes);
 
   // Handle click event on keyword from dropdown list to add to keyword selection and search
 
-  handleDropdownKeywordSelection(keywords, search);
+  handleKeywordAddition(keywords, search);
   handleKeywordDeletion(keywords, search);
-  handleMainSearchBarSearch(search);
+  handleMainSearchBarSearch(mainSearchBar, search);
 };
 
 window.addEventListener('DOMContentLoaded', onLoad);

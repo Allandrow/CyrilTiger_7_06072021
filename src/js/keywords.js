@@ -36,18 +36,25 @@ export default class Keywords {
   }
 
   // create and append keyword tag or delete from displayed list
-  updateKeywordList(mapHash) {
+  updateKeywordList() {
     const container = document.getElementById('jsKeywords');
-    const mapKeyword = this.selectedKeywords.get(mapHash);
-    const btn = this.createKeywordButton(mapKeyword);
-    container.appendChild(btn);
+
+    while (container.lastElementChild) container.removeChild(container.lastElementChild);
+
+    this.selectedKeywords.forEach((keyword) => {
+      const btn = this.createKeywordButton(keyword);
+      container.appendChild(btn);
+    });
   }
 
-  // add a keyword to the list and display it inside container
+  // add keyword to map if not in it already, delete keyword if present, then updates the displayed list
   onChange(id, keyword) {
     const keywordHash = `${id}-${keyword}`;
-    if (this.selectedKeywords.get(keywordHash)) return;
-    this.selectedKeywords.set(keywordHash, { id, keyword });
-    this.updateKeywordList(keywordHash);
+    if (this.selectedKeywords.get(keywordHash)) {
+      this.selectedKeywords.delete(keywordHash);
+    } else {
+      this.selectedKeywords.set(keywordHash, { id, keyword });
+    }
+    this.updateKeywordList();
   }
 }

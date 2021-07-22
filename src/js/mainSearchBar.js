@@ -1,4 +1,7 @@
 export default class MainSearchBar {
+  constructor() {
+    this.searchTerms = '';
+  }
   // Create search bar
   createDOM() {
     const label = document.createElement('label');
@@ -15,5 +18,13 @@ export default class MainSearchBar {
   // return DOM of searchBar
   getDOM() {
     return this.createDOM();
+  }
+
+  setSearchTerms(value) {
+    this.searchTerms = value;
+  }
+
+  getSearchTerms() {
+    return this.searchTerms;
   }
 }
