@@ -18,6 +18,9 @@ export default class Search {
     };
   }
 
+  // verifyTag va check si recipe contient contenu d'un keyword
+  // verifyTags va filter les recipes en voyant que chaque recipe passe verifyTag
+
   // filter results based on searchTerms
   setResults(recipeList, searchTerms) {
     this.results.clear();

@@ -1,22 +1,10 @@
+import dropdownTexts from './config.js';
+
 export default class Dropdown {
   constructor(id) {
     this.id = id;
-
-    // Create text and placeholder based on id
-    switch (id) {
-      case 'ingredients':
-        this.summaryText = 'Ingrédients';
-        this.placeholder = 'ingrédient';
-        break;
-      case 'appliance':
-        this.summaryText = 'Appareil';
-        this.placeholder = 'appareil';
-        break;
-      case 'ustensils':
-        this.summaryText = 'Ustensiles';
-        this.placeholder = 'ustensile';
-        break;
-    }
+    this.summaryText = dropdownTexts[id].summaryText;
+    this.placeholder = dropdownTexts[id].placeholder;
   }
 
   createArrowIMG() {
