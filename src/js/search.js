@@ -20,23 +20,23 @@ export default class Search {
 
   // filter results based on searchTerms
   setResults(recipeList, searchTerms) {
-    this.results.clear();
-
+    let results = new Set();
     recipeList.forEach((recipe) => {
       const { name, description, ingredients } = recipe;
       const isInName = name.includes(searchTerms);
       const isInDescription = description.includes(searchTerms);
 
       if (isInName || isInDescription) {
-        this.results.add(recipe);
+        results.add(recipe);
         return;
       }
       ingredients.forEach((ingredient) => {
         if (ingredient.ingredient.includes(searchTerms)) {
-          this.results.add(recipe);
+          results.add(recipe);
         }
       });
     });
+    this.results = results;
   }
 
   verifyKeywordInRecipe(recipe, keyword) {
