@@ -20,6 +20,7 @@ export default class Search {
 
   // filter results based on searchTerms
   setResults(recipeList, searchTerms) {
+    console.log(this.results);
     this.results.clear();
 
     recipeList.forEach((recipe) => {
@@ -40,19 +41,15 @@ export default class Search {
   }
 
   verifyKeywordInRecipe(recipe, keyword) {
-    // return true if keyword is in recipe
     const id = keyword.id;
     const label = keyword.label;
     switch (id) {
       case 'ingredients':
-        return recipe.ingredients.some((item) => item.ingredient === label);
-        break;
+        return recipe.ingredients.some((text) => text.ingredient === label);
       case 'appliance':
         return recipe.appliance === label;
-        break;
       case 'ustensils':
         return recipe.ustensils.some((text) => text === label);
-        break;
     }
   }
 
