@@ -20,7 +20,6 @@ export default class Search {
 
   // filter results based on searchTerms
   setResults(recipeList, searchTerms) {
-    console.log(this.results);
     this.results.clear();
 
     recipeList.forEach((recipe) => {
@@ -66,15 +65,20 @@ export default class Search {
   // search matching results from recipes and add match to results
   launchSearch() {
     const data = this.getSearchData();
-    if (data.searchKeywords.size > 0) {
-      const results = this.filterResultsByKeywords(this.recipes, data.searchKeywords);
+    const hasSearchTerms = data.searchTerms.length > 0;
+    const hasKeywords = data.searchKeywords.size > 0;
 
-      data.searchTerms.length > 0
-        ? this.setResults(results, data.searchTerms)
-        : (this.results = results);
-    } else {
-      this.setResults(this.recipes, data.searchTerms);
+    if (!hasSearchTerms && !hasKeywords) {
+      this.displayResults(this.recipes);
+      return;
     }
+    if (hasKeywords) {
+      const results = this.filterResultsByKeywords(this.recipes, data.searchKeywords);
+      hasSearchTerms ? this.setResults(results, data.searchTerms) : (this.results = results);
+      this.displayResults(this.results);
+      return;
+    }
+    this.setResults(this.recipes, data.searchTerms);
     this.displayResults(this.results);
   }
 
