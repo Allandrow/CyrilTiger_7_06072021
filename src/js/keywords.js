@@ -26,7 +26,7 @@ export default class Keywords {
     const button = document.createElement('button');
     button.classList.add('keyword', `${mapKeyword.id}-color`);
     button.setAttribute('data-id', mapKeyword.id);
-    button.textContent = mapKeyword.keyword;
+    button.textContent = mapKeyword.label;
 
     const img = document.createElement('img');
     img.src = 'dist/img/cross.svg';
@@ -48,12 +48,12 @@ export default class Keywords {
   }
 
   // add keyword to map if not in it already, delete keyword if present, then updates the displayed list
-  onChange(id, keyword) {
-    const keywordHash = `${id}-${keyword}`;
+  onChange(id, label) {
+    const keywordHash = `${id}-${label}`;
     if (this.selectedKeywords.get(keywordHash)) {
       this.selectedKeywords.delete(keywordHash);
     } else {
-      this.selectedKeywords.set(keywordHash, { id, keyword });
+      this.selectedKeywords.set(keywordHash, { id, label });
     }
     this.updateKeywordList();
   }

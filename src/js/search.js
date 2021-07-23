@@ -18,9 +18,6 @@ export default class Search {
     };
   }
 
-  // verifyTag va check si recipe contient contenu d'un keyword
-  // verifyTags va filter les recipes en voyant que chaque recipe passe verifyTag
-
   // filter results based on searchTerms
   setResults(recipeList, searchTerms) {
     this.results.clear();
@@ -42,11 +39,45 @@ export default class Search {
     });
   }
 
+  verifyKeywordInRecipe(recipe, keyword) {
+    // return true if keyword is in recipe
+    const id = keyword.id;
+    const label = keyword.label;
+    switch (id) {
+      case 'ingredients':
+        return recipe.ingredients.some((item) => item.ingredient === label);
+        break;
+      case 'appliance':
+        return recipe.appliance === label;
+        break;
+      case 'ustensils':
+        return recipe.ustensils.some((text) => text === label);
+        break;
+    }
+  }
+
+  verifyKeywordsInRecipe(recipe, keywords) {
+    return keywords.every((keyword) => this.verifyKeywordInRecipe(recipe, keyword));
+  }
+
+  filterResultsByKeywords(recipes, keywords) {
+    // filter recipes to check if recipe contains every keyword
+    const keywordsValues = Array.from(keywords.values());
+    return recipes.filter((recipe) => this.verifyKeywordsInRecipe(recipe, keywordsValues));
+  }
+
   // search matching results from recipes and add match to results
-  // TODO : handle keywords in search and case with no recipe as result
   launchSearch() {
     const data = this.getSearchData();
-    this.setResults(this.recipes, data.searchTerms);
+    if (data.searchKeywords.size > 0) {
+      const results = this.filterResultsByKeywords(this.recipes, data.searchKeywords);
+
+      data.searchTerms.length > 0
+        ? this.setResults(results, data.searchTerms)
+        : (this.results = results);
+    } else {
+      this.setResults(this.recipes, data.searchTerms);
+    }
     this.displayResults(this.results);
   }
 
