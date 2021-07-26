@@ -1,6 +1,7 @@
 export default class Keywords {
   constructor() {
     this.selectedKeywords = new Map();
+    this.container = '';
   }
 
   // create keywords container
@@ -8,6 +9,7 @@ export default class Keywords {
     const container = document.createElement('div');
     container.className = 'keywords-container';
     container.id = 'jsKeywords';
+    this.container = container;
     return container;
   }
 
@@ -37,7 +39,7 @@ export default class Keywords {
 
   // create and append keyword tag or delete from displayed list
   updateKeywordList() {
-    const container = document.getElementById('jsKeywords');
+    const container = this.container;
 
     while (container.lastElementChild) container.removeChild(container.lastElementChild);
 
