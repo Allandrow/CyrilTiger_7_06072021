@@ -76,7 +76,7 @@ export default class Dropdown {
     results.forEach((result) => {
       switch (this.id) {
         case 'ingredients':
-          result.ingredients.every((ingredientItem) => keywordSet.add(ingredientItem.ingredient));
+          result.ingredients.forEach((ingredientItem) => keywordSet.add(ingredientItem.ingredient));
           break;
         case 'appliance':
           keywordSet.add(result.appliance);

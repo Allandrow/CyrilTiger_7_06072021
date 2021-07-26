@@ -111,6 +111,15 @@ export default class Results {
     const container = this.container;
 
     while (container.lastElementChild) container.removeChild(container.lastElementChild);
+    console.log(results);
+    if (results.size === 0) {
+      const emptyResult = document.createElement('strong');
+      emptyResult.textContent =
+        'Aucune recette ne correspond à votre critère ... Vous pouvez chercher "tarte aux pommes", "poisson", etc';
+      emptyResult.className = 'alert';
+      container.appendChild(emptyResult);
+      return;
+    }
 
     results.forEach((result) => {
       const resultDOM = this.createResult(result);
