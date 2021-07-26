@@ -20,7 +20,7 @@ const displayPage = (mainSearch, keywords, dropdowns, results) => {
   container.append(mainSearchDOM, keywordsDOM, dropdownsContainer, resultsDOM);
 };
 
-const handleKeywords = (keywords, search) => {
+const handleKeywordsSelection = (keywords, search) => {
   window.addEventListener('click', (e) => {
     const isTargetInDropdown = e.target.closest('.dropdown button');
     const isTargetKeyword = e.target.closest('.keyword');
@@ -71,8 +71,7 @@ const onLoad = () => {
   search.displayResults(recipes);
 
   // Handle click event on keyword from dropdown list to add to keyword selection and search
-
-  handleKeywords(keywords, search);
+  handleKeywordsSelection(keywords, search);
   handleMainSearchBarSearch(mainSearchBar, search);
 };
 

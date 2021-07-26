@@ -5,6 +5,7 @@ export default class Dropdown {
     this.id = id;
     this.summaryText = dropdownTexts[id].summaryText;
     this.placeholder = dropdownTexts[id].placeholder;
+    this.list = '';
   }
 
   createArrowIMG() {
@@ -38,7 +39,7 @@ export default class Dropdown {
 
     const summary = document.createElement('summary');
     summary.textContent = this.summaryText;
-    summary.appendChild(this.createArrowIMG());
+    summary.append(this.createArrowIMG());
 
     const inputDiv = document.createElement('div');
     inputDiv.className = 'inputGroup';
@@ -51,6 +52,7 @@ export default class Dropdown {
 
     const list = document.createElement('ul');
     list.id = `${this.id}List`;
+    this.list = list;
 
     details.append(summary, inputDiv, list);
 
@@ -68,8 +70,7 @@ export default class Dropdown {
   // clear list and fill with new results
   onChange(results) {
     const keywordSet = new Set();
-    // TODO : find a way to get rid of searching DOM for container
-    const listDOM = document.getElementById(`${this.id}List`);
+    const list = this.list;
 
     // fill set for each dropdown
     results.forEach((result) => {
@@ -89,16 +90,17 @@ export default class Dropdown {
     });
 
     // clear displayed list
-    while (listDOM.lastElementChild) listDOM.removeChild(listDOM.lastElementChild);
+    while (list.lastElementChild) list.removeChild(list.lastElementChild);
 
     // display new list
     keywordSet.forEach((keyword) => {
-      const li = document.createElement('li');
       const btn = document.createElement('button');
       btn.setAttribute('data-id', this.id);
       btn.textContent = keyword;
+
+      const li = document.createElement('li');
       li.appendChild(btn);
-      listDOM.appendChild(li);
+      list.appendChild(li);
     });
   }
 
