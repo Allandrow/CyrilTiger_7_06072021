@@ -1,9 +1,13 @@
 export default class Results {
+  constructor() {
+    this.container = '';
+  }
   // create results container
   createDOM() {
     const container = document.createElement('div');
     container.id = 'jsResults';
     container.className = 'results-container';
+    this.container = container;
 
     return container;
   }
@@ -13,14 +17,52 @@ export default class Results {
     return this.createDOM();
   }
 
+  createIngredientListItem(recipeIngredient) {
+    const { ingredient, quantity, unit } = recipeIngredient;
+    const li = document.createElement('li');
+    const ingredientName = document.createElement('strong');
+
+    // Change textContent of ingredient depending of if it has a quantity and quantity unit
+    if (quantity) {
+      ingredientName.textContent = `${ingredient} : `;
+      const quantityElement = document.createElement('span');
+      let quantityText;
+
+      if (unit !== undefined) {
+        switch (unit) {
+          case 'grammes':
+            quantityText = `${quantity} g`;
+            break;
+          case 'litre':
+          case 'litres':
+          case 'Litres':
+            quantityText = `${quantity} L`;
+            break;
+          default:
+            quantityText = `${quantity} ${unit}`;
+        }
+      } else {
+        quantityText = `${quantity}`;
+      }
+      quantityElement.textContent = quantityText;
+      li.append(ingredientName, quantityElement);
+    } else {
+      ingredientName.textContent = ingredient;
+      li.appendChild(ingredientName);
+    }
+    return li;
+  }
+
   createResult(result) {
     const { description, ingredients, name, time } = result;
 
+    // classNames
     const containerBEM = 'result-card';
     const contentBEM = `${containerBEM}__content`;
     const headBEM = `${contentBEM}__head`;
     const bodyBEM = `${contentBEM}__body`;
 
+    // DOM generation
     const article = document.createElement('article');
     article.className = containerBEM;
 
@@ -50,40 +92,7 @@ export default class Results {
     const list = document.createElement('ul');
     list.className = 'ingredients';
     ingredients.forEach((recipeIngredient) => {
-      const { ingredient, quantity, unit } = recipeIngredient;
-
-      const li = document.createElement('li');
-      const ingredientName = document.createElement('strong');
-
-      // Change textContent of ingredient depending of if it has a quantity and quantity unit
-      if (quantity) {
-        ingredientName.textContent = `${ingredient} : `;
-        const quantityElement = document.createElement('span');
-        let quantityText;
-
-        if (unit !== undefined) {
-          switch (unit) {
-            case 'grammes':
-              quantityText = `${quantity} g`;
-              break;
-            case 'litre':
-            case 'litres':
-            case 'Litres':
-              quantityText = `${quantity} L`;
-              break;
-            default:
-              quantityText = `${quantity} ${unit}`;
-          }
-        } else {
-          quantityText = `${quantity}`;
-        }
-        quantityElement.textContent = quantityText;
-        li.append(ingredientName, quantityElement);
-      } else {
-        ingredientName.textContent = ingredient;
-        li.appendChild(ingredientName);
-      }
-
+      const li = this.createIngredientListItem(recipeIngredient);
       list.appendChild(li);
     });
 
@@ -99,8 +108,7 @@ export default class Results {
 
   // clear list of results and fill with new results
   onChange(results) {
-    // TODO : find a way to get rid of searching DOM for container
-    const container = document.getElementById('jsResults');
+    const container = this.container;
 
     while (container.lastElementChild) container.removeChild(container.lastElementChild);
 
