@@ -95,6 +95,7 @@ export default class Dropdown {
     keywordSet.forEach((keyword) => {
       const li = document.createElement('li');
       const btn = document.createElement('button');
+      btn.setAttribute('data-id', this.id);
       btn.textContent = keyword;
       li.appendChild(btn);
       listDOM.appendChild(li);

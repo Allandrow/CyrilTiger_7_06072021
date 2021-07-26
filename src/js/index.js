@@ -1,45 +1,3 @@
-/* 
-  on load :
-    - create instance of mainSearchBar
-    - create instance of keywords
-    - create 3 instances of dropdown
-    - create instance of results
-    - create instance of search
-
-    - display page
-    - fill dropdown lists and results list based on recipes
-
-    - push onChanges callbacks to search
-    
-    - mainSearchBar input value modification event :        
-      - input.js
-        - mainSearchBar.setSearchTerms()
-        - mainSearchBar.getSearchTerms()
-        - keywords.getKeywords()
-        - search.launchSearch(searchTerms, keywords)
-        - search.getResults()
-
-    - dropdown input value modification event :
-      - dropdown.js
-        - filterKeywords()
-
-    - dropdown keyword selection event :
-      - index.js
-        - keywords.onChange(add, selectedKeyword)
-        - mainSearchBar.getSearchTerms()
-        - keywords.getKeywords()
-        - search.launchSearch(searchTerms, keywords)
-        - search.getResults()
-
-    - keyword deletion event :
-      - index.js
-        - keywords.onChange(remove, clickedKeyword)
-        - mainSearchBar.getSearchTerms()
-        - keywords.getKeywords()
-        - search.launchSearch(searchTerms, keywords)
-        - search.getResults()
-*/
-
 import Dropdown from './dropdown.js';
 import Keywords from './keywords.js';
 import MainSearchBar from './mainSearchBar.js';
@@ -62,28 +20,17 @@ const displayPage = (mainSearch, keywords, dropdowns, results) => {
   container.append(mainSearchDOM, keywordsDOM, dropdownsContainer, resultsDOM);
 };
 
-const handleKeywordAddition = (keywords, search) => {
+const handleKeywords = (keywords, search) => {
   window.addEventListener('click', (e) => {
-    const isKeywordInDropdown = e.target.closest('.dropdown button');
-    if (isKeywordInDropdown) {
+    const isTargetInDropdown = e.target.closest('.dropdown button');
+    const isTargetKeyword = e.target.closest('.keyword');
+    const target = isTargetInDropdown || isTargetKeyword;
+    if (target) {
       e.preventDefault();
-      const parentId = e.target.closest('ul').id;
-      const keywordId = parentId.substring(0, parentId.length - 4);
-      keywords.onChange(keywordId, isKeywordInDropdown.textContent);
-      e.target.closest('details').removeAttribute('open');
-      search.launchSearch();
-    }
-  });
-};
+      if (isTargetInDropdown) target.closest('details').removeAttribute('open');
 
-const handleKeywordDeletion = (keywords, search) => {
-  window.addEventListener('click', (e) => {
-    const isKeywordButton = e.target.closest('.keyword');
-    if (isKeywordButton) {
-      e.preventDefault();
-      const btnId = isKeywordButton.getAttribute('data-id');
-      const btnText = isKeywordButton.textContent;
-      keywords.onChange(btnId, btnText);
+      const targetId = target.getAttribute('data-id');
+      keywords.onChange(targetId, target.textContent);
       search.launchSearch();
     }
   });
@@ -125,8 +72,7 @@ const onLoad = () => {
 
   // Handle click event on keyword from dropdown list to add to keyword selection and search
 
-  handleKeywordAddition(keywords, search);
-  handleKeywordDeletion(keywords, search);
+  handleKeywords(keywords, search);
   handleMainSearchBarSearch(mainSearchBar, search);
 };
 
