@@ -14,7 +14,7 @@ export default class Search {
     });
     return {
       searchTerms,
-      searchKeywords,
+      searchKeywords
     };
   }
 
@@ -65,7 +65,7 @@ export default class Search {
   // search matching results from recipes and add match to results
   launchSearch() {
     const data = this.getSearchData();
-    const hasSearchTerms = data.searchTerms.length > 0;
+    const hasSearchTerms = data.searchTerms.length >= 3;
     const hasKeywords = data.searchKeywords.size > 0;
 
     if (!hasSearchTerms && !hasKeywords) {
