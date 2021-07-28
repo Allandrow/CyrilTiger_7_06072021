@@ -13,7 +13,7 @@ export const dropdownTexts = Object.freeze({
   })
 });
 
-export const QUERYLENGTH = 3;
+export const MINQUERYLENGTH = 3;
 export const EMPTYSIZE = 0;
 export const INGREDIENTS = 'ingredients';
 export const APPLIANCE = 'appliance';

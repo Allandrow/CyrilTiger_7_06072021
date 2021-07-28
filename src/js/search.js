@@ -1,4 +1,4 @@
-import { INGREDIENTS, USTENSILS, APPLIANCE, QUERYLENGTH, EMPTYSIZE } from './config.js';
+import { INGREDIENTS, USTENSILS, APPLIANCE, MINQUERYLENGTH, EMPTYSIZE } from './config.js';
 
 export default class Search {
   constructor(recipes) {
@@ -71,7 +71,7 @@ export default class Search {
   // search matching results from recipes and add match to results
   launchSearch() {
     const data = this.getSearchData();
-    const hasSearchTerms = data.searchTerms.length >= QUERYLENGTH;
+    const hasSearchTerms = data.searchTerms.length >= MINQUERYLENGTH;
     const hasKeywords = data.searchKeywords.size > EMPTYSIZE;
 
     if (!hasSearchTerms && !hasKeywords) {
