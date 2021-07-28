@@ -28,6 +28,7 @@ export default class Results {
       const quantityElement = document.createElement('span');
       let quantityText;
 
+      // TODO : get rid of magic strings, maybe put into an array and apply some()
       if (unit !== undefined) {
         switch (unit) {
           case 'grammes':

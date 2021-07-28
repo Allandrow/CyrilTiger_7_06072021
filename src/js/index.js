@@ -4,6 +4,7 @@ import MainSearchBar from './mainSearchBar.js';
 import Results from './results.js';
 import Search from './search.js';
 import recipes from './recipes.js';
+import { INGREDIENTS, APPLIANCE, USTENSILS } from './config.js';
 
 const displayPage = (mainSearch, keywords, dropdowns, results) => {
   const container = document.getElementById('jsForm');
@@ -48,9 +49,9 @@ const handleMainSearchBarSearch = (mainSearchBar, search) => {
 const onLoad = () => {
   // init objects
   const mainSearchBar = new MainSearchBar();
-  const ingredientsDropdown = new Dropdown('ingredients');
-  const applianceDropdown = new Dropdown('appliance');
-  const ustensilsDropdown = new Dropdown('ustensils');
+  const ingredientsDropdown = new Dropdown(INGREDIENTS);
+  const applianceDropdown = new Dropdown(APPLIANCE);
+  const ustensilsDropdown = new Dropdown(USTENSILS);
   const recipeResults = new Results();
   const keywords = new Keywords();
   const search = new Search(recipes);
@@ -68,7 +69,7 @@ const onLoad = () => {
   search.setResultsFunctions(recipeResults.onChange.bind(recipeResults));
 
   // Fill lists and results on load based off all recipes
-  search.displayResults(recipes);
+  search.displayResults();
 
   // Handle click event on keyword from dropdown list to add to keyword selection and search
   handleKeywordsSelection(keywords, search);

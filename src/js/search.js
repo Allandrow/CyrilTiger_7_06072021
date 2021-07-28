@@ -1,3 +1,5 @@
+import { INGREDIENTS, USTENSILS, APPLIANCE, QUERYLENGTH, EMPTYSIZE } from './config.js';
+
 export default class Search {
   constructor(recipes) {
     this.dataFuncs = [];
@@ -22,6 +24,29 @@ export default class Search {
     };
   }
 
+  verifyKeywordInRecipe(recipe, keyword) {
+    const id = keyword.id;
+    const label = keyword.label;
+    switch (id) {
+      case INGREDIENTS:
+        return recipe.ingredients.some((text) => text.ingredient === label);
+      case APPLIANCE:
+        return recipe.appliance === label;
+      case USTENSILS:
+        return recipe.ustensils.some((text) => text === label);
+    }
+  }
+
+  verifyKeywordsInRecipe(recipe, keywords) {
+    return keywords.every((keyword) => this.verifyKeywordInRecipe(recipe, keyword));
+  }
+
+  filterResultsByKeywords(recipes, keywords) {
+    // filter recipes to check if recipe contains every keyword
+    const keywordsValues = Array.from(keywords.values());
+    return recipes.filter((recipe) => this.verifyKeywordsInRecipe(recipe, keywordsValues));
+  }
+
   // filter results based on searchTerms
   setResults(recipeList, searchTerms) {
     let results = new Set();
@@ -43,34 +68,11 @@ export default class Search {
     this.results = results;
   }
 
-  verifyKeywordInRecipe(recipe, keyword) {
-    const id = keyword.id;
-    const label = keyword.label;
-    switch (id) {
-      case 'ingredients':
-        return recipe.ingredients.some((text) => text.ingredient === label);
-      case 'appliance':
-        return recipe.appliance === label;
-      case 'ustensils':
-        return recipe.ustensils.some((text) => text === label);
-    }
-  }
-
-  verifyKeywordsInRecipe(recipe, keywords) {
-    return keywords.every((keyword) => this.verifyKeywordInRecipe(recipe, keyword));
-  }
-
-  filterResultsByKeywords(recipes, keywords) {
-    // filter recipes to check if recipe contains every keyword
-    const keywordsValues = Array.from(keywords.values());
-    return recipes.filter((recipe) => this.verifyKeywordsInRecipe(recipe, keywordsValues));
-  }
-
   // search matching results from recipes and add match to results
   launchSearch() {
     const data = this.getSearchData();
-    const hasSearchTerms = data.searchTerms.length >= 3;
-    const hasKeywords = data.searchKeywords.size > 0;
+    const hasSearchTerms = data.searchTerms.length >= QUERYLENGTH;
+    const hasKeywords = data.searchKeywords.size > EMPTYSIZE;
 
     if (!hasSearchTerms && !hasKeywords) {
       this.displayResults(this.recipes);
@@ -91,7 +93,7 @@ export default class Search {
   }
 
   // fires resultFuncs to redo lists of dropdowns and results
-  displayResults(results) {
+  displayResults(results = this.recipes) {
     this.resultFuncs.forEach((func) => {
       func(results);
     });

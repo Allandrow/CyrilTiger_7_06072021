@@ -1,4 +1,4 @@
-import dropdownTexts from './config.js';
+import { dropdownTexts, INGREDIENTS, APPLIANCE, USTENSILS } from './config.js';
 
 export default class Dropdown {
   constructor(id) {
@@ -75,13 +75,13 @@ export default class Dropdown {
     // fill set for each dropdown
     results.forEach((result) => {
       switch (this.id) {
-        case 'ingredients':
+        case INGREDIENTS:
           result.ingredients.forEach((ingredientItem) => keywordSet.add(ingredientItem.ingredient));
           break;
-        case 'appliance':
+        case APPLIANCE:
           keywordSet.add(result.appliance);
           break;
-        case 'ustensils':
+        case USTENSILS:
           result.ustensils.every((ustensil) => keywordSet.add(ustensil));
           break;
       }
