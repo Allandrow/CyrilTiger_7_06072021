@@ -16,7 +16,11 @@ export default class Search {
     let searchTerms = '';
     let searchKeywords;
     this.dataFuncs.forEach((func) => {
-      typeof func() === 'string' ? (searchTerms = func()) : (searchKeywords = func());
+      if (typeof func() === 'string') {
+        searchTerms = func();
+      } else {
+        searchKeywords = func();
+      }
     });
     return {
       searchTerms,
@@ -80,7 +84,11 @@ export default class Search {
     }
     if (hasKeywords) {
       const results = this.filterResultsByKeywords(this.recipes, data.searchKeywords);
-      hasSearchTerms ? this.setResults(results, data.searchTerms) : (this.results = results);
+      if (hasSearchTerms) {
+        this.setResults(results, data.searchTerms);
+      } else {
+        this.results = results;
+      }
       this.displayResults(this.results);
       return;
     }

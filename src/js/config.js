@@ -18,3 +18,5 @@ export const EMPTYSIZE = 0;
 export const INGREDIENTS = 'ingredients';
 export const APPLIANCE = 'appliance';
 export const USTENSILS = 'ustensils';
+export const LITERUNITS = ['litre', 'litres', 'Litres'];
+export const WEIGHTUNIT = 'grammes';

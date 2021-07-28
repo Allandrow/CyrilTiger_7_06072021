@@ -1,3 +1,5 @@
+import { EMPTYSIZE, WEIGHTUNIT, LITERUNITS } from './config.js';
+
 export default class Results {
   constructor() {
     this.container = '';
@@ -8,13 +10,22 @@ export default class Results {
     container.id = 'jsResults';
     container.className = 'results-container';
     this.container = container;
-
     return container;
   }
 
   // return DOM of results container
   getDOM() {
     return this.createDOM();
+  }
+
+  // return text for quantity depending of presence and content of unit
+  handleQuantityText(quantity, unit) {
+    if (unit) {
+      if (unit === WEIGHTUNIT) return `${quantity} g`;
+      if (LITERUNITS.some((item) => item === unit)) return `${quantity} L`;
+      return `${quantity} ${unit}`;
+    }
+    return `${quantity}`;
   }
 
   createIngredientListItem(recipeIngredient) {
@@ -26,25 +37,7 @@ export default class Results {
     if (quantity) {
       ingredientName.textContent = `${ingredient} : `;
       const quantityElement = document.createElement('span');
-      let quantityText;
-
-      // TODO : get rid of magic strings, maybe put into an array and apply some()
-      if (unit !== undefined) {
-        switch (unit) {
-          case 'grammes':
-            quantityText = `${quantity} g`;
-            break;
-          case 'litre':
-          case 'litres':
-          case 'Litres':
-            quantityText = `${quantity} L`;
-            break;
-          default:
-            quantityText = `${quantity} ${unit}`;
-        }
-      } else {
-        quantityText = `${quantity}`;
-      }
+      const quantityText = this.handleQuantityText(quantity, unit);
       quantityElement.textContent = quantityText;
       li.append(ingredientName, quantityElement);
     } else {
@@ -110,9 +103,9 @@ export default class Results {
   // clear list of results and fill with new results
   onChange(results) {
     const container = this.container;
-
     container.innerHTML = '';
-    if (results.size === 0) {
+
+    if (results.size === EMPTYSIZE) {
       const emptyResult = document.createElement('strong');
       emptyResult.textContent =
         'Aucune recette ne correspond à votre critère ... Vous pouvez chercher "tarte aux pommes", "poisson", etc';

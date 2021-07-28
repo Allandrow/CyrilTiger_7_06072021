@@ -40,7 +40,6 @@ export default class Keywords {
   // create and append keyword tag or delete from displayed list
   updateKeywordList() {
     const container = this.container;
-
     container.innerHTML = '';
 
     this.selectedKeywords.forEach((keyword) => {
