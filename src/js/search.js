@@ -13,7 +13,7 @@ export default class Search {
   }
 
   getSearchData() {
-    let searchTerms = '';
+    let searchTerms;
     let searchKeywords;
     this.dataFuncs.forEach((func) => {
       if (typeof func() === 'string') {
@@ -45,14 +45,14 @@ export default class Search {
     return keywords.every((keyword) => this.verifyKeywordInRecipe(recipe, keyword));
   }
 
-  filterResultsByKeywords(recipes, keywords) {
+  setResultsByKeywords(recipes, keywords) {
     // filter recipes to check if recipe contains every keyword
     const keywordsValues = Array.from(keywords.values());
-    return recipes.filter((recipe) => this.verifyKeywordsInRecipe(recipe, keywordsValues));
+    this.results = recipes.filter((recipe) => this.verifyKeywordsInRecipe(recipe, keywordsValues));
   }
 
   // filter results based on searchTerms
-  setResults(recipeList, searchTerms) {
+  setResultsByTextSearch(recipeList, searchTerms) {
     let results = new Set();
     recipeList.forEach((recipe) => {
       const { name, description, ingredients } = recipe;
@@ -72,28 +72,26 @@ export default class Search {
     this.results = results;
   }
 
+  getResultsOrRecipes() {
+    const isResultsEmpty = this.results.size === EMPTYSIZE;
+    return isResultsEmpty ? this.recipes : this.results;
+  }
+
   // search matching results from recipes and add match to results
   launchSearch() {
+    this.results = new Set();
     const data = this.getSearchData();
     const hasSearchTerms = data.searchTerms.length >= MINQUERYLENGTH;
     const hasKeywords = data.searchKeywords.size > EMPTYSIZE;
 
-    if (!hasSearchTerms && !hasKeywords) {
-      this.displayResults(this.recipes);
-      return;
-    }
     if (hasKeywords) {
-      const results = this.filterResultsByKeywords(this.recipes, data.searchKeywords);
-      if (hasSearchTerms) {
-        this.setResults(results, data.searchTerms);
-      } else {
-        this.results = results;
-      }
-      this.displayResults(this.results);
-      return;
+      this.setResultsByKeywords(this.recipes, data.searchKeywords);
     }
-    this.setResults(this.recipes, data.searchTerms);
-    this.displayResults(this.results);
+    if (hasSearchTerms) {
+      const results = this.getResultsOrRecipes();
+      this.setResultsByTextSearch(results, data.searchTerms);
+    }
+    this.displayResults();
   }
 
   setResultsFunctions(callback) {
@@ -101,7 +99,8 @@ export default class Search {
   }
 
   // fires resultFuncs to redo lists of dropdowns and results
-  displayResults(results = this.recipes) {
+  displayResults() {
+    const results = this.getResultsOrRecipes();
     this.resultFuncs.forEach((func) => {
       func(results);
     });
