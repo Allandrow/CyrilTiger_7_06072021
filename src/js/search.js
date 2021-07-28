@@ -1,4 +1,4 @@
-import { INGREDIENTS, USTENSILS, APPLIANCE, MINQUERYLENGTH, EMPTYSIZE } from './config.js';
+import { INGREDIENTS, APPLIANCE, USTENSILS, MINQUERYLENGTH, EMPTYSIZE } from './config.js';
 
 export default class Search {
   constructor(recipes) {
