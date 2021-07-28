@@ -111,7 +111,7 @@ export default class Results {
   onChange(results) {
     const container = this.container;
 
-    while (container.lastElementChild) container.removeChild(container.lastElementChild);
+    container.innerHTML = '';
     if (results.size === 0) {
       const emptyResult = document.createElement('strong');
       emptyResult.textContent =

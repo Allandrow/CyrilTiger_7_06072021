@@ -88,7 +88,7 @@ export default class Dropdown {
     });
 
     // clear displayed list
-    while (list.lastElementChild) list.removeChild(list.lastElementChild);
+    list.innerHTML = '';
 
     // display new list
     keywordSet.forEach((keyword) => {

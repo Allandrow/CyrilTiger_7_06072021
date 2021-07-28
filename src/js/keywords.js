@@ -41,7 +41,7 @@ export default class Keywords {
   updateKeywordList() {
     const container = this.container;
 
-    while (container.lastElementChild) container.removeChild(container.lastElementChild);
+    container.innerHTML = '';
 
     this.selectedKeywords.forEach((keyword) => {
       const btn = this.createKeywordButton(keyword);
