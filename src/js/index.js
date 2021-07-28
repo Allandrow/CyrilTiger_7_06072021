@@ -60,12 +60,12 @@ const onLoad = () => {
   displayPage(mainSearchBar, keywords, dropdowns, recipeResults);
 
   // Push functions that will get search Terms and keywords for search
-  search.dataFuncs.push(mainSearchBar.getSearchTerms.bind(mainSearchBar));
-  search.dataFuncs.push(keywords.getKeywords.bind(keywords));
+  search.setSearchData(mainSearchBar.getSearchTerms.bind(mainSearchBar));
+  search.setSearchData(keywords.getKeywords.bind(keywords));
 
   // Push functions that will generate lists and results in DOM to search
-  dropdowns.forEach((dropdown) => search.resultFuncs.push(dropdown.onChange.bind(dropdown)));
-  search.resultFuncs.push(recipeResults.onChange.bind(recipeResults));
+  dropdowns.forEach((dropdown) => search.setResultsFunctions(dropdown.onChange.bind(dropdown)));
+  search.setResultsFunctions(recipeResults.onChange.bind(recipeResults));
 
   // Fill lists and results on load based off all recipes
   search.displayResults(recipes);

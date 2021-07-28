@@ -6,6 +6,10 @@ export default class Search {
     this.results = new Set();
   }
 
+  setSearchData(callback) {
+    this.dataFuncs.push(callback);
+  }
+
   getSearchData() {
     let searchTerms = '';
     let searchKeywords;
@@ -80,6 +84,10 @@ export default class Search {
     }
     this.setResults(this.recipes, data.searchTerms);
     this.displayResults(this.results);
+  }
+
+  setResultsFunctions(callback) {
+    this.resultFuncs.push(callback);
   }
 
   // fires resultFuncs to redo lists of dropdowns and results
