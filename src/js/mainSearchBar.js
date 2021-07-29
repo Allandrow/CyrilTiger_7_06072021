@@ -1,6 +1,8 @@
+import { MINQUERYLENGTH } from './config.js';
+
 export default class MainSearchBar {
   constructor() {
-    this.searchTerms = '';
+    this.searchTerms = new Set();
   }
   // Create search bar
   createDOM() {
@@ -23,7 +25,12 @@ export default class MainSearchBar {
   }
 
   setSearchTerms(value) {
-    this.searchTerms = value.toLowerCase();
+    this.searchTerms.clear();
+    const words = value.toLowerCase().split(' ');
+
+    words.forEach((word) => {
+      if (word.length >= MINQUERYLENGTH) this.searchTerms.add(word);
+    });
   }
 
   getSearchTerms() {

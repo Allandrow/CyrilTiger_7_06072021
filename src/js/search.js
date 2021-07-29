@@ -1,4 +1,4 @@
-import { INGREDIENTS, APPLIANCE, USTENSILS, MINQUERYLENGTH, EMPTYSIZE } from './config.js';
+import { INGREDIENTS, APPLIANCE, USTENSILS, EMPTYSIZE } from './config.js';
 
 export default class Search {
   constructor(recipes) {
@@ -16,9 +16,10 @@ export default class Search {
     let searchTerms;
     let searchKeywords;
     this.dataFuncs.forEach((func) => {
-      if (typeof func() === 'string') {
+      if (func() instanceof Set) {
         searchTerms = func();
-      } else {
+      }
+      if (func() instanceof Map) {
         searchKeywords = func();
       }
     });
@@ -51,26 +52,26 @@ export default class Search {
     this.results = recipes.filter((recipe) => this.verifyKeywordsInRecipe(recipe, keywordsValues));
   }
 
+  isTermInRecipe(recipe, term) {
+    const { name, description, ingredients } = recipe;
+    const nameLower = name.toLowerCase();
+    const descriptionLower = description.toLowerCase();
+    let recipeTexts = [nameLower, descriptionLower];
+
+    ingredients.forEach((ingredient) => {
+      const ingredientLower = ingredient.ingredient.toLowerCase();
+      recipeTexts = [...recipeTexts, ingredientLower];
+    });
+    return recipeTexts.some((text) => text.includes(term));
+  }
+
   // filter results based on searchTerms
   setResultsByTextSearch(recipeList, searchTerms) {
+    const terms = Array.from(searchTerms);
     let results = new Set();
     recipeList.forEach((recipe) => {
-      const { name, description, ingredients } = recipe;
-      const nameLower = name.toLowerCase();
-      const descriptionLower = description.toLowerCase();
-      const isInName = nameLower.includes(searchTerms);
-      const isInDescription = descriptionLower.includes(searchTerms);
-
-      if (isInName || isInDescription) {
-        results.add(recipe);
-        return;
-      }
-      ingredients.forEach((ingredient) => {
-        const ingredientLower = ingredient.ingredient.toLowerCase();
-        if (ingredientLower.includes(searchTerms)) {
-          results.add(recipe);
-        }
-      });
+      const hasAllTermsInRecipe = terms.every((term) => this.isTermInRecipe(recipe, term));
+      if (hasAllTermsInRecipe) results.add(recipe);
     });
     this.results = results;
   }
@@ -84,7 +85,7 @@ export default class Search {
   launchSearch() {
     this.results = new Set();
     const data = this.getSearchData();
-    const hasSearchTerms = data.searchTerms.length >= MINQUERYLENGTH;
+    const hasSearchTerms = data.searchTerms.size > EMPTYSIZE;
     const hasKeywords = data.searchKeywords.size > EMPTYSIZE;
 
     if (hasKeywords) {
