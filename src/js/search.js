@@ -54,13 +54,12 @@ export default class Search {
   // filter results based on searchTerms
   setResultsByTextSearch(recipeList, searchTerms) {
     let results = new Set();
-    const searchTermsLower = searchTerms.toLowerCase();
     recipeList.forEach((recipe) => {
       const { name, description, ingredients } = recipe;
       const nameLower = name.toLowerCase();
       const descriptionLower = description.toLowerCase();
-      const isInName = nameLower.includes(searchTermsLower);
-      const isInDescription = descriptionLower.includes(searchTermsLower);
+      const isInName = nameLower.includes(searchTerms);
+      const isInDescription = descriptionLower.includes(searchTerms);
 
       if (isInName || isInDescription) {
         results.add(recipe);
@@ -68,7 +67,7 @@ export default class Search {
       }
       ingredients.forEach((ingredient) => {
         const ingredientLower = ingredient.ingredient.toLowerCase();
-        if (ingredientLower.includes(searchTermsLower)) {
+        if (ingredientLower.includes(searchTerms)) {
           results.add(recipe);
         }
       });

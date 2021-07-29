@@ -23,7 +23,7 @@ export default class MainSearchBar {
   }
 
   setSearchTerms(value) {
-    this.searchTerms = value;
+    this.searchTerms = value.toLowerCase();
   }
 
   getSearchTerms() {
