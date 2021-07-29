@@ -95,7 +95,12 @@ export default class Search {
       const results = this.getResultsOrRecipes();
       this.setResultsByTextSearch(results, data.searchTerms);
     }
-    this.displayResults();
+
+    if (hasKeywords || hasSearchTerms) {
+      this.displayResults(this.results);
+    } else {
+      this.displayResults();
+    }
   }
 
   setResultsFunctions(callback) {
@@ -103,8 +108,7 @@ export default class Search {
   }
 
   // fires resultFuncs to redo lists of dropdowns and results
-  displayResults() {
-    const results = this.getResultsOrRecipes();
+  displayResults(results = this.recipes) {
     this.resultFuncs.forEach((func) => {
       func(results);
     });
