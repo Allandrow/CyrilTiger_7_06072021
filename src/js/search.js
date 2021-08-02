@@ -66,10 +66,10 @@ export default class Search {
   }
 
   // filter results based on searchTerms
-  setResultsByTextSearch(recipeList, searchTerms) {
+  setResultsByTextSearch(recipes, searchTerms) {
     const terms = Array.from(searchTerms);
     let results = new Set();
-    recipeList.forEach((recipe) => {
+    recipes.forEach((recipe) => {
       const hasAllTermsInRecipe = terms.every((term) => this.isTermInRecipe(recipe, term));
       if (hasAllTermsInRecipe) results.add(recipe);
     });
