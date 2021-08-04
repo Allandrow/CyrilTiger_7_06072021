@@ -52,13 +52,13 @@ const onLoad = () => {
   const ingredientsDropdown = new Dropdown(INGREDIENTS);
   const applianceDropdown = new Dropdown(APPLIANCE);
   const ustensilsDropdown = new Dropdown(USTENSILS);
-  const recipeResults = new Results();
+  const results = new Results();
   const keywords = new Keywords();
   const search = new Search(recipes);
   const dropdowns = [ingredientsDropdown, applianceDropdown, ustensilsDropdown];
 
   // Display DOM with empty list and results
-  displayPage(mainSearchBar, keywords, dropdowns, recipeResults);
+  displayPage(mainSearchBar, keywords, dropdowns, results);
 
   // Push functions that will get search Terms and keywords for search
   search.setSearchData(mainSearchBar.getSearchTerms.bind(mainSearchBar));
@@ -66,7 +66,7 @@ const onLoad = () => {
 
   // Push functions that will generate lists and results in DOM to search
   dropdowns.forEach((dropdown) => search.setResultsFunctions(dropdown.onChange.bind(dropdown)));
-  search.setResultsFunctions(recipeResults.onChange.bind(recipeResults));
+  search.setResultsFunctions(results.onChange.bind(results));
 
   // Fill lists and results on load based off all recipes
   search.displayResults();

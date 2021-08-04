@@ -49,7 +49,21 @@ export default class Search {
   setResultsByKeywords(recipes, keywords) {
     // filter recipes to check if recipe contains every keyword
     const keywordsValues = Array.from(keywords.values());
-    this.results = recipes.filter((recipe) => this.verifyKeywordsInRecipe(recipe, keywordsValues));
+
+    if (this.results.size > EMPTYSIZE) {
+      console.log('in');
+      for (const recipe of recipes) {
+        if (!this.verifyKeywordsInRecipe(recipe, keywordsValues)) {
+          this.results.delete(recipe);
+        }
+      }
+      return;
+    }
+
+    const recipesWithKeywords = recipes.filter((recipe) =>
+      this.verifyKeywordsInRecipe(recipe, keywordsValues)
+    );
+    recipesWithKeywords.forEach((recipe) => this.results.add(recipe));
   }
 
   isTermInRecipe(recipe, term) {
@@ -76,24 +90,19 @@ export default class Search {
     this.results = results;
   }
 
-  getResultsOrRecipes() {
-    const isResultsEmpty = this.results.size === EMPTYSIZE;
-    return isResultsEmpty ? this.recipes : this.results;
-  }
-
   // search matching results from recipes and add match to results
   launchSearch() {
-    this.results = new Set();
+    this.results.clear();
     const data = this.getSearchData();
     const hasSearchTerms = data.searchTerms.size > EMPTYSIZE;
     const hasKeywords = data.searchKeywords.size > EMPTYSIZE;
 
-    if (hasKeywords) {
-      this.setResultsByKeywords(this.recipes, data.searchKeywords);
-    }
     if (hasSearchTerms) {
-      const results = this.getResultsOrRecipes();
-      this.setResultsByTextSearch(results, data.searchTerms);
+      this.setResultsByTextSearch(this.recipes, data.searchTerms);
+    }
+    if (hasKeywords) {
+      const results = this.results.size === EMPTYSIZE ? this.recipes : this.results;
+      this.setResultsByKeywords(results, data.searchKeywords);
     }
 
     if (hasKeywords || hasSearchTerms) {

@@ -1,5 +1,5 @@
 import { EMPTYSIZE } from './config.js';
-import Result from './result.js';
+import Recipe from './recipe.js';
 
 export default class Results {
   constructor() {
@@ -23,6 +23,7 @@ export default class Results {
   onChange(results) {
     const container = this.container;
     container.innerHTML = '';
+    container.remove();
 
     if (results.size === EMPTYSIZE) {
       const emptyResult = document.createElement('strong');
@@ -34,9 +35,11 @@ export default class Results {
     }
 
     results.forEach((result) => {
-      const resultObj = new Result(result);
+      const resultObj = new Recipe(result);
       const resultDOM = resultObj.getDOM();
       container.appendChild(resultDOM);
     });
+
+    document.body.append(container);
   }
 }

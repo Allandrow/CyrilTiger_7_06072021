@@ -1,8 +1,8 @@
 import { WEIGHTUNIT, LITERUNITS } from './config.js';
 
-export default class Result {
-  constructor(result) {
-    this.result = result;
+export default class Recipe {
+  constructor(recipe) {
+    this.recipe = recipe;
   }
   // return text for quantity depending of presence and content of unit
   handleQuantityText(quantity, unit) {
@@ -34,7 +34,7 @@ export default class Result {
   }
 
   createDOM() {
-    const { description, ingredients, name, time } = this.result;
+    const { description, ingredients, name, time } = this.recipe;
 
     // classNames
     const containerBEM = 'result-card';
