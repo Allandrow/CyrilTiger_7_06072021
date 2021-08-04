@@ -91,6 +91,7 @@ export default class Search {
   launchSearch() {
     this.results.clear();
     const data = this.getSearchData();
+    // TODO : 0 n'est pas constante
     const hasSearchTerms = data.searchTerms.size > EMPTYSIZE;
     const hasKeywords = data.searchKeywords.size > EMPTYSIZE;
 
@@ -101,6 +102,7 @@ export default class Search {
       this.setResultsByKeywords(data.searchKeywords);
     }
 
+    //
     if (hasKeywords || hasSearchTerms) {
       this.displayResults(this.results);
     } else {

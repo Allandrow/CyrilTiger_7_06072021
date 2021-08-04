@@ -31,6 +31,7 @@ const handleKeywordsSelection = (keywords, search) => {
       if (isTargetInDropdown) target.closest('details').removeAttribute('open');
 
       const targetId = target.getAttribute('data-id');
+      // TODO : change name to toggle
       keywords.onChange(targetId, target.textContent);
       search.launchSearch();
     }
@@ -61,7 +62,11 @@ const onLoad = () => {
   displayPage(mainSearchBar, keywords, dropdowns, results);
 
   // Push functions that will get search Terms and keywords for search
-  search.setSearchData(mainSearchBar.getSearchTerms.bind(mainSearchBar));
+  // TODO : setSearchData change name
+  // TODO : passer par des arrow functions
+  search.setSearchData(() => {
+    mainSearchBar.getSearchTerms();
+  });
   search.setSearchData(keywords.getKeywords.bind(keywords));
 
   // Push functions that will generate lists and results in DOM to search
