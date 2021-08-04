@@ -40,12 +40,15 @@ export default class Keywords {
   // create and append keyword tag or delete from displayed list
   updateKeywordList() {
     const container = this.container;
+    const containerFragment = new DocumentFragment();
     container.innerHTML = '';
 
     this.selectedKeywords.forEach((keyword) => {
       const btn = this.createKeywordButton(keyword);
-      container.appendChild(btn);
+      containerFragment.appendChild(btn);
     });
+
+    container.appendChild(containerFragment);
   }
 
   // add keyword to map if not in it already, delete keyword if present, then updates the displayed list

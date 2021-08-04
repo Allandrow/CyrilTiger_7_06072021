@@ -14,21 +14,17 @@ export default class Dropdown {
     return img;
   }
 
-  attachDropdownEvents(details) {
-    // toggle events
-    details.addEventListener('toggle', (e) => {
-      if (!e.target.open) return;
-      const openDropdowns = document.querySelectorAll('.auxiliary-search[open]');
-      openDropdowns.forEach((dropdown) => {
-        if (dropdown === e.target) return;
-        dropdown.removeAttribute('open');
+  // filter list of displayed keywords based on search terms from dropdown input
+  filterKeywords(input, list) {
+    input.addEventListener('input', () => {
+      Array.from(list.childNodes).forEach((listItem) => {
+        const itemText = listItem.textContent.toLowerCase();
+        if (!itemText.includes(input.value)) {
+          listItem.style.display = 'none';
+        } else {
+          listItem.style.display = 'block';
+        }
       });
-    });
-
-    // click outside of an open details closes it
-    window.addEventListener('click', (e) => {
-      if (!details.open || e.target.closest('[open]') === details) return;
-      details.removeAttribute('open');
     });
   }
 
@@ -56,8 +52,13 @@ export default class Dropdown {
 
     details.append(summary, inputDiv, list);
 
-    this.attachDropdownEvents(details);
     this.filterKeywords(input, list);
+
+    // click outside of an open details closes it
+    window.addEventListener('click', (e) => {
+      if (!details.open || e.target.closest('[open]') === details) return;
+      details.removeAttribute('open');
+    });
 
     return details;
   }
@@ -71,6 +72,8 @@ export default class Dropdown {
   onChange(results) {
     const keywordSet = new Set();
     const list = this.list;
+    const listFragment = new DocumentFragment();
+    list.innerHTML = '';
 
     // fill set for each dropdown
     results.forEach((result) => {
@@ -87,9 +90,6 @@ export default class Dropdown {
       }
     });
 
-    // clear displayed list
-    list.innerHTML = '';
-
     // display new list
     keywordSet.forEach((keyword) => {
       const btn = document.createElement('button');
@@ -98,21 +98,8 @@ export default class Dropdown {
 
       const li = document.createElement('li');
       li.appendChild(btn);
-      list.appendChild(li);
+      listFragment.appendChild(li);
     });
-  }
-
-  // filter list of displayed keywords based on search terms from dropdown input
-  filterKeywords(input, list) {
-    input.addEventListener('input', () => {
-      Array.from(list.childNodes).forEach((listItem) => {
-        const itemText = listItem.textContent.toLowerCase();
-        if (!itemText.includes(input.value)) {
-          listItem.style.display = 'none';
-        } else {
-          listItem.style.display = 'block';
-        }
-      });
-    });
+    list.appendChild(listFragment);
   }
 }

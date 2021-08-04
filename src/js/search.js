@@ -51,7 +51,6 @@ export default class Search {
     const keywordsValues = Array.from(keywords.values());
 
     if (this.results.size > EMPTYSIZE) {
-      console.log('in');
       for (const recipe of recipes) {
         if (!this.verifyKeywordsInRecipe(recipe, keywordsValues)) {
           this.results.delete(recipe);

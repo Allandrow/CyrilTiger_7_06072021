@@ -22,24 +22,22 @@ export default class Results {
   // clear list of results and fill with new results
   onChange(results) {
     const container = this.container;
+    const containerFragment = new DocumentFragment();
     container.innerHTML = '';
-    container.remove();
 
     if (results.size === EMPTYSIZE) {
       const emptyResult = document.createElement('strong');
+      emptyResult.className = 'alert';
       emptyResult.textContent =
         'Aucune recette ne correspond à votre critère ... Vous pouvez chercher "tarte aux pommes", "poisson", etc';
-      emptyResult.className = 'alert';
-      container.appendChild(emptyResult);
-      return;
+      containerFragment.appendChild(emptyResult);
+    } else {
+      results.forEach((result) => {
+        const recipe = new Recipe(result);
+        const resultDOM = recipe.getDOM();
+        containerFragment.appendChild(resultDOM);
+      });
     }
-
-    results.forEach((result) => {
-      const resultObj = new Recipe(result);
-      const resultDOM = resultObj.getDOM();
-      container.appendChild(resultDOM);
-    });
-
-    document.body.append(container);
+    container.appendChild(containerFragment);
   }
 }

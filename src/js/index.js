@@ -6,10 +6,10 @@ import Search from './search.js';
 import recipes from './recipes.js';
 import { INGREDIENTS, APPLIANCE, USTENSILS } from './config.js';
 
-const displayPage = (mainSearch, keywords, dropdowns, results) => {
+const displayPage = (mainSearchBar, keywords, dropdowns, results) => {
   const container = document.getElementById('jsForm');
 
-  const mainSearchDOM = mainSearch.getDOM();
+  const mainSearchDOM = mainSearchBar.getDOM();
   const keywordsDOM = keywords.getDOM();
 
   const dropdownsContainer = document.createElement('div');
@@ -52,10 +52,10 @@ const onLoad = () => {
   const ingredientsDropdown = new Dropdown(INGREDIENTS);
   const applianceDropdown = new Dropdown(APPLIANCE);
   const ustensilsDropdown = new Dropdown(USTENSILS);
-  const results = new Results();
+  const dropdowns = [ingredientsDropdown, applianceDropdown, ustensilsDropdown];
   const keywords = new Keywords();
   const search = new Search(recipes);
-  const dropdowns = [ingredientsDropdown, applianceDropdown, ustensilsDropdown];
+  const results = new Results();
 
   // Display DOM with empty list and results
   displayPage(mainSearchBar, keywords, dropdowns, results);
