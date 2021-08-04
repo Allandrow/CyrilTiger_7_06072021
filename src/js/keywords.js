@@ -37,7 +37,7 @@ export default class Keywords {
     return button;
   }
 
-  // create and append keyword tag or delete from displayed list
+  // empty current list and append a new one
   updateKeywordList() {
     const container = this.container;
     const containerFragment = new DocumentFragment();

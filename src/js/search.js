@@ -46,34 +46,32 @@ export default class Search {
     return keywords.every((keyword) => this.verifyKeywordInRecipe(recipe, keyword));
   }
 
-  setResultsByKeywords(recipes, keywords) {
-    // filter recipes to check if recipe contains every keyword
+  setResultsByKeywords(keywords) {
     const keywordsValues = Array.from(keywords.values());
 
+    //if results is not empty, filter out results that don't have all keywords
     if (this.results.size > EMPTYSIZE) {
-      for (const recipe of recipes) {
-        if (!this.verifyKeywordsInRecipe(recipe, keywordsValues)) {
-          this.results.delete(recipe);
-        }
+      for (const recipe of this.results) {
+        const areKeywordsInRecipe = this.verifyKeywordsInRecipe(recipe, keywordsValues);
+        if (!areKeywordsInRecipe) this.results.delete(recipe);
       }
       return;
     }
-
-    const recipesWithKeywords = recipes.filter((recipe) =>
-      this.verifyKeywordsInRecipe(recipe, keywordsValues)
-    );
-    recipesWithKeywords.forEach((recipe) => this.results.add(recipe));
+    // if resulsts is empty, add recipes that have all keywords to results
+    this.recipes.forEach((recipe) => {
+      if (this.verifyKeywordsInRecipe(recipe, keywordsValues)) this.results.add(recipe);
+    });
   }
 
   isTermInRecipe(recipe, term) {
     const { name, description, ingredients } = recipe;
-    const nameLower = name.toLowerCase();
-    const descriptionLower = description.toLowerCase();
-    let recipeTexts = [nameLower, descriptionLower];
+    const nameLowerCase = name.toLowerCase();
+    const descriptionLowerCase = description.toLowerCase();
+    let recipeTexts = [nameLowerCase, descriptionLowerCase];
 
     ingredients.forEach((ingredient) => {
-      const ingredientLower = ingredient.ingredient.toLowerCase();
-      recipeTexts = [...recipeTexts, ingredientLower];
+      const ingredientLowerCase = ingredient.ingredient.toLowerCase();
+      recipeTexts = [...recipeTexts, ingredientLowerCase];
     });
     return recipeTexts.some((text) => text.includes(term));
   }
@@ -100,8 +98,7 @@ export default class Search {
       this.setResultsByTextSearch(this.recipes, data.searchTerms);
     }
     if (hasKeywords) {
-      const results = this.results.size === EMPTYSIZE ? this.recipes : this.results;
-      this.setResultsByKeywords(results, data.searchKeywords);
+      this.setResultsByKeywords(data.searchKeywords);
     }
 
     if (hasKeywords || hasSearchTerms) {

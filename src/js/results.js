@@ -25,6 +25,7 @@ export default class Results {
     const containerFragment = new DocumentFragment();
     container.innerHTML = '';
 
+    // display a message if search returns no result, display results if search find matches, display all recipes if no search
     if (results.size === EMPTYSIZE) {
       const emptyResult = document.createElement('strong');
       emptyResult.className = 'alert';
