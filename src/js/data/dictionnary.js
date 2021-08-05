@@ -62,15 +62,15 @@ recipes.forEach((recipe) => {
       const objInDictionnary = dictionnary.find((obj) => obj.substring === str);
       // substring is already in dictionnary, add recipe id to set of object
       if (objInDictionnary) {
-        objInDictionnary.recipeIds.add(recipe.id);
+        if (!objInDictionnary.recipeIds.includes(recipe.id)) {
+          objInDictionnary.recipeIds.push(recipe.id);
+        }
         return;
       }
       // substring is not in dictionnary, create object with substring: substring and recipeIdds: set
-      const recipeIds = new Set();
-      recipeIds.add(recipe.id);
       dictionnary.push({
         substring: str,
-        recipeIds
+        recipeIds: [recipe.id]
       });
     });
   });
