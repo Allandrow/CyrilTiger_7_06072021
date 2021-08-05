@@ -51,7 +51,7 @@ recipes.forEach((recipe) => {
   const { name, description, ingredients } = recipe;
   let recipeTexts = [name, description];
 
-  const ingredientsList = ingredients.forEach((ingredient) => {
+  ingredients.forEach((ingredient) => {
     recipeTexts = [...recipeTexts, ingredient.ingredient];
   });
   recipeTexts = recipeTexts.join(' ');
@@ -74,11 +74,9 @@ recipes.forEach((recipe) => {
       });
     });
   });
-  console.log(dictionnary);
 });
 
-// for (let i = 0; i <= len - 3; i++) {
-//   for (let j = 0; j <= i; j++) {
-//     console.log('i ' + i, 'j ' + j, word.slice(j, len - i + j));
-//   }
-// }
+fs.writeFile('index.json', JSON.stringify(dictionnary), function (err) {
+  if (err) throw err;
+  console.log('complete');
+});
