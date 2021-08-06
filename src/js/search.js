@@ -1,8 +1,36 @@
 /*
-  stores searchTerms, keywords and index
   handles search
   return results
 */
+
+import { MINQUERYLENGTH } from './config.js';
+
+export default class Search {
+  constructor(index) {
+    this.index = index;
+    this.searchTerms = new Set();
+    this.keywords = '';
+
+    const mainSearchInput = document.getElementById('mainSearch');
+
+    mainSearchInput.addEventListener('input', (e) => {
+      this.setSearchTerms(mainSearchInput.value);
+      if (this.searchTerms.size > 0) this.launchSearch();
+    });
+  }
+
+  setSearchTerms(value) {
+    this.searchTerms.clear();
+    const words = value.toLowerCase().split(' ');
+    words.forEach((word) => {
+      if (word.length >= MINQUERYLENGTH) this.searchTerms.add(word);
+    });
+  }
+
+  launchSearch() {
+    console.log('YALLA');
+  }
+}
 
 //#region FUNCTIONS TO DO
 // import { INGREDIENTS, APPLIANCE, USTENSILS, EMPTYSIZE } from './config.js';

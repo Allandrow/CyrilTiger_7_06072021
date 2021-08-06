@@ -2,8 +2,8 @@ import MainSearchBar from './mainSearchBar.js';
 import Dropdowns from './dropdowns.js';
 import Keywords from './keywords.js';
 import Results from './results.js';
+import Search from './search.js';
 
-// fetch index of substrings
 const getIndex = async () => {
   try {
     const index = await fetch('src/js/data/index.json');
@@ -14,18 +14,12 @@ const getIndex = async () => {
   }
 };
 
-// Initialize objects that show in the DOM
 const initDOMObjects = () => {
   const mainSearchBar = new MainSearchBar();
   const keywords = new Keywords();
   const dropdowns = new Dropdowns();
   const results = new Results();
   return [mainSearchBar, keywords, dropdowns, results];
-};
-
-const initSearch = (json) => {
-  // initialize search
-  // return object instance
 };
 
 const displayPage = (DOMObjects) => {
@@ -62,24 +56,18 @@ const displayPage = (DOMObjects) => {
   });
 };
 
-// init search
-// handle events
 const onLoad = async () => {
   const [index, err] = await getIndex();
   const DOMObjectInstances = initDOMObjects();
-  displayPage(DOMObjectInstances);
+  if (!err) {
+    displayPage(DOMObjectInstances);
+    const search = new Search(index);
+  }
 };
 
 window.addEventListener('DOMContentLoaded', onLoad);
 
 //#region FUNCTIONS TO DO
-
-//   window.addEventListener('click', (e) => {
-//       // TODO : change name to toggle
-//       keywords.onChange(targetId, target.textContent);
-//       search.launchSearch();
-//     }
-//   });
 
 // const handleMainSearchBarSearch = (mainSearchBar, search) => {
 //   const input = document.getElementById('mainSearch');
@@ -103,9 +91,6 @@ window.addEventListener('DOMContentLoaded', onLoad);
 //   // Push functions that will generate lists and results in DOM to search
 //   dropdowns.forEach((dropdown) => search.setResultsFunctions(dropdown.onChange.bind(dropdown)));
 //   search.setResultsFunctions(results.onChange.bind(results));
-
-//   // Fill lists and results on load based off all recipes
-//   search.displayResults();
 
 //   // Handle click event on keyword from dropdown list to add to keyword selection and search
 //   handleKeywordsSelection(keywords, search);
