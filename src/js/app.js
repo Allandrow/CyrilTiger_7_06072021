@@ -31,8 +31,11 @@ const initSearch = (json) => {
 const displayPage = (DOMObjects) => {
   const container = document.getElementById('jsForm');
   const fragment = new DocumentFragment();
+  const [, , dropdowns, results] = DOMObjects;
 
   DOMObjects.forEach((object) => fragment.appendChild(object.getDOM()));
+  dropdowns.updateDropdownsLists();
+  results.displayResults();
   container.appendChild(fragment);
 };
 
@@ -41,12 +44,12 @@ const displayPage = (DOMObjects) => {
 const onLoad = async () => {
   const [index, err] = await getIndex();
   const DOMObjectInstances = initDOMObjects();
-  const [, , , results] = DOMObjectInstances;
   displayPage(DOMObjectInstances);
-  results.displayResults();
 };
 
 window.addEventListener('DOMContentLoaded', onLoad);
+
+//#region FUNCTIONS TO DO
 
 // const handleKeywordsSelection = (keywords, search) => {
 //   window.addEventListener('click', (e) => {
@@ -75,18 +78,6 @@ window.addEventListener('DOMContentLoaded', onLoad);
 // };
 
 // const onLoad = () => {
-//   // init objects
-//   const mainSearchBar = new MainSearchBar();
-//   const ingredientsDropdown = new Dropdown(INGREDIENTS);
-//   const applianceDropdown = new Dropdown(APPLIANCE);
-//   const ustensilsDropdown = new Dropdown(USTENSILS);
-//   const dropdowns = [ingredientsDropdown, applianceDropdown, ustensilsDropdown];
-//   const keywords = new Keywords();
-//   const search = new Search(recipes);
-//   const results = new Results();
-
-//   // Display DOM with empty list and results
-//   displayPage(mainSearchBar, keywords, dropdowns, results);
 
 //   // Push functions that will get search Terms and keywords for search
 //   // TODO : setSearchData change name
@@ -107,3 +98,5 @@ window.addEventListener('DOMContentLoaded', onLoad);
 //   handleKeywordsSelection(keywords, search);
 //   handleMainSearchBarSearch(mainSearchBar, search);
 // };
+
+//#endregion

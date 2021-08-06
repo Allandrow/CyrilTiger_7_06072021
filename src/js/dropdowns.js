@@ -1,9 +1,12 @@
 import { APPLIANCE, INGREDIENTS, USTENSILS } from './config.js';
 import Dropdown from './dropdown.js';
+import recipes from './data/recipes.js';
 
 export default class Dropdowns {
   constructor() {
     this.container = '';
+    this.dropdowns = this.initDropdowns();
+    this.recipes = recipes;
   }
 
   initDropdowns() {
@@ -16,15 +19,16 @@ export default class Dropdowns {
   setDOM() {
     const container = document.createElement('div');
     container.className = 'dropdowns-container';
+    this.dropdowns.forEach((dropdown) => container.appendChild(dropdown.getDOM()));
     this.container = container;
-
-    const dropdowns = this.initDropdowns();
-    dropdowns.forEach((dropdown) => container.appendChild(dropdown.getDOM()));
-
     return container;
   }
 
   getDOM() {
     return this.setDOM();
+  }
+
+  updateDropdownsLists(results = this.recipes) {
+    this.dropdowns.forEach((dropdown) => dropdown.updateList(results));
   }
 }

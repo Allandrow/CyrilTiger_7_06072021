@@ -4,6 +4,7 @@
   return results
 */
 
+//#region FUNCTIONS TO DO
 // import { INGREDIENTS, APPLIANCE, USTENSILS, EMPTYSIZE } from './config.js';
 
 // export default class Search {
@@ -114,3 +115,4 @@
 //     });
 //   }
 // }
+//#endregion

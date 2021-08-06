@@ -15,15 +15,12 @@ export default class Keywords {
     return this.setDOM();
   }
 }
+
+//#region FUNCTION TO DO
 // export default class Keywords {
 //   constructor() {
 //     this.selectedKeywords = new Map();
 //     this.container = '';
-//   }
-
-//   // return DOM of keywords container
-//   getDOM() {
-//     return this.createDOM();
 //   }
 
 //   // return keywords selection
@@ -70,3 +67,4 @@ export default class Keywords {
 //     this.updateKeywordList();
 //   }
 // }
+//#endregion

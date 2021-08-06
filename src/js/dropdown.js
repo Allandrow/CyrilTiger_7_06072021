@@ -1,10 +1,4 @@
-/*
-  display specific dropdown
-  handle tag click
-  filter tag list
-*/
-
-import { dropdownTexts } from './config.js';
+import { APPLIANCE, dropdownTexts, INGREDIENTS, USTENSILS } from './config.js';
 
 export default class Dropdown {
   constructor(id) {
@@ -13,8 +7,6 @@ export default class Dropdown {
     this.placeholder = dropdownTexts[id].placeholder;
     this.list = '';
     this.input = '';
-
-    // filter list via input here
   }
 
   createArrowIMG() {
@@ -47,9 +39,21 @@ export default class Dropdown {
 
     details.append(summary, inputDiv, list);
 
+    //filter keywords from list
+    input.addEventListener('input', () => {
+      Array.from(list.childNodes).forEach((listItem) => {
+        const itemText = listItem.textContent.toLowerCase();
+        if (!itemText.includes(input.value)) {
+          listItem.style.display = 'none';
+        } else {
+          listItem.style.display = 'block';
+        }
+      });
+    });
+
     // click outside of an open details closes it
     window.addEventListener('click', (e) => {
-      if (!details.open || e.target.closest('[open]' === details)) return;
+      if (!details.open || e.target.closest('[open]') === details) return;
       details.removeAttribute('open');
     });
 
@@ -59,58 +63,39 @@ export default class Dropdown {
   getDOM() {
     return this.setDOM();
   }
+
+  createListItem(keyword) {
+    const btn = document.createElement('button');
+    // btn.setAttribute('data-id', this.id);
+    btn.textContent = keyword;
+
+    const li = document.createElement('li');
+    li.appendChild(btn);
+    return li;
+  }
+
+  updateList(results) {
+    const keywordSet = new Set();
+    const fragment = new DocumentFragment();
+    this.list.innerHTML = '';
+
+    results.forEach((result) => {
+      switch (this.id) {
+        case INGREDIENTS:
+          result.ingredients.forEach((ingredientItem) => keywordSet.add(ingredientItem.ingredient));
+          break;
+        case APPLIANCE:
+          keywordSet.add(result.appliance);
+          break;
+        case USTENSILS:
+          result.ustensils.every((ustensil) => keywordSet.add(ustensil));
+          break;
+      }
+    });
+
+    keywordSet.forEach((keyword) => {
+      fragment.appendChild(this.createListItem(keyword));
+    });
+    this.list.appendChild(fragment);
+  }
 }
-
-// createDOM() {
-//   this.filterKeywords(input, list);
-// }
-
-//   // filter list of displayed keywords based on search terms from dropdown input
-//   filterKeywords(input, list) {
-//     input.addEventListener('input', () => {
-//       Array.from(list.childNodes).forEach((listItem) => {
-//         const itemText = listItem.textContent.toLowerCase();
-//         if (!itemText.includes(input.value)) {
-//           listItem.style.display = 'none';
-//         } else {
-//           listItem.style.display = 'block';
-//         }
-//       });
-//     });
-//   }
-
-//   // clear list and fill with new results
-//   onChange(results) {
-//     const keywordSet = new Set();
-//     const list = this.list;
-//     const listFragment = new DocumentFragment();
-//     list.innerHTML = '';
-
-//     // fill set for each dropdown
-//     results.forEach((result) => {
-//       switch (this.id) {
-//         case INGREDIENTS:
-//           result.ingredients.forEach((ingredientItem) => keywordSet.add(ingredientItem.ingredient));
-//           break;
-//         case APPLIANCE:
-//           keywordSet.add(result.appliance);
-//           break;
-//         case USTENSILS:
-//           result.ustensils.every((ustensil) => keywordSet.add(ustensil));
-//           break;
-//       }
-//     });
-
-//     // display new list
-//     keywordSet.forEach((keyword) => {
-//       const btn = document.createElement('button');
-//       btn.setAttribute('data-id', this.id);
-//       btn.textContent = keyword;
-
-//       const li = document.createElement('li');
-//       li.appendChild(btn);
-//       listFragment.appendChild(li);
-//     });
-//     list.appendChild(listFragment);
-//   }
-// }
