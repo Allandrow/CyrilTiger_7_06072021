@@ -1,6 +1,9 @@
+import Keyword from './keyword.js';
+
 export default class Keywords {
   constructor() {
     this.container = '';
+    this.list = new Map();
   }
 
   setDOM() {
@@ -14,57 +17,30 @@ export default class Keywords {
   getDOM() {
     return this.setDOM();
   }
+
+  toggleKeyword(keyword) {
+    const { id, text } = keyword;
+    const keywordHash = `${id}-${text}`;
+    if (this.list.get(keywordHash)) {
+      this.list.delete(keywordHash);
+    } else {
+      this.list.set(keywordHash, { id, text });
+    }
+    this.updateKeywordList();
+  }
+
+  updateKeywordList() {
+    const fragment = new DocumentFragment();
+    this.container.innerHTML = '';
+
+    this.list.forEach((tag) => {
+      const keyword = new Keyword(tag.id, tag.text);
+      fragment.appendChild(keyword.getDOM());
+    });
+    this.container.appendChild(fragment);
+  }
+
+  getKeywords() {
+    return this.list;
+  }
 }
-
-//#region FUNCTION TO DO
-// export default class Keywords {
-//   constructor() {
-//     this.selectedKeywords = new Map();
-//     this.container = '';
-//   }
-
-//   // return keywords selection
-//   getKeywords() {
-//     return this.selectedKeywords;
-//   }
-
-//   // create keyword DOM element
-//   createKeywordButton(mapKeyword) {
-//     const button = document.createElement('button');
-//     button.classList.add('keyword', `${mapKeyword.id}-color`);
-//     button.setAttribute('data-id', mapKeyword.id);
-//     button.textContent = mapKeyword.label;
-
-//     const img = document.createElement('img');
-//     img.src = 'dist/img/cross.svg';
-
-//     button.appendChild(img);
-//     return button;
-//   }
-
-//   // empty current list and append a new one
-//   updateKeywordList() {
-//     const container = this.container;
-//     const containerFragment = new DocumentFragment();
-//     container.innerHTML = '';
-
-//     this.selectedKeywords.forEach((keyword) => {
-//       const btn = this.createKeywordButton(keyword);
-//       containerFragment.appendChild(btn);
-//     });
-
-//     container.appendChild(containerFragment);
-//   }
-
-//   // add keyword to map if not in it already, delete keyword if present, then updates the displayed list
-//   onChange(id, label) {
-//     const keywordHash = `${id}-${label}`;
-//     if (this.selectedKeywords.get(keywordHash)) {
-//       this.selectedKeywords.delete(keywordHash);
-//     } else {
-//       this.selectedKeywords.set(keywordHash, { id, label });
-//     }
-//     this.updateKeywordList();
-//   }
-// }
-//#endregion

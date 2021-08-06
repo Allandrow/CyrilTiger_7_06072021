@@ -1,3 +1,5 @@
+// TODO : handle tag selection to make a keyword
+
 import { APPLIANCE, dropdownTexts, INGREDIENTS, USTENSILS } from './config.js';
 
 export default class Dropdown {
@@ -51,12 +53,6 @@ export default class Dropdown {
       });
     });
 
-    // click outside of an open details closes it
-    window.addEventListener('click', (e) => {
-      if (!details.open || e.target.closest('[open]') === details) return;
-      details.removeAttribute('open');
-    });
-
     return details;
   }
 
@@ -66,7 +62,7 @@ export default class Dropdown {
 
   createListItem(keyword) {
     const btn = document.createElement('button');
-    // btn.setAttribute('data-id', this.id);
+    btn.setAttribute('data-id', this.id);
     btn.textContent = keyword;
 
     const li = document.createElement('li');

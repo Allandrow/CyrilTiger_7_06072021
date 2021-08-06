@@ -31,12 +31,35 @@ const initSearch = (json) => {
 const displayPage = (DOMObjects) => {
   const container = document.getElementById('jsForm');
   const fragment = new DocumentFragment();
-  const [, , dropdowns, results] = DOMObjects;
+  const [, keywords, dropdowns, results] = DOMObjects;
 
   DOMObjects.forEach((object) => fragment.appendChild(object.getDOM()));
   dropdowns.updateDropdownsLists();
   results.displayResults();
   container.appendChild(fragment);
+
+  window.addEventListener('click', (e) => {
+    const details = document.querySelector('details[open]');
+    const dropdownButtons = document.querySelectorAll('.dropdown li button');
+    const isTargetDropdownButton = Array.from(dropdownButtons).find((btn) => e.target === btn);
+    const isTargetKeyword = e.target.closest('.keyword');
+    const target = isTargetDropdownButton || isTargetKeyword;
+
+    if (!details || e.target.closest('[open]') === details || isTargetKeyword) {
+      if (target) {
+        e.preventDefault();
+        if (isTargetDropdownButton) details.removeAttribute('open');
+        const btnId = e.target.getAttribute('data-id');
+        const keyword = {
+          id: btnId,
+          text: e.target.textContent
+        };
+        keywords.toggleKeyword(keyword);
+      }
+      return;
+    }
+    details.removeAttribute('open');
+  });
 };
 
 // init search
@@ -51,22 +74,12 @@ window.addEventListener('DOMContentLoaded', onLoad);
 
 //#region FUNCTIONS TO DO
 
-// const handleKeywordsSelection = (keywords, search) => {
 //   window.addEventListener('click', (e) => {
-//     const isTargetInDropdown = e.target.closest('.dropdown button');
-//     const isTargetKeyword = e.target.closest('.keyword');
-//     const target = isTargetInDropdown || isTargetKeyword;
-//     if (target) {
-//       e.preventDefault();
-//       if (isTargetInDropdown) target.closest('details').removeAttribute('open');
-
-//       const targetId = target.getAttribute('data-id');
 //       // TODO : change name to toggle
 //       keywords.onChange(targetId, target.textContent);
 //       search.launchSearch();
 //     }
 //   });
-// };
 
 // const handleMainSearchBarSearch = (mainSearchBar, search) => {
 //   const input = document.getElementById('mainSearch');
