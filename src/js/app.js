@@ -1,13 +1,7 @@
-/*
-  onLoad
-    fetch index
-    init objects
-    setup callbacks launched on change from search/keywords selections
-    
-    display DOM elements
-    handle events and sens callbacks to objects
-    
-    */
+import MainSearchBar from './mainSearchBar.js';
+import Dropdowns from './dropdowns.js';
+import Keywords from './keywords.js';
+import Results from './results.js';
 
 // fetch index of substrings
 const getIndex = async () => {
@@ -20,13 +14,13 @@ const getIndex = async () => {
   }
 };
 
+// Initialize objects that show in the DOM
 const initDOMObjects = () => {
-  // initialize objects
-  // mainSearchBar
-  // dropdowns
-  // keywords
-  // results
-  // return objects instances
+  const mainSearchBar = new MainSearchBar();
+  const keywords = new Keywords();
+  const dropdowns = new Dropdowns();
+  const results = new Results();
+  return [mainSearchBar, keywords, dropdowns, results];
 };
 
 const initSearch = (json) => {
@@ -34,34 +28,25 @@ const initSearch = (json) => {
   // return object instance
 };
 
-const displayPage = () => {
-  // call getDOM() of objects
+const displayPage = (DOMObjects) => {
+  const container = document.getElementById('jsForm');
+  const fragment = new DocumentFragment();
+
+  DOMObjects.forEach((object) => fragment.appendChild(object.getDOM()));
+  container.appendChild(fragment);
 };
 
-// fetch index
-// display DOM
 // init search
 // handle events
 const onLoad = async () => {
   const [index, err] = await getIndex();
+  const DOMObjectInstances = initDOMObjects();
+  const [, , , results] = DOMObjectInstances;
+  displayPage(DOMObjectInstances);
+  results.displayResults();
 };
 
 window.addEventListener('DOMContentLoaded', onLoad);
-
-// const displayPage = (mainSearchBar, keywords, dropdowns, results) => {
-//   const container = document.getElementById('jsForm');
-
-//   const mainSearchDOM = mainSearchBar.getDOM();
-//   const keywordsDOM = keywords.getDOM();
-
-//   const dropdownsContainer = document.createElement('div');
-//   dropdownsContainer.className = 'dropdowns-container';
-//   dropdowns.forEach((dropdown) => dropdownsContainer.appendChild(dropdown.getDOM()));
-
-//   const resultsDOM = results.getDOM();
-
-//   container.append(mainSearchDOM, keywordsDOM, dropdownsContainer, resultsDOM);
-// };
 
 // const handleKeywordsSelection = (keywords, search) => {
 //   window.addEventListener('click', (e) => {

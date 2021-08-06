@@ -1,20 +1,24 @@
-/*
-  Contains keywords
-*/
+export default class Keywords {
+  constructor() {
+    this.container = '';
+  }
 
+  setDOM() {
+    const container = document.createElement('div');
+    container.className = 'keywords-container';
+    container.id = 'jsKeywords';
+    this.container = container;
+    return container;
+  }
+
+  getDOM() {
+    return this.setDOM();
+  }
+}
 // export default class Keywords {
 //   constructor() {
 //     this.selectedKeywords = new Map();
 //     this.container = '';
-//   }
-
-//   // create keywords container
-//   createDOM() {
-//     const container = document.createElement('div');
-//     container.className = 'keywords-container';
-//     container.id = 'jsKeywords';
-//     this.container = container;
-//     return container;
 //   }
 
 //   // return DOM of keywords container

@@ -4,21 +4,66 @@
   filter tag list
 */
 
-// import { dropdownTexts, INGREDIENTS, APPLIANCE, USTENSILS } from './config.js';
+import { dropdownTexts } from './config.js';
 
-// export default class Dropdown {
-//   constructor(id) {
-//     this.id = id;
-//     this.summaryText = dropdownTexts[id].summaryText;
-//     this.placeholder = dropdownTexts[id].placeholder;
-//     this.list = '';
-//   }
+export default class Dropdown {
+  constructor(id) {
+    this.id = id;
+    this.summaryText = dropdownTexts[id].summaryText;
+    this.placeholder = dropdownTexts[id].placeholder;
+    this.list = '';
+    this.input = '';
 
-//   createArrowIMG() {
-//     const img = document.createElement('img');
-//     img.src = 'dist/img/arrow.svg';
-//     return img;
-//   }
+    // filter list via input here
+  }
+
+  createArrowIMG() {
+    const img = document.createElement('img');
+    img.src = 'dist/img/arrow.svg';
+    return img;
+  }
+
+  setDOM() {
+    const details = document.createElement('details');
+    details.classList.add('dropdown', `${this.id}-color`);
+
+    const summary = document.createElement('summary');
+    summary.textContent = this.summaryText;
+    summary.append(this.createArrowIMG());
+
+    const inputDiv = document.createElement('div');
+    inputDiv.className = 'inputGroup';
+
+    const input = document.createElement('input');
+    input.id = `${this.id}Search`;
+    input.type = 'text';
+    input.placeholder = `Recherche un ${this.placeholder}`;
+    this.input = input;
+    inputDiv.append(input, this.createArrowIMG());
+
+    const list = document.createElement('ul');
+    list.id = `${this.id}List`;
+    this.list = list;
+
+    details.append(summary, inputDiv, list);
+
+    // click outside of an open details closes it
+    window.addEventListener('click', (e) => {
+      if (!details.open || e.target.closest('[open]' === details)) return;
+      details.removeAttribute('open');
+    });
+
+    return details;
+  }
+
+  getDOM() {
+    return this.setDOM();
+  }
+}
+
+// createDOM() {
+//   this.filterKeywords(input, list);
+// }
 
 //   // filter list of displayed keywords based on search terms from dropdown input
 //   filterKeywords(input, list) {
@@ -32,46 +77,6 @@
 //         }
 //       });
 //     });
-//   }
-
-//   // create a dropdown
-//   createDOM() {
-//     const details = document.createElement('details');
-//     details.classList.add('dropdown', `${this.id}-color`);
-
-//     const summary = document.createElement('summary');
-//     summary.textContent = this.summaryText;
-//     summary.append(this.createArrowIMG());
-
-//     const inputDiv = document.createElement('div');
-//     inputDiv.className = 'inputGroup';
-
-//     const input = document.createElement('input');
-//     input.id = `${this.id}Search`;
-//     input.type = 'text';
-//     input.placeholder = `Recherche un ${this.placeholder}`;
-//     inputDiv.append(input, this.createArrowIMG());
-
-//     const list = document.createElement('ul');
-//     list.id = `${this.id}List`;
-//     this.list = list;
-
-//     details.append(summary, inputDiv, list);
-
-//     this.filterKeywords(input, list);
-
-//     // click outside of an open details closes it
-//     window.addEventListener('click', (e) => {
-//       if (!details.open || e.target.closest('[open]') === details) return;
-//       details.removeAttribute('open');
-//     });
-
-//     return details;
-//   }
-
-//   // return DOM of dropdown
-//   getDOM() {
-//     return this.createDOM();
 //   }
 
 //   // clear list and fill with new results
