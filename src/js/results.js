@@ -1,44 +1,48 @@
-import { EMPTYSIZE } from './config.js';
-import Recipe from './recipe.js';
+/*
+  Contains results
+*/
 
-export default class Results {
-  constructor() {
-    this.container = '';
-  }
-  // create results container
-  createDOM() {
-    const container = document.createElement('div');
-    container.id = 'jsResults';
-    container.className = 'results-container';
-    this.container = container;
-    return container;
-  }
+// import { EMPTYSIZE } from './config.js';
+// import Recipe from './recipe.js';
 
-  // return DOM of results container
-  getDOM() {
-    return this.createDOM();
-  }
+// export default class Results {
+//   constructor() {
+//     this.container = '';
+//   }
+//   // create results container
+//   createDOM() {
+//     const container = document.createElement('div');
+//     container.id = 'jsResults';
+//     container.className = 'results-container';
+//     this.container = container;
+//     return container;
+//   }
 
-  // clear list of results and fill with new results
-  onChange(results) {
-    const container = this.container;
-    const containerFragment = new DocumentFragment();
-    container.innerHTML = '';
+//   // return DOM of results container
+//   getDOM() {
+//     return this.createDOM();
+//   }
 
-    // display a message if search returns no result, display results if search find matches, display all recipes if no search
-    if (results.size === EMPTYSIZE) {
-      const emptyResult = document.createElement('strong');
-      emptyResult.className = 'alert';
-      emptyResult.textContent =
-        'Aucune recette ne correspond à votre critère ... Vous pouvez chercher "tarte aux pommes", "poisson", etc';
-      containerFragment.appendChild(emptyResult);
-    } else {
-      results.forEach((result) => {
-        const recipe = new Recipe(result);
-        const resultDOM = recipe.getDOM();
-        containerFragment.appendChild(resultDOM);
-      });
-    }
-    container.appendChild(containerFragment);
-  }
-}
+//   // clear list of results and fill with new results
+//   onChange(results) {
+//     const container = this.container;
+//     const containerFragment = new DocumentFragment();
+//     container.innerHTML = '';
+
+//     // display a message if search returns no result, display results if search find matches, display all recipes if no search
+//     if (results.size === EMPTYSIZE) {
+//       const emptyResult = document.createElement('strong');
+//       emptyResult.className = 'alert';
+//       emptyResult.textContent =
+//         'Aucune recette ne correspond à votre critère ... Vous pouvez chercher "tarte aux pommes", "poisson", etc';
+//       containerFragment.appendChild(emptyResult);
+//     } else {
+//       results.forEach((result) => {
+//         const recipe = new Recipe(result);
+//         const resultDOM = recipe.getDOM();
+//         containerFragment.appendChild(resultDOM);
+//       });
+//     }
+//     container.appendChild(containerFragment);
+//   }
+// }

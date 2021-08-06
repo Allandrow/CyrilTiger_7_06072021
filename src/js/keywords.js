@@ -1,64 +1,68 @@
-export default class Keywords {
-  constructor() {
-    this.selectedKeywords = new Map();
-    this.container = '';
-  }
+/*
+  Contains keywords
+*/
 
-  // create keywords container
-  createDOM() {
-    const container = document.createElement('div');
-    container.className = 'keywords-container';
-    container.id = 'jsKeywords';
-    this.container = container;
-    return container;
-  }
+// export default class Keywords {
+//   constructor() {
+//     this.selectedKeywords = new Map();
+//     this.container = '';
+//   }
 
-  // return DOM of keywords container
-  getDOM() {
-    return this.createDOM();
-  }
+//   // create keywords container
+//   createDOM() {
+//     const container = document.createElement('div');
+//     container.className = 'keywords-container';
+//     container.id = 'jsKeywords';
+//     this.container = container;
+//     return container;
+//   }
 
-  // return keywords selection
-  getKeywords() {
-    return this.selectedKeywords;
-  }
+//   // return DOM of keywords container
+//   getDOM() {
+//     return this.createDOM();
+//   }
 
-  // create keyword DOM element
-  createKeywordButton(mapKeyword) {
-    const button = document.createElement('button');
-    button.classList.add('keyword', `${mapKeyword.id}-color`);
-    button.setAttribute('data-id', mapKeyword.id);
-    button.textContent = mapKeyword.label;
+//   // return keywords selection
+//   getKeywords() {
+//     return this.selectedKeywords;
+//   }
 
-    const img = document.createElement('img');
-    img.src = 'dist/img/cross.svg';
+//   // create keyword DOM element
+//   createKeywordButton(mapKeyword) {
+//     const button = document.createElement('button');
+//     button.classList.add('keyword', `${mapKeyword.id}-color`);
+//     button.setAttribute('data-id', mapKeyword.id);
+//     button.textContent = mapKeyword.label;
 
-    button.appendChild(img);
-    return button;
-  }
+//     const img = document.createElement('img');
+//     img.src = 'dist/img/cross.svg';
 
-  // empty current list and append a new one
-  updateKeywordList() {
-    const container = this.container;
-    const containerFragment = new DocumentFragment();
-    container.innerHTML = '';
+//     button.appendChild(img);
+//     return button;
+//   }
 
-    this.selectedKeywords.forEach((keyword) => {
-      const btn = this.createKeywordButton(keyword);
-      containerFragment.appendChild(btn);
-    });
+//   // empty current list and append a new one
+//   updateKeywordList() {
+//     const container = this.container;
+//     const containerFragment = new DocumentFragment();
+//     container.innerHTML = '';
 
-    container.appendChild(containerFragment);
-  }
+//     this.selectedKeywords.forEach((keyword) => {
+//       const btn = this.createKeywordButton(keyword);
+//       containerFragment.appendChild(btn);
+//     });
 
-  // add keyword to map if not in it already, delete keyword if present, then updates the displayed list
-  onChange(id, label) {
-    const keywordHash = `${id}-${label}`;
-    if (this.selectedKeywords.get(keywordHash)) {
-      this.selectedKeywords.delete(keywordHash);
-    } else {
-      this.selectedKeywords.set(keywordHash, { id, label });
-    }
-    this.updateKeywordList();
-  }
-}
+//     container.appendChild(containerFragment);
+//   }
+
+//   // add keyword to map if not in it already, delete keyword if present, then updates the displayed list
+//   onChange(id, label) {
+//     const keywordHash = `${id}-${label}`;
+//     if (this.selectedKeywords.get(keywordHash)) {
+//       this.selectedKeywords.delete(keywordHash);
+//     } else {
+//       this.selectedKeywords.set(keywordHash, { id, label });
+//     }
+//     this.updateKeywordList();
+//   }
+// }

@@ -1,39 +1,43 @@
-import { MINQUERYLENGTH } from './config.js';
+/* 
+  Contains text search field
+*/
 
-export default class MainSearchBar {
-  constructor() {
-    this.searchTerms = new Set();
-  }
+// import { MINQUERYLENGTH } from './config.js';
 
-  // Create search bar
-  createDOM() {
-    const label = document.createElement('label');
-    label.setAttribute('for', 'mainSearch');
-    label.className = 'main-search';
+// export default class MainSearchBar {
+//   constructor() {
+//     this.searchTerms = new Set();
+//   }
 
-    const input = document.createElement('input');
-    input.type = 'search';
-    input.id = 'mainSearch';
-    input.placeholder = 'Rechercher un ingrédient, appareil, ustensiles ou une recette';
+//   // Create search bar
+//   createDOM() {
+//     const label = document.createElement('label');
+//     label.setAttribute('for', 'mainSearch');
+//     label.className = 'main-search';
 
-    label.appendChild(input);
-    return label;
-  }
+//     const input = document.createElement('input');
+//     input.type = 'search';
+//     input.id = 'mainSearch';
+//     input.placeholder = 'Rechercher un ingrédient, appareil, ustensiles ou une recette';
 
-  getDOM() {
-    return this.createDOM();
-  }
+//     label.appendChild(input);
+//     return label;
+//   }
 
-  setSearchTerms(value) {
-    this.searchTerms.clear();
-    const words = value.toLowerCase().split(' ');
+//   getDOM() {
+//     return this.createDOM();
+//   }
 
-    words.forEach((word) => {
-      if (word.length >= MINQUERYLENGTH) this.searchTerms.add(word);
-    });
-  }
+//   setSearchTerms(value) {
+//     this.searchTerms.clear();
+//     const words = value.toLowerCase().split(' ');
 
-  getSearchTerms() {
-    return this.searchTerms;
-  }
-}
+//     words.forEach((word) => {
+//       if (word.length >= MINQUERYLENGTH) this.searchTerms.add(word);
+//     });
+//   }
+
+//   getSearchTerms() {
+//     return this.searchTerms;
+//   }
+// }

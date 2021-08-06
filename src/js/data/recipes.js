@@ -1,4 +1,4 @@
-module.exports = recipes = [
+const recipes = [
   {
     id: 1,
     name: 'Limonade de Coco',
@@ -1773,3 +1773,5 @@ module.exports = recipes = [
     ustensils: ['rouleau à patisserie', 'fouet']
   }
 ];
+
+export default recipes;
