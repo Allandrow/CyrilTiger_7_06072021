@@ -1,3 +1,4 @@
+import recipes from './data/recipes.js';
 import { MINQUERYLENGTH } from './config.js';
 
 export default class Search {
@@ -5,7 +6,9 @@ export default class Search {
     this.index = index;
     this.searchTerms = new Set();
     this.keywords = '';
-    this.results = [];
+    this.recipes = recipes;
+    this.results = new Set();
+    this.resultsCallbacks = [];
 
     const mainSearchInput = document.getElementById('mainSearch');
 
@@ -23,58 +26,47 @@ export default class Search {
     });
   }
 
-  startSearch() {
-    if (this.searchTerms.size > 0) {
-      this.setResultsByTextSearch();
-    }
-  }
-
   setResultsByTextSearch() {
-    //get index recipes from each search terms
-    //filter recipes that aren't matching every term
     let resultIds = [];
     this.searchTerms.forEach((term) => {
       const match = this.index.find((wordIndex) => wordIndex.substring === term);
       resultIds = [...resultIds, match.recipeIds];
     });
+    // filter common occurences in arrays
     const results = resultIds.shift().filter((val) => {
       return resultIds.every((arr) => arr.indexOf(val) !== -1);
     });
-    this.results = results;
+    results.forEach((id) => {
+      const result = this.recipes.find((recipe) => recipe.id === id);
+      this.results.add(result);
+    });
+  }
+
+  startSearch() {
+    this.results.clear();
+    const hasSearchTerms = this.searchTerms.size > 0;
+    const hasKeywords = this.keywords;
+
+    if (hasSearchTerms || hasKeywords) {
+      if (this.searchTerms.size > 0) {
+        this.setResultsByTextSearch();
+      }
+      this.onSearchResults(this.results);
+    }
+  }
+
+  setResultsCallbacks(callback) {
+    this.resultsCallbacks.push(callback);
+  }
+
+  onSearchResults(results) {
+    this.resultsCallbacks.forEach((cb) => {
+      cb(results);
+    });
   }
 }
 
 //#region FUNCTIONS TO DO
-
-// export default class Search {
-//   constructor(recipes, index) {
-//     this.dataFuncs = [];
-//     this.resultFuncs = [];
-//     this.results = new Set();
-//     this.recipes = recipes;
-//     this.index = index;
-//   }
-
-//   setSearchData(callback) {
-//     this.dataFuncs.push(callback);
-//   }
-
-//   getSearchData() {
-//     let searchTerms;
-//     let searchKeywords;
-//     this.dataFuncs.forEach((func) => {
-//       if (func() instanceof Set) {
-//         searchTerms = func();
-//       }
-//       if (func() instanceof Map) {
-//         searchKeywords = func();
-//       }
-//     });
-//     return {
-//       searchTerms,
-//       searchKeywords
-//     };
-//   }
 
 //   verifyKeywordInRecipe(recipe, keyword) {
 //     const id = keyword.id;
@@ -108,17 +100,6 @@ export default class Search {
 //     this.recipes.forEach((recipe) => {
 //       if (this.verifyKeywordsInRecipe(recipe, keywordsValues)) this.results.add(recipe);
 //     });
-//   }
-
-//   // filter results based on searchTerms
-//   setResultsByTextSearch(recipes, searchTerms) {
-//     const terms = Array.from(searchTerms);
-//     let results = new Set();
-//     recipes.forEach((recipe) => {
-//       const hasAllTermsInRecipe = terms.every((term) => this.isTermInRecipe(recipe, term));
-//       if (hasAllTermsInRecipe) results.add(recipe);
-//     });
-//     this.results = results;
 //   }
 
 //   // search matching results from recipes and add match to results

@@ -22,6 +22,14 @@ const initDOMObjects = () => {
   return [mainSearchBar, keywords, dropdowns, results];
 };
 
+const initSearch = (DOMInstances, index) => {
+  const [, , dropdowns, results] = DOMInstances;
+  const search = new Search(index);
+  search.setResultsCallbacks(dropdowns.updateDropdownsLists.bind(dropdowns));
+  search.setResultsCallbacks(results.displayResults.bind(results));
+  return search;
+};
+
 const displayPage = (DOMObjects) => {
   const container = document.getElementById('jsForm');
   const fragment = new DocumentFragment();
@@ -61,7 +69,7 @@ const onLoad = async () => {
   const DOMObjectInstances = initDOMObjects();
   if (!err) {
     displayPage(DOMObjectInstances);
-    const search = new Search(index);
+    const search = initSearch(DOMObjectInstances, index);
   }
 };
 
