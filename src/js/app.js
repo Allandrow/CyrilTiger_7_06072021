@@ -14,6 +14,8 @@ const getIndex = async () => {
   }
 };
 
+// init components
+// use objects instead of arrays
 const initDOMObjects = () => {
   const mainSearchBar = new MainSearchBar();
   const keywords = new Keywords();
@@ -26,7 +28,8 @@ const initSearch = (DOMInstances, index) => {
   const [, , dropdowns, results] = DOMInstances;
   const search = new Search(index);
   search.setResultsCallbacks(dropdowns.updateDropdownsLists.bind(dropdowns));
-  search.setResultsCallbacks(results.displayResults.bind(results));
+  // search.setResultsCallbacks(results.displayResults.bind(results));
+  search.setResultsCallbacks((recipes) => results.displayResults(recipes));
   return search;
 };
 

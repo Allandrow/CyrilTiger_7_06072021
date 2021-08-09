@@ -11,16 +11,18 @@ export default class Search {
     this.resultsCallbacks = [];
   }
 
+  // TODO : start search when size changes
   setSearchTerms(value) {
     this.searchTerms.clear();
     const words = value.toLowerCase().split(' ');
     words.forEach((word) => {
       if (word.length >= MINQUERYLENGTH) this.searchTerms.add(word);
     });
-    if (this.searchTerms.size > 0) this.startSearch();
+    if (this.searchTerms.size > 0) this.search();
   }
 
-  setResultsByTextSearch() {
+  // TODO : CONFUSING FUNCTION NAME
+  searchByTerms() {
     let resultIds = [];
     this.searchTerms.forEach((term) => {
       const match = this.index.find((wordIndex) => wordIndex.substring === term);
@@ -78,14 +80,14 @@ export default class Search {
   // }
   //#endregion
 
-  startSearch() {
+  search() {
     this.results.clear();
     const hasSearchTerms = this.searchTerms.size > 0;
     // const hasKeywords = this.keywords.size > 0;
 
     // if (hasSearchTerms || hasKeywords) {
     if (hasSearchTerms) {
-      this.setResultsByTextSearch();
+      this.searchByTerms();
     }
     // if (hasKeywords) {
     //   this.setResultsByKeywords();
