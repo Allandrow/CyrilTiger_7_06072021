@@ -1,8 +1,3 @@
-/*
-  handles search
-  return results
-*/
-
 import { MINQUERYLENGTH } from './config.js';
 
 export default class Search {
@@ -10,12 +5,13 @@ export default class Search {
     this.index = index;
     this.searchTerms = new Set();
     this.keywords = '';
+    this.results = [];
 
     const mainSearchInput = document.getElementById('mainSearch');
 
     mainSearchInput.addEventListener('input', (e) => {
       this.setSearchTerms(mainSearchInput.value);
-      if (this.searchTerms.size > 0) this.launchSearch();
+      if (this.searchTerms.size > 0) this.startSearch();
     });
   }
 
@@ -27,13 +23,28 @@ export default class Search {
     });
   }
 
-  launchSearch() {
-    console.log('YALLA');
+  startSearch() {
+    if (this.searchTerms.size > 0) {
+      this.setResultsByTextSearch();
+    }
+  }
+
+  setResultsByTextSearch() {
+    //get index recipes from each search terms
+    //filter recipes that aren't matching every term
+    let resultIds = [];
+    this.searchTerms.forEach((term) => {
+      const match = this.index.find((wordIndex) => wordIndex.substring === term);
+      resultIds = [...resultIds, match.recipeIds];
+    });
+    const results = resultIds.shift().filter((val) => {
+      return resultIds.every((arr) => arr.indexOf(val) !== -1);
+    });
+    this.results = results;
   }
 }
 
 //#region FUNCTIONS TO DO
-// import { INGREDIENTS, APPLIANCE, USTENSILS, EMPTYSIZE } from './config.js';
 
 // export default class Search {
 //   constructor(recipes, index) {
