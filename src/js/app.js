@@ -39,70 +39,42 @@ const displayPage = (DOMObjects) => {
   dropdowns.updateDropdownsLists();
   results.displayResults();
   container.appendChild(fragment);
+};
+
+const handleSearchDataChange = (DOMInstances, search) => {
+  const mainSearchInput = document.getElementById('mainSearch');
+  const [, keywords, ,] = DOMInstances;
+
+  mainSearchInput.addEventListener('input', (e) => {
+    search.setSearchTerms(mainSearchInput.value);
+  });
 
   window.addEventListener('click', (e) => {
-    const details = document.querySelector('details[open]');
-    const dropdownButtons = document.querySelectorAll('.dropdown li button');
-    const isTargetDropdownButton = Array.from(dropdownButtons).find((btn) => e.target === btn);
+    const isTargetInDropdown = e.target.closest('.dropdown button');
     const isTargetKeyword = e.target.closest('.keyword');
-    const target = isTargetDropdownButton || isTargetKeyword;
-
-    if (!details || e.target.closest('[open]') === details || isTargetKeyword) {
-      if (target) {
-        e.preventDefault();
-        if (isTargetDropdownButton) details.removeAttribute('open');
-        const btnId = e.target.getAttribute('data-id');
-        const keyword = {
-          id: btnId,
-          text: e.target.textContent
-        };
-        keywords.toggleKeyword(keyword);
-      }
-      return;
+    const target = isTargetInDropdown || isTargetKeyword;
+    if (target) {
+      e.preventDefault();
+      if (isTargetInDropdown) target.closest('details').removeAttribute('open');
+      const btnId = e.target.getAttribute('data-id');
+      const keyword = {
+        id: btnId,
+        text: e.target.textContent
+      };
+      keywords.toggleKeyword(keyword);
     }
-    details.removeAttribute('open');
   });
 };
 
 const onLoad = async () => {
   const [index, err] = await getIndex();
   const DOMObjectInstances = initDOMObjects();
+
   if (!err) {
     displayPage(DOMObjectInstances);
     const search = initSearch(DOMObjectInstances, index);
+    handleSearchDataChange(DOMObjectInstances, search);
   }
 };
 
 window.addEventListener('DOMContentLoaded', onLoad);
-
-//#region FUNCTIONS TO DO
-
-// const handleMainSearchBarSearch = (mainSearchBar, search) => {
-//   const input = document.getElementById('mainSearch');
-
-//   input.addEventListener('input', (e) => {
-//     mainSearchBar.setSearchTerms(input.value);
-//     search.launchSearch();
-//   });
-// };
-
-// const onLoad = () => {
-
-//   // Push functions that will get search Terms and keywords for search
-//   // TODO : setSearchData change name
-//   // TODO : passer par des arrow functions
-//   search.setSearchData(() => {
-//     mainSearchBar.getSearchTerms();
-//   });
-//   search.setSearchData(keywords.getKeywords.bind(keywords));
-
-//   // Push functions that will generate lists and results in DOM to search
-//   dropdowns.forEach((dropdown) => search.setResultsFunctions(dropdown.onChange.bind(dropdown)));
-//   search.setResultsFunctions(results.onChange.bind(results));
-
-//   // Handle click event on keyword from dropdown list to add to keyword selection and search
-//   handleKeywordsSelection(keywords, search);
-//   handleMainSearchBarSearch(mainSearchBar, search);
-// };
-
-//#endregion

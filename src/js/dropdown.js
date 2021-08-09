@@ -41,6 +41,12 @@ export default class Dropdown {
 
     details.append(summary, inputDiv, list);
 
+    //toggle dropdown
+    window.addEventListener('click', (e) => {
+      if (!details.open || e.target.closest('[open]') === details) return;
+      details.removeAttribute('open');
+    });
+
     //filter keywords from list
     input.addEventListener('input', () => {
       Array.from(list.childNodes).forEach((listItem) => {
