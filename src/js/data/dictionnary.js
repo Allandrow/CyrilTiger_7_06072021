@@ -1,25 +1,6 @@
 const fs = require('fs');
 const recipes = require('../recipes.js');
 
-/*
-  Création dictionnaire (array vide qui contiendra des objets)
-  
-  Pour chaque recette
-    on parse le titre, description et chaque ingredient.ingredient
-      pour chaque string, couper la string en array de mots et filtrer la ponctuation
-      ainsi que les mots de moins de 3 caractères
-      ajout des mots dans un Set
-    pour chaque item du Set
-      créer toutes les substrings d'un mot, une substring ayant minimum 3 caractères
-
-      si la substring existe déjà dans le dictionnaire, ajouter l'id de la recette à l'array de l'objet
-      sinon
-      associer chaque substring a l'id de la recette
-      faire un objet avec la substring + une array d'id
-      push l'objet dans une array dictionnaire
-
-*/
-
 const dictionnary = [];
 
 const createWordSet = (string) => {

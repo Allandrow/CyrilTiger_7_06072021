@@ -33,7 +33,7 @@ const initSearch = (DOMInstances, index) => {
 const displayPage = (DOMObjects) => {
   const container = document.getElementById('jsForm');
   const fragment = new DocumentFragment();
-  const [, keywords, dropdowns, results] = DOMObjects;
+  const [, , dropdowns, results] = DOMObjects;
 
   DOMObjects.forEach((object) => fragment.appendChild(object.getDOM()));
   dropdowns.updateDropdownsLists();

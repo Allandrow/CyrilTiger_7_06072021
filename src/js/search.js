@@ -4,17 +4,11 @@ import { MINQUERYLENGTH, INGREDIENTS, APPLIANCE, USTENSILS } from './config.js';
 export default class Search {
   constructor(index) {
     this.index = index;
-    this.searchTerms = new Set();
-    this.keywords = new Map();
     this.recipes = recipes;
+    this.searchTerms = new Set();
+    // this.keywords = new Map();
     this.results = new Set();
     this.resultsCallbacks = [];
-  }
-
-  setSearchKeywords(keywords) {
-    this.keywords.clear();
-    this.keywords = keywords;
-    this.startSearch();
   }
 
   setSearchTerms(value) {
@@ -42,55 +36,62 @@ export default class Search {
     });
   }
 
-  verifyKeywordInRecipe(recipe, keyword) {
-    const id = keyword.id;
-    const label = keyword.text;
-    switch (id) {
-      case INGREDIENTS:
-        return recipe.ingredients.some((text) => text.ingredient === label);
-      case APPLIANCE:
-        return recipe.appliance === label;
-      case USTENSILS:
-        return recipe.ustensils.some((text) => text === label);
-    }
-  }
+  //#region KEYWORDS FUNCTIONS
 
-  verifyKeywordsInRecipe(recipe, keywords) {
-    return keywords.every((keyword) => this.verifyKeywordInRecipe(recipe, keyword));
-  }
+  // setSearchKeywords(keywords) {
+  //   this.keywords.clear();
+  //   this.keywords = keywords;
+  //   this.startSearch();
+  // }
 
-  setResultsByKeywords() {
-    const keywordsValues = Array.from(this.keywords.values());
-    //if results is not empty, filter out results that don't have all keywords
-    if (this.results.size > 0) {
-      for (const recipe of this.results) {
-        const areKeywordsInRecipe = this.verifyKeywordsInRecipe(recipe, keywordsValues);
-        if (!areKeywordsInRecipe) this.results.delete(recipe);
-      }
-      return;
-    }
-    // if results is empty, add recipes that have all keywords to results
-    this.recipes.forEach((recipe) => {
-      if (this.verifyKeywordsInRecipe(recipe, keywordsValues)) this.results.add(recipe);
-    });
-  }
+  // verifyKeywordInRecipe(recipe, keyword) {
+  //   const id = keyword.id;
+  //   const label = keyword.text;
+  //   switch (id) {
+  //     case INGREDIENTS:
+  //       return recipe.ingredients.some((text) => text.ingredient === label);
+  //     case APPLIANCE:
+  //       return recipe.appliance === label;
+  //     case USTENSILS:
+  //       return recipe.ustensils.some((text) => text === label);
+  //   }
+  // }
+
+  // verifyKeywordsInRecipe(recipe, keywords) {
+  //   return keywords.every((keyword) => this.verifyKeywordInRecipe(recipe, keyword));
+  // }
+
+  // setResultsByKeywords() {
+  //   const keywordsValues = Array.from(this.keywords.values());
+  //   //if results is not empty, filter out results that don't have all keywords
+  //   if (this.results.size > 0) {
+  //     for (const recipe of this.results) {
+  //       const areKeywordsInRecipe = this.verifyKeywordsInRecipe(recipe, keywordsValues);
+  //       if (!areKeywordsInRecipe) this.results.delete(recipe);
+  //     }
+  //     return;
+  //   }
+  //   // if results is empty, add recipes that have all keywords to results
+  //   this.recipes.forEach((recipe) => {
+  //     if (this.verifyKeywordsInRecipe(recipe, keywordsValues)) this.results.add(recipe);
+  //   });
+  // }
+  //#endregion
 
   startSearch() {
     this.results.clear();
     const hasSearchTerms = this.searchTerms.size > 0;
-    const hasKeywords = this.keywords.size > 0;
-    console.log(this.searchTerms);
-    console.log(this.keywords);
+    // const hasKeywords = this.keywords.size > 0;
 
-    if (hasSearchTerms || hasKeywords) {
-      if (hasSearchTerms) {
-        this.setResultsByTextSearch();
-      }
-      if (hasKeywords) {
-        this.setResultsByKeywords();
-      }
-      this.onSearchResults(this.results);
+    // if (hasSearchTerms || hasKeywords) {
+    if (hasSearchTerms) {
+      this.setResultsByTextSearch();
     }
+    // if (hasKeywords) {
+    //   this.setResultsByKeywords();
+    // }
+    this.onSearchResults(this.results);
+    // }
   }
 
   setResultsCallbacks(callback) {
