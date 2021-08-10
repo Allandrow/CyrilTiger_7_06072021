@@ -9,9 +9,17 @@ export default class Search {
     // this.keywords = new Map();
     this.results = new Set();
     this.resultsCallbacks = [];
+    this.recipeMap = this.createRecipeMap(this.recipes);
   }
 
-  // TODO : start search when size changes
+  createRecipeMap(recipes) {
+    const map = new Map();
+    recipes.forEach((recipe) => {
+      map.set(recipe.id, recipe);
+    });
+    return map;
+  }
+
   setSearchTerms(value) {
     const previousSearchSize = this.searchTerms.size;
     this.searchTerms.clear();
