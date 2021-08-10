@@ -34,19 +34,31 @@ export default class Search {
   }
 
   searchByTerms() {
+    const termNumbers = this.searchTerms.size;
+    const occurenceCounts = new Map();
     let resultIds = [];
+    // put in array ids of recipes that contain one of each terms
     this.searchTerms.forEach((term) => {
       const match = this.index.find((wordIndex) => wordIndex.s === term);
-      resultIds = [...resultIds, match.r];
+      resultIds = [...resultIds, ...match.r];
     });
-    // filter common occurences in arrays
-    // TODO : change algorithm
-    const results = resultIds.shift().filter((val) => {
-      return resultIds.every((arr) => arr.indexOf(val) !== -1);
+
+    // count occurence of each id
+    resultIds.forEach((id) => {
+      if (occurenceCounts.has(id)) {
+        const occurenceCount = occurenceCounts.get(id);
+        occurenceCounts.set(id, { id: id, count: occurenceCount.count + 1 });
+      } else {
+        occurenceCounts.set(id, { id: id, count: 1 });
+      }
     });
-    results.forEach((id) => {
-      const result = this.recipes.find((recipe) => recipe.id === id);
-      this.results.add(result);
+
+    // if total number of occurences matches number of search terms, add recipe to results
+    occurenceCounts.forEach((occurence) => {
+      if (occurence.count === termNumbers) {
+        const recipe = this.recipeMap.get(occurence.id);
+        this.results.add(recipe);
+      }
     });
   }
 
