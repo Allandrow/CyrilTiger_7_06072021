@@ -15,17 +15,21 @@ const getIndex = async () => {
 };
 
 // init components
-// use objects instead of arrays
-const initDOMObjects = () => {
+const initDOMComponents = () => {
   const mainSearchBar = new MainSearchBar();
   const keywords = new Keywords();
   const dropdowns = new Dropdowns();
   const results = new Results();
-  return [mainSearchBar, keywords, dropdowns, results];
+  return {
+    mainSearchBar: new MainSearchBar(),
+    keywords: new Keywords(),
+    dropdowns: new Dropdowns(),
+    results: new Results()
+  };
 };
 
 const initSearch = (DOMInstances, index) => {
-  const [, , dropdowns, results] = DOMInstances;
+  const { dropdowns, results } = DOMInstances;
   const search = new Search(index);
   search.setResultsCallbacks(dropdowns.updateDropdownsLists.bind(dropdowns));
   // search.setResultsCallbacks(results.displayResults.bind(results));
@@ -33,20 +37,21 @@ const initSearch = (DOMInstances, index) => {
   return search;
 };
 
-const displayPage = (DOMObjects) => {
+const displayPage = (DOMComponents) => {
   const container = document.getElementById('jsForm');
   const fragment = new DocumentFragment();
-  const [, , dropdowns, results] = DOMObjects;
-
-  DOMObjects.forEach((object) => fragment.appendChild(object.getDOM()));
+  const { dropdowns, results } = DOMComponents;
+  for (const component of Object.values(DOMComponents)) {
+    fragment.appendChild(component.getDOM());
+  }
   dropdowns.updateDropdownsLists();
   results.displayResults();
   container.appendChild(fragment);
 };
 
-const handleSearchDataChange = (DOMInstances, search) => {
+const handleSearchDataChange = (DOMComponents, search) => {
   const mainSearchInput = document.getElementById('mainSearch');
-  const [, keywords, ,] = DOMInstances;
+  const { keywords } = DOMComponents;
 
   mainSearchInput.addEventListener('input', (e) => {
     search.setSearchTerms(mainSearchInput.value);
@@ -71,7 +76,7 @@ const handleSearchDataChange = (DOMInstances, search) => {
 
 const onLoad = async () => {
   const [index, err] = await getIndex();
-  const DOMObjectInstances = initDOMObjects();
+  const DOMObjectInstances = initDOMComponents();
 
   if (!err) {
     displayPage(DOMObjectInstances);
