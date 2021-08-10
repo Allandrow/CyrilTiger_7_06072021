@@ -6,15 +6,15 @@ export default class Search {
     this.index = index;
     this.recipes = recipes;
     this.searchTerms = new Set();
-    // this.keywords = new Map();
+    this.keywords = new Map();
     this.results = new Set();
     this.resultsCallbacks = [];
-    this.recipeMap = this.createRecipeMap(this.recipes);
+    this.recipeMap = this.createRecipeMap();
   }
 
-  createRecipeMap(recipes) {
+  createRecipeMap() {
     const map = new Map();
-    recipes.forEach((recipe) => {
+    this.recipes.forEach((recipe) => {
       map.set(recipe.id, recipe);
     });
     return map;
@@ -37,7 +37,8 @@ export default class Search {
     const termNumbers = this.searchTerms.size;
     const occurenceCounts = new Map();
     let resultIds = [];
-    // put in array ids of recipes that contain one of each terms
+
+    // for each term, find matching substring in index and add recipe ids to resultIds
     this.searchTerms.forEach((term) => {
       const match = this.index.find((wordIndex) => wordIndex.s === term);
       resultIds = [...resultIds, ...match.r];
@@ -62,13 +63,14 @@ export default class Search {
     });
   }
 
-  //#region KEYWORDS FUNCTIONS
+  setSearchKeywords(keywords) {
+    this.keywords.clear();
+    this.keywords = keywords;
+    console.log(this.keywords);
+    // this.doSearch();
+  }
 
-  // setSearchKeywords(keywords) {
-  //   this.keywords.clear();
-  //   this.keywords = keywords;
-  //   this.startSearch();
-  // }
+  //#region KEYWORDS FUNCTIONS
 
   // verifyKeywordInRecipe(recipe, keyword) {
   //   const id = keyword.id;

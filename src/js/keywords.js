@@ -4,6 +4,7 @@ export default class Keywords {
   constructor() {
     this.container = '';
     this.list = new Map();
+    this.listChangeCallbacks = [];
   }
 
   createDOM() {
@@ -26,6 +27,7 @@ export default class Keywords {
     } else {
       this.list.set(keywordHash, { id, text });
     }
+    this.triggerListChange();
     this.updateKeywordList();
   }
 
@@ -35,6 +37,7 @@ export default class Keywords {
 
     this.list.forEach((tag) => {
       const keyword = new Keyword(tag.id, tag.text);
+      keyword.onChange((tag) => this.toggleKeyword(tag));
       fragment.appendChild(keyword.getDOM());
     });
     this.container.appendChild(fragment);
@@ -42,5 +45,13 @@ export default class Keywords {
 
   getKeywords() {
     return this.list;
+  }
+
+  onKeywordChange(cb) {
+    this.listChangeCallbacks.push(cb);
+  }
+
+  triggerListChange() {
+    this.listChangeCallbacks.forEach((cb) => cb(this.list));
   }
 }
