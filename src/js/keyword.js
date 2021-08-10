@@ -32,11 +32,11 @@ export default class Keyword {
     return this.createDOM();
   }
 
-  onChange(cb) {
-    this.keywordDeletionCallbacks.push(cb);
-  }
+  // onChange(cb) {
+  //   this.keywordDeletionCallbacks.push(cb);
+  // }
 
-  onKeywordDeletionTrigger(tag) {
-    this.keywordDeletionCallbacks.forEach((cb) => cb(tag));
-  }
+  // onKeywordDeletionTrigger(tag) {
+  //   this.keywordDeletionCallbacks.forEach((cb) => cb(tag));
+  // }
 }

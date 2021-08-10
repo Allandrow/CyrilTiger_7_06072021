@@ -48,8 +48,8 @@ const displayPage = (DOMComponents) => {
 const onSearchDataChange = (DOMComponents, search) => {
   const { mainSearchBar, keywords, dropdowns } = DOMComponents;
   mainSearchBar.onInputValueChange((value) => search.setSearchTerms(value));
-  keywords.onKeywordChange((keywords) => search.setSearchKeywords(keywords));
-  dropdowns.onTagSelection((tag) => keywords.toggleKeyword(tag));
+  // keywords.onKeywordChange((keywords) => search.setSearchKeywords(keywords));
+  // dropdowns.onTagSelection((tag) => keywords.toggleKeyword(tag));
   // window.addEventListener('click', (e) => {
   //   const isTargetInDropdown = e.target.closest('.dropdown button');
   //   const isTargetKeyword = e.target.closest('.keyword');

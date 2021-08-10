@@ -43,15 +43,15 @@ export default class Keywords {
     this.container.appendChild(fragment);
   }
 
-  getKeywords() {
-    return this.list;
-  }
+  // getKeywords() {
+  //   return this.list;
+  // }
 
-  onKeywordChange(cb) {
-    this.listChangeCallbacks.push(cb);
-  }
+  // onKeywordChange(cb) {
+  //   this.listChangeCallbacks.push(cb);
+  // }
 
-  triggerListChange() {
-    this.listChangeCallbacks.forEach((cb) => cb(this.list));
-  }
+  // triggerListChange() {
+  //   this.listChangeCallbacks.forEach((cb) => cb(this.list));
+  // }
 }

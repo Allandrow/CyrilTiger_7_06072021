@@ -9,7 +9,7 @@ export default class Dropdown {
     this.placeholder = dropdownTexts[id].placeholder;
     this.list = '';
     this.input = '';
-    this.tagSelectionCallbacks = [];
+    // this.tagSelectionCallbacks = [];
   }
 
   createArrowIMG() {
@@ -75,15 +75,15 @@ export default class Dropdown {
     const li = document.createElement('li');
     li.appendChild(btn);
 
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const tag = {
-        id: this.id,
-        text: keyword
-      };
-      this.onTagSelection(tag);
-      btn.closest('[open').removeAttribute('open');
-    });
+    // btn.addEventListener('click', (e) => {
+    //   e.preventDefault();
+    //   const tag = {
+    //     id: this.id,
+    //     text: keyword
+    //   };
+    //   this.onTagSelection(tag);
+    //   btn.closest('[open').removeAttribute('open');
+    // });
 
     return li;
   }
@@ -113,11 +113,11 @@ export default class Dropdown {
     this.list.appendChild(fragment);
   }
 
-  onChange(cb) {
-    this.tagSelectionCallbacks.push(cb);
-  }
+  // onChange(cb) {
+  //   this.tagSelectionCallbacks.push(cb);
+  // }
 
-  onTagSelection(tag) {
-    this.tagSelectionCallbacks.forEach((cb) => cb(tag));
-  }
+  // onTagSelection(tag) {
+  //   this.tagSelectionCallbacks.forEach((cb) => cb(tag));
+  // }
 }

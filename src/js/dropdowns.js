@@ -32,7 +32,7 @@ export default class Dropdowns {
     this.dropdowns.forEach((dropdown) => dropdown.updateList(results));
   }
 
-  onTagSelection(cb) {
-    this.dropdowns.forEach((dropdown) => dropdown.onChange(cb));
-  }
+  //   onTagSelection(cb) {
+  //     this.dropdowns.forEach((dropdown) => dropdown.onChange(cb));
+  //   }
 }
