@@ -14,12 +14,7 @@ const getIndex = async () => {
   }
 };
 
-// init components
 const initDOMComponents = () => {
-  const mainSearchBar = new MainSearchBar();
-  const keywords = new Keywords();
-  const dropdowns = new Dropdowns();
-  const results = new Results();
   return {
     mainSearchBar: new MainSearchBar(),
     keywords: new Keywords(),
@@ -31,8 +26,7 @@ const initDOMComponents = () => {
 const initSearch = (DOMInstances, index) => {
   const { dropdowns, results } = DOMInstances;
   const search = new Search(index);
-  search.setResultsCallbacks(dropdowns.updateDropdownsLists.bind(dropdowns));
-  // search.setResultsCallbacks(results.displayResults.bind(results));
+  search.setResultsCallbacks((recipes) => dropdowns.updateDropdownsLists(recipes));
   search.setResultsCallbacks((recipes) => results.displayResults(recipes));
   return search;
 };
@@ -49,6 +43,7 @@ const displayPage = (DOMComponents) => {
   container.appendChild(fragment);
 };
 
+// TODO : put events in their instances and attach callbacks to fire when triggered
 const handleSearchDataChange = (DOMComponents, search) => {
   const mainSearchInput = document.getElementById('mainSearch');
   const { keywords } = DOMComponents;

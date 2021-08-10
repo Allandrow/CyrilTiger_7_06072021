@@ -1,5 +1,5 @@
 const fs = require('fs');
-const recipes = require('../recipes.js');
+const recipes = require('./recipes.js');
 
 const dictionnary = [];
 
@@ -40,24 +40,24 @@ recipes.forEach((recipe) => {
   words.forEach((word) => {
     const substrings = createWordSubstrings(word);
     substrings.forEach((str) => {
-      const objInDictionnary = dictionnary.find((obj) => obj.substring === str);
+      const objInDictionnary = dictionnary.find((obj) => obj.s === str);
       // substring is already in dictionnary, add recipe id to set of object
       if (objInDictionnary) {
-        if (!objInDictionnary.recipeIds.includes(recipe.id)) {
-          objInDictionnary.recipeIds.push(recipe.id);
+        if (!objInDictionnary.r.includes(recipe.id)) {
+          objInDictionnary.r.push(recipe.id);
         }
         return;
       }
       // substring is not in dictionnary, create object with substring: substring and recipeIdds: set
       dictionnary.push({
-        substring: str,
-        recipeIds: [recipe.id]
+        s: str,
+        r: [recipe.id]
       });
     });
   });
 });
 
-fs.writeFile('index.json', JSON.stringify(dictionnary), function (err) {
+fs.writeFile('src/js/data/index.json', JSON.stringify(dictionnary), function (err) {
   if (err) throw err;
   console.log('complete');
 });
