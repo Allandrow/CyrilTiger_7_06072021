@@ -41,7 +41,9 @@ export default class Search {
     // for each term, find matching substring in index and add recipe ids to resultIds
     this.searchTerms.forEach((term) => {
       const match = this.index.find((wordIndex) => wordIndex.s === term);
-      resultIds = [...resultIds, ...match.r];
+      if (match) {
+        resultIds = [...resultIds, ...match.r];
+      }
     });
 
     // count occurence of each id
@@ -118,7 +120,9 @@ export default class Search {
     // if (hasKeywords) {
     //   this.setResultsByKeywords();
     // }
-    this.onSearchTrigger(this.results);
+    // TODO : handle keywords here
+    const results = hasSearchTerms ? this.results : this.recipes;
+    this.onSearchTrigger(results);
     // }
   }
 

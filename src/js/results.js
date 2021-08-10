@@ -24,15 +24,15 @@ export default class Results {
     const fragment = new DocumentFragment();
 
     container.innerHTML = '';
-
-    // TODO : handle case with no results from search
-    //     if (results.size === EMPTYSIZE) {
-    //       const emptyResult = document.createElement('strong');
-    //       emptyResult.className = 'alert';
-    //       emptyResult.textContent =
-    //         'Aucune recette ne correspond à votre critère ... Vous pouvez chercher "tarte aux pommes", "poisson", etc';
-    //       containerFragment.appendChild(emptyResult);
-
+    if (results.size === 0) {
+      const emptyResult = document.createElement('strong');
+      emptyResult.className = 'alert';
+      emptyResult.textContent =
+        'Aucune recette ne correspond à votre critère ... Vous pouvez chercher "tarte aux pommes", "poisson", etc';
+      fragment.appendChild(emptyResult);
+      container.appendChild(fragment);
+      return;
+    }
     results.forEach((recipe) => {
       const result = new Result(recipe);
       fragment.appendChild(result.getDOM());
