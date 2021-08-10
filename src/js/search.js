@@ -13,19 +13,23 @@ export default class Search {
 
   // TODO : start search when size changes
   setSearchTerms(value) {
+    const previousSearchSize = this.searchTerms.size;
     this.searchTerms.clear();
     const words = value.toLowerCase().split(' ');
     words.forEach((word) => {
       if (word.length >= MINQUERYLENGTH) this.searchTerms.add(word);
     });
-    if (this.searchTerms.size > 0) this.doSearch();
+    const newSearchSize = this.searchTerms.size;
+    if (newSearchSize > 0 || newSearchSize !== previousSearchSize) {
+      this.doSearch();
+    }
   }
 
   searchByTerms() {
     let resultIds = [];
     this.searchTerms.forEach((term) => {
-      const match = this.index.find((wordIndex) => wordIndex.substring === term);
-      resultIds = [...resultIds, match.recipeIds];
+      const match = this.index.find((wordIndex) => wordIndex.s === term);
+      resultIds = [...resultIds, match.r];
     });
     // filter common occurences in arrays
     // TODO : change algorithm
