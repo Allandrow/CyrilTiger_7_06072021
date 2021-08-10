@@ -33,10 +33,11 @@ const initSearch = (DOMInstances, index) => {
 
 const displayPage = (DOMComponents) => {
   const container = document.getElementById('jsForm');
-  const fragment = new DocumentFragment();
   const { dropdowns, results } = DOMComponents;
-  for (const component of Object.values(DOMComponents)) {
-    fragment.appendChild(component.getDOM());
+  const fragment = new DocumentFragment();
+
+  for (const component in DOMComponents) {
+    fragment.appendChild(DOMComponents[component].getDOM());
   }
   dropdowns.updateDropdownsLists();
   results.displayResults();
