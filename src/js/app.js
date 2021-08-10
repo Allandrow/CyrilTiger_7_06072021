@@ -26,8 +26,8 @@ const initDOMComponents = () => {
 const initSearch = (DOMInstances, index) => {
   const { dropdowns, results } = DOMInstances;
   const search = new Search(index);
-  search.setResultsCallbacks((recipes) => dropdowns.updateDropdownsLists(recipes));
-  search.setResultsCallbacks((recipes) => results.displayResults(recipes));
+  search.onResult((recipes) => dropdowns.updateDropdownsLists(recipes));
+  search.onResult((recipes) => results.displayResults(recipes));
   return search;
 };
 
@@ -44,7 +44,7 @@ const displayPage = (DOMComponents) => {
 };
 
 // TODO : put events in their instances and attach callbacks to fire when triggered
-const handleSearchDataChange = (DOMComponents, search) => {
+const onSearchDataChange = (DOMComponents, search) => {
   const mainSearchInput = document.getElementById('mainSearch');
   const { keywords } = DOMComponents;
 
@@ -76,7 +76,7 @@ const onLoad = async () => {
   if (!err) {
     displayPage(DOMObjectInstances);
     const search = initSearch(DOMObjectInstances, index);
-    handleSearchDataChange(DOMObjectInstances, search);
+    onSearchDataChange(DOMObjectInstances, search);
   }
 };
 

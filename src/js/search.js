@@ -18,10 +18,9 @@ export default class Search {
     words.forEach((word) => {
       if (word.length >= MINQUERYLENGTH) this.searchTerms.add(word);
     });
-    if (this.searchTerms.size > 0) this.search();
+    if (this.searchTerms.size > 0) this.doSearch();
   }
 
-  // TODO : CONFUSING FUNCTION NAME
   searchByTerms() {
     let resultIds = [];
     this.searchTerms.forEach((term) => {
@@ -29,6 +28,7 @@ export default class Search {
       resultIds = [...resultIds, match.recipeIds];
     });
     // filter common occurences in arrays
+    // TODO : change algorithm
     const results = resultIds.shift().filter((val) => {
       return resultIds.every((arr) => arr.indexOf(val) !== -1);
     });
@@ -80,7 +80,7 @@ export default class Search {
   // }
   //#endregion
 
-  search() {
+  doSearch() {
     this.results.clear();
     const hasSearchTerms = this.searchTerms.size > 0;
     // const hasKeywords = this.keywords.size > 0;
@@ -92,15 +92,15 @@ export default class Search {
     // if (hasKeywords) {
     //   this.setResultsByKeywords();
     // }
-    this.onSearchResults(this.results);
+    this.onSearchTrigger(this.results);
     // }
   }
 
-  setResultsCallbacks(callback) {
+  onResult(callback) {
     this.resultsCallbacks.push(callback);
   }
 
-  onSearchResults(results) {
+  onSearchTrigger(results) {
     this.resultsCallbacks.forEach((cb) => {
       cb(results);
     });
