@@ -4,7 +4,7 @@ export default class Keyword {
     this.text = text;
   }
 
-  setDOM() {
+  createDOM() {
     const button = document.createElement('button');
     button.classList.add('keyword', `${this.id}-color`);
     button.setAttribute('data-id', this.id);
@@ -18,6 +18,6 @@ export default class Keyword {
   }
 
   getDOM() {
-    return this.setDOM();
+    return this.createDOM();
   }
 }

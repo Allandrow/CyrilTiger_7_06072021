@@ -1,5 +1,5 @@
 export default class MainSearchBar {
-  setDOM() {
+  createDOM() {
     const label = document.createElement('label');
     label.setAttribute('for', 'mainSearch');
     label.className = 'main-search';
@@ -14,6 +14,6 @@ export default class MainSearchBar {
   }
 
   getDOM() {
-    return this.setDOM();
+    return this.createDOM();
   }
 }

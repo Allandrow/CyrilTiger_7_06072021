@@ -16,7 +16,7 @@ export default class Dropdowns {
     return [ingredientDD, applianceDD, ustensilsDD];
   }
 
-  setDOM() {
+  createDOM() {
     const container = document.createElement('div');
     container.className = 'dropdowns-container';
     this.dropdowns.forEach((dropdown) => container.appendChild(dropdown.getDOM()));
@@ -25,7 +25,7 @@ export default class Dropdowns {
   }
 
   getDOM() {
-    return this.setDOM();
+    return this.createDOM();
   }
 
   updateDropdownsLists(results = this.recipes) {

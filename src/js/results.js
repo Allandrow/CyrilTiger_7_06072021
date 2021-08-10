@@ -7,7 +7,7 @@ export default class Results {
     this.recipes = recipes;
   }
 
-  setDOM() {
+  createDOM() {
     const container = document.createElement('div');
     container.id = 'jsResults';
     container.className = 'results-container';
@@ -16,7 +16,7 @@ export default class Results {
   }
 
   getDOM() {
-    return this.setDOM();
+    return this.createDOM();
   }
 
   displayResults(results = this.recipes) {

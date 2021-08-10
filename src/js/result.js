@@ -33,7 +33,7 @@ export default class Result {
     return li;
   }
 
-  setDOM() {
+  createDOM() {
     const { description, ingredients, name, time } = this.recipe;
 
     // classNames
@@ -87,6 +87,6 @@ export default class Result {
   }
 
   getDOM() {
-    return this.setDOM();
+    return this.createDOM();
   }
 }

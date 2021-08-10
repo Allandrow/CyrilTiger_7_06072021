@@ -6,7 +6,7 @@ export default class Keywords {
     this.list = new Map();
   }
 
-  setDOM() {
+  createDOM() {
     const container = document.createElement('div');
     container.className = 'keywords-container';
     container.id = 'jsKeywords';
@@ -15,7 +15,7 @@ export default class Keywords {
   }
 
   getDOM() {
-    return this.setDOM();
+    return this.createDOM();
   }
 
   toggleKeyword(keyword) {

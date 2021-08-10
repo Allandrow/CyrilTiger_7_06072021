@@ -17,7 +17,7 @@ export default class Dropdown {
     return img;
   }
 
-  setDOM() {
+  createDOM() {
     const details = document.createElement('details');
     details.classList.add('dropdown', `${this.id}-color`);
 
@@ -63,7 +63,7 @@ export default class Dropdown {
   }
 
   getDOM() {
-    return this.setDOM();
+    return this.createDOM();
   }
 
   createListItem(keyword) {
