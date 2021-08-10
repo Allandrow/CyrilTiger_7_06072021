@@ -45,12 +45,8 @@ const displayPage = (DOMComponents) => {
 
 // TODO : put events in their instances and attach callbacks to fire when triggered
 const onSearchDataChange = (DOMComponents, search) => {
-  const mainSearchInput = document.getElementById('mainSearch');
-  const { keywords } = DOMComponents;
-
-  mainSearchInput.addEventListener('input', (e) => {
-    search.setSearchTerms(mainSearchInput.value);
-  });
+  const { mainSearchBar, keywords } = DOMComponents;
+  mainSearchBar.onInputValueChange((value) => search.setSearchTerms(value));
 
   window.addEventListener('click', (e) => {
     const isTargetInDropdown = e.target.closest('.dropdown button');
