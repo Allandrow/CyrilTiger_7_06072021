@@ -67,23 +67,22 @@ export default class Dropdown {
     return this.createDOM();
   }
 
-  createListItem(keyword) {
+  createListItem(string) {
     const btn = document.createElement('button');
     btn.setAttribute('data-id', this.id);
-    btn.textContent = keyword;
+    btn.textContent = string;
 
     const li = document.createElement('li');
     li.appendChild(btn);
 
-    // btn.addEventListener('click', (e) => {
-    //   e.preventDefault();
-    //   const tag = {
-    //     id: this.id,
-    //     text: keyword
-    //   };
-    //   this.onTagSelection(tag);
-    //   btn.closest('[open').removeAttribute('open');
-    // });
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const keyword = {
+        id: this.id,
+        text: string
+      };
+      btn.closest('[open').removeAttribute('open');
+    });
 
     return li;
   }
@@ -112,12 +111,4 @@ export default class Dropdown {
     });
     this.list.appendChild(fragment);
   }
-
-  // onChange(cb) {
-  //   this.tagSelectionCallbacks.push(cb);
-  // }
-
-  // onTagSelection(tag) {
-  //   this.tagSelectionCallbacks.forEach((cb) => cb(tag));
-  // }
 }
