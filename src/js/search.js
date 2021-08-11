@@ -65,12 +65,11 @@ export default class Search {
     });
   }
 
-  // setSearchKeywords(keywords) {
-  //   this.keywords.clear();
-  //   this.keywords = keywords;
-  //   console.log(this.keywords);
-  //   // this.doSearch();
-  // }
+  setSearchKeywords(keywords) {
+    this.keywords = keywords;
+    console.log('SEARCH INSTANCE - ', this.keywords);
+    // this.doSearch();
+  }
 
   //#region KEYWORDS FUNCTIONS
 

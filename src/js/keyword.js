@@ -1,7 +1,9 @@
 export default class Keyword {
   constructor(keyword) {
+    this.keyword = keyword;
     this.id = keyword.id;
     this.text = keyword.text;
+    this.deletionCallbacks = [];
   }
 
   createDOM() {
@@ -14,10 +16,24 @@ export default class Keyword {
     img.src = 'dist/img/cross.svg';
 
     button.appendChild(img);
+
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.onDeletionTrigger(this.keyword);
+    });
+
     return button;
   }
 
   getDOM() {
     return this.createDOM();
+  }
+
+  onDeletion(cb) {
+    this.deletionCallbacks.push(cb);
+  }
+
+  onDeletionTrigger(keyword) {
+    this.deletionCallbacks.forEach((cb) => cb(keyword));
   }
 }

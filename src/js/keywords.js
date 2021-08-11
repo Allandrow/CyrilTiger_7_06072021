@@ -4,6 +4,7 @@ export default class Keywords {
   constructor() {
     this.container = '';
     this.list = new Map();
+    this.listChangeCallbacks = [];
   }
 
   createDOM() {
@@ -18,12 +19,15 @@ export default class Keywords {
     return this.createDOM();
   }
 
-  updateKeywordList() {
+  updateKeywordDOMList() {
     const fragment = new DocumentFragment();
     this.container.innerHTML = '';
 
     this.list.forEach((item) => {
       const keyword = new Keyword(item);
+      keyword.onDeletion((keyword) => {
+        this.tagSelectionTrigger(keyword);
+      });
       fragment.appendChild(keyword.getDOM());
     });
     this.container.appendChild(fragment);
@@ -40,6 +44,15 @@ export default class Keywords {
       this.list.set(hash, keyword);
     }
     console.log('MAP UPDATED ', this.list);
-    this.updateKeywordList();
+    this.onUpdateTrigger(this.list);
+    this.updateKeywordDOMList();
+  }
+
+  onListChange(cb) {
+    this.listChangeCallbacks.push(cb);
+  }
+
+  onUpdateTrigger(keywords) {
+    this.listChangeCallbacks.forEach((cb) => cb(keywords));
   }
 }

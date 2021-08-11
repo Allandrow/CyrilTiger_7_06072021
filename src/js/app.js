@@ -51,7 +51,7 @@ const onSearchDataChange = (DOMComponents, search) => {
 
   // on dropdown tag selection, fire event from keywords to create/delete a keyword
   dropdowns.onTagSelection((keyword) => keywords.tagSelectionTrigger(keyword));
-
+  keywords.onListChange((list) => search.setSearchKeywords(list));
   //#region KEYWORD STUFF
   // keywords.onKeywordChange((keywords) => search.setSearchKeywords(keywords));
   // dropdowns.onTagSelection((tag) => keywords.toggleKeyword(tag));
