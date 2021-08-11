@@ -1,11 +1,12 @@
-import { EMPTYSIZE } from './config.js';
-import Recipe from './recipe.js';
+import recipes from './data/recipes.js';
+import Result from './result.js';
 
 export default class Results {
   constructor() {
     this.container = '';
+    this.recipes = recipes;
   }
-  // create results container
+
   createDOM() {
     const container = document.createElement('div');
     container.id = 'jsResults';
@@ -14,31 +15,27 @@ export default class Results {
     return container;
   }
 
-  // return DOM of results container
   getDOM() {
     return this.createDOM();
   }
 
-  // clear list of results and fill with new results
-  onChange(results) {
+  displayResults(results = this.recipes) {
     const container = this.container;
-    const containerFragment = new DocumentFragment();
-    container.innerHTML = '';
+    const fragment = new DocumentFragment();
 
-    // display a message if search returns no result, display results if search find matches, display all recipes if no search
-    if (results.size === EMPTYSIZE) {
+    container.innerHTML = '';
+    if (results.size === 0) {
       const emptyResult = document.createElement('strong');
       emptyResult.className = 'alert';
       emptyResult.textContent =
         'Aucune recette ne correspond à votre critère ... Vous pouvez chercher "tarte aux pommes", "poisson", etc';
-      containerFragment.appendChild(emptyResult);
-    } else {
-      results.forEach((result) => {
-        const recipe = new Recipe(result);
-        const resultDOM = recipe.getDOM();
-        containerFragment.appendChild(resultDOM);
-      });
+      container.appendChild(emptyResult);
+      return;
     }
-    container.appendChild(containerFragment);
+    results.forEach((recipe) => {
+      const result = new Result(recipe);
+      fragment.appendChild(result.getDOM());
+    });
+    container.appendChild(fragment);
   }
 }
