@@ -37,13 +37,10 @@ export default class Keywords {
     const { id, text } = keyword;
     const hash = `${id}-${text}`;
     if (this.list.has(hash)) {
-      console.log('hash already in map');
       this.list.delete(hash);
     } else {
-      console.log('hash not in map');
       this.list.set(hash, keyword);
     }
-    console.log('MAP UPDATED ', this.list);
     this.onUpdateTrigger(this.list);
     this.updateKeywordDOMList();
   }

@@ -67,7 +67,6 @@ export default class Search {
 
   setSearchKeywords(keywords) {
     this.keywords = keywords;
-    console.log('SEARCH INSTANCE - ', this.keywords);
     // this.doSearch();
   }
 
