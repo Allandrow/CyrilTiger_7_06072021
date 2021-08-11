@@ -6,6 +6,8 @@ export default class Dropdown {
     this.summaryText = dropdownTexts[id].summaryText;
     this.placeholder = dropdownTexts[id].placeholder;
     this.list = '';
+    this.input = '';
+    this.tagSelectionCallbacks = [];
   }
 
   createArrowIMG() {
@@ -14,21 +16,6 @@ export default class Dropdown {
     return img;
   }
 
-  // filter list of displayed keywords based on search terms from dropdown input
-  filterKeywords(input, list) {
-    input.addEventListener('input', () => {
-      Array.from(list.childNodes).forEach((listItem) => {
-        const itemText = listItem.textContent.toLowerCase();
-        if (!itemText.includes(input.value)) {
-          listItem.style.display = 'none';
-        } else {
-          listItem.style.display = 'block';
-        }
-      });
-    });
-  }
-
-  // create a dropdown
   createDOM() {
     const details = document.createElement('details');
     details.classList.add('dropdown', `${this.id}-color`);
@@ -44,6 +31,7 @@ export default class Dropdown {
     input.id = `${this.id}Search`;
     input.type = 'text';
     input.placeholder = `Recherche un ${this.placeholder}`;
+    this.input = input;
     inputDiv.append(input, this.createArrowIMG());
 
     const list = document.createElement('ul');
@@ -52,30 +40,55 @@ export default class Dropdown {
 
     details.append(summary, inputDiv, list);
 
-    this.filterKeywords(input, list);
-
-    // click outside of an open details closes it
+    //toggle dropdown
     window.addEventListener('click', (e) => {
       if (!details.open || e.target.closest('[open]') === details) return;
       details.removeAttribute('open');
     });
 
+    //filter keywords from list
+    input.addEventListener('input', () => {
+      Array.from(list.childNodes).forEach((listItem) => {
+        const itemText = listItem.textContent.toLowerCase();
+        if (!itemText.includes(input.value)) {
+          listItem.style.display = 'none';
+        } else {
+          listItem.style.display = 'block';
+        }
+      });
+    });
+
     return details;
   }
 
-  // return DOM of dropdown
   getDOM() {
     return this.createDOM();
   }
 
-  // clear list and fill with new results
-  onChange(results) {
-    const keywordSet = new Set();
-    const list = this.list;
-    const listFragment = new DocumentFragment();
-    list.innerHTML = '';
+  createListItem(string) {
+    const btn = document.createElement('button');
+    btn.setAttribute('data-id', this.id);
+    btn.textContent = string;
 
-    // fill set for each dropdown
+    const li = document.createElement('li');
+    li.appendChild(btn);
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.onSelectionTrigger({
+        id: this.id,
+        text: string
+      });
+    });
+
+    return li;
+  }
+
+  updateList(results) {
+    const keywordSet = new Set();
+    const fragment = new DocumentFragment();
+    this.list.innerHTML = '';
+
     results.forEach((result) => {
       switch (this.id) {
         case INGREDIENTS:
@@ -90,16 +103,17 @@ export default class Dropdown {
       }
     });
 
-    // display new list
     keywordSet.forEach((keyword) => {
-      const btn = document.createElement('button');
-      btn.setAttribute('data-id', this.id);
-      btn.textContent = keyword;
-
-      const li = document.createElement('li');
-      li.appendChild(btn);
-      listFragment.appendChild(li);
+      fragment.appendChild(this.createListItem(keyword));
     });
-    list.appendChild(listFragment);
+    this.list.appendChild(fragment);
+  }
+
+  onTagSelection(cb) {
+    this.tagSelectionCallbacks.push(cb);
+  }
+
+  onSelectionTrigger(keyword) {
+    this.tagSelectionCallbacks.forEach((cb) => cb(keyword));
   }
 }
