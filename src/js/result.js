@@ -1,10 +1,10 @@
 import { WEIGHTUNIT, LITERUNITS } from './config.js';
 
-export default class Recipe {
+export default class Result {
   constructor(recipe) {
     this.recipe = recipe;
   }
-  // return text for quantity depending of presence and content of unit
+
   handleQuantityText(quantity, unit) {
     if (unit) {
       if (unit === WEIGHTUNIT) return `${quantity} g`;
