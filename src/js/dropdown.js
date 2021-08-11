@@ -77,15 +77,10 @@ export default class Dropdown {
 
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      // const keyword = {
-      //   id: this.id,
-      //   text: string
-      // };
       this.onSelectionTrigger({
         id: this.id,
         text: string
       });
-      // btn.closest('[open').removeAttribute('open');
     });
 
     return li;

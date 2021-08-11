@@ -70,41 +70,37 @@ export default class Search {
     this.doSearch();
   }
 
-  //#region KEYWORDS FUNCTIONS
+  verifyKeywordInRecipe(recipe, keyword) {
+    const id = keyword.id;
+    const label = keyword.text;
+    switch (id) {
+      case INGREDIENTS:
+        return recipe.ingredients.some((text) => text.ingredient === label);
+      case APPLIANCE:
+        return recipe.appliance === label;
+      case USTENSILS:
+        return recipe.ustensils.some((text) => text === label);
+    }
+  }
 
-  // verifyKeywordInRecipe(recipe, keyword) {
-  //   const id = keyword.id;
-  //   const label = keyword.text;
-  //   switch (id) {
-  //     case INGREDIENTS:
-  //       return recipe.ingredients.some((text) => text.ingredient === label);
-  //     case APPLIANCE:
-  //       return recipe.appliance === label;
-  //     case USTENSILS:
-  //       return recipe.ustensils.some((text) => text === label);
-  //   }
-  // }
+  verifyKeywordsInRecipe(recipe, keywords) {
+    return keywords.every((keyword) => this.verifyKeywordInRecipe(recipe, keyword));
+  }
 
-  // verifyKeywordsInRecipe(recipe, keywords) {
-  //   return keywords.every((keyword) => this.verifyKeywordInRecipe(recipe, keyword));
-  // }
-
-  // setResultsByKeywords() {
-  //   const keywordsValues = Array.from(this.keywords.values());
-  //   //if results is not empty, filter out results that don't have all keywords
-  //   if (this.results.size > 0) {
-  //     for (const recipe of this.results) {
-  //       const areKeywordsInRecipe = this.verifyKeywordsInRecipe(recipe, keywordsValues);
-  //       if (!areKeywordsInRecipe) this.results.delete(recipe);
-  //     }
-  //     return;
-  //   }
-  //   // if results is empty, add recipes that have all keywords to results
-  //   this.recipes.forEach((recipe) => {
-  //     if (this.verifyKeywordsInRecipe(recipe, keywordsValues)) this.results.add(recipe);
-  //   });
-  // }
-  //#endregion
+  searchByKeywords() {
+    const keywordsValues = Array.from(this.keywords.values());
+    if (this.results.size > 0) {
+      for (const recipe of this.results) {
+        const areKeywordsInRecipe = this.verifyKeywordsInRecipe(recipe, keywordsValues);
+        if (!areKeywordsInRecipe) this.results.delete(recipe);
+      }
+      return;
+    }
+    // if results is empty, add recipes that have all keywords to results
+    this.recipes.forEach((recipe) => {
+      if (this.verifyKeywordsInRecipe(recipe, keywordsValues)) this.results.add(recipe);
+    });
+  }
 
   doSearch() {
     this.results.clear();
@@ -115,13 +111,12 @@ export default class Search {
       if (hasSearchTerms) {
         this.searchByTerms();
       }
-      // if (hasKeywords) {
-      //   this.setResultsByKeywords();
-      // }
-      // TODO : handle keywords here
-      const results = hasSearchTerms ? this.results : this.recipes;
-      this.onSearchTrigger(results);
+      if (hasKeywords) {
+        this.searchByKeywords();
+      }
     }
+    const results = hasSearchTerms || hasKeywords ? this.results : this.recipes;
+    this.onSearchTrigger(results);
   }
 
   onResult(callback) {

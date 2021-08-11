@@ -29,8 +29,7 @@ export default class Results {
       emptyResult.className = 'alert';
       emptyResult.textContent =
         'Aucune recette ne correspond à votre critère ... Vous pouvez chercher "tarte aux pommes", "poisson", etc';
-      fragment.appendChild(emptyResult);
-      container.appendChild(fragment);
+      container.appendChild(emptyResult);
       return;
     }
     results.forEach((recipe) => {

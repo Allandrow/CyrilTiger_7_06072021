@@ -44,30 +44,11 @@ const displayPage = (DOMComponents) => {
   container.appendChild(fragment);
 };
 
-// TODO : put events in their instances and attach callbacks to fire when triggered
 const onSearchDataChange = (DOMComponents, search) => {
   const { mainSearchBar, keywords, dropdowns } = DOMComponents;
   mainSearchBar.onInputValueChange((value) => search.setSearchTerms(value));
-
-  // on dropdown tag selection, fire event from keywords to create/delete a keyword
   dropdowns.onTagSelection((keyword) => keywords.tagSelectionTrigger(keyword));
   keywords.onListChange((list) => search.setSearchKeywords(list));
-  //#region KEYWORD STUFF
-  // keywords.onKeywordChange((keywords) => search.setSearchKeywords(keywords));
-  // dropdowns.onTagSelection((tag) => keywords.toggleKeyword(tag));
-  // window.addEventListener('click', (e) => {
-  //   const isTargetInDropdown = e.target.closest('.dropdown button');
-  //   const isTargetKeyword = e.target.closest('.keyword');
-  //   const target = isTargetInDropdown || isTargetKeyword;
-  //   if (target) {
-  //     e.preventDefault();
-  //     if (isTargetInDropdown) target.closest('details').removeAttribute('open');
-  //     const btnId = e.target.getAttribute('data-id');
-  //
-  //     keywords.toggleKeyword(keyword);
-  //   }
-  // });
-  //#endregion
 };
 
 const onLoad = async () => {

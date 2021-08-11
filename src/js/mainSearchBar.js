@@ -2,6 +2,7 @@ export default class MainSearchBar {
   constructor() {
     this.inputChangeCallbacks = [];
   }
+
   createDOM() {
     const label = document.createElement('label');
     label.setAttribute('for', 'mainSearch');
