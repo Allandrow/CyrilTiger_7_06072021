@@ -2,7 +2,7 @@ import recipes from './data/recipes.js';
 import { MINQUERYLENGTH, INGREDIENTS, APPLIANCE, USTENSILS } from './config.js';
 
 export default class Search {
-  constructor(recipes) {
+  constructor() {
     this.recipes = recipes;
     this.searchTerms = new Set();
     this.keywords = new Map();
@@ -37,13 +37,11 @@ export default class Search {
   }
 
   searchByTerms() {
-    const terms = Array.from(searchTerms);
-    let results = new Set();
-    recipes.forEach((recipe) => {
+    const terms = Array.from(this.searchTerms);
+    this.recipes.forEach((recipe) => {
       const hasAllTermsInRecipe = terms.every((term) => this.isTermInRecipe(recipe, term));
-      if (hasAllTermsInRecipe) results.add(recipe);
+      if (hasAllTermsInRecipe) this.results.add(recipe);
     });
-    this.results = results;
   }
 
   setSearchKeywords(keywords) {
@@ -112,39 +110,6 @@ export default class Search {
 }
 
 //#region
-// verifyKeywordInRecipe(recipe, keyword) {
-//   const id = keyword.id;
-//   const label = keyword.label;
-//   switch (id) {
-//     case INGREDIENTS:
-//       return recipe.ingredients.some((text) => text.ingredient === label);
-//     case APPLIANCE:
-//       return recipe.appliance === label;
-//     case USTENSILS:
-//       return recipe.ustensils.some((text) => text === label);
-//   }
-// }
-
-// verifyKeywordsInRecipe(recipe, keywords) {
-//   return keywords.every((keyword) => this.verifyKeywordInRecipe(recipe, keyword));
-// }
-
-// setResultsByKeywords(keywords) {
-//   const keywordsValues = Array.from(keywords.values());
-
-//   //if results is not empty, filter out results that don't have all keywords
-//   if (this.results.size > EMPTYSIZE) {
-//     for (const recipe of this.results) {
-//       const areKeywordsInRecipe = this.verifyKeywordsInRecipe(recipe, keywordsValues);
-//       if (!areKeywordsInRecipe) this.results.delete(recipe);
-//     }
-//     return;
-//   }
-//   // if resulsts is empty, add recipes that have all keywords to results
-//   this.recipes.forEach((recipe) => {
-//     if (this.verifyKeywordsInRecipe(recipe, keywordsValues)) this.results.add(recipe);
-//   });
-// }
 
 // // search matching results from recipes and add match to results
 // launchSearch() {
