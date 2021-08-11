@@ -31,4 +31,8 @@ export default class Dropdowns {
   updateDropdownsLists(results = this.recipes) {
     this.dropdowns.forEach((dropdown) => dropdown.updateList(results));
   }
+
+  onTagSelection(cb) {
+    this.dropdowns.forEach((dropdown) => dropdown.onTagSelection(cb));
+  }
 }

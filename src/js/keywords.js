@@ -18,25 +18,28 @@ export default class Keywords {
     return this.createDOM();
   }
 
-  toggleKeyword(keyword) {
-    const { id, text } = keyword;
-    const keywordHash = `${id}-${text}`;
-    if (this.list.get(keywordHash)) {
-      this.list.delete(keywordHash);
-    } else {
-      this.list.set(keywordHash, { id, text });
-    }
-    this.updateKeywordList();
-  }
-
   updateKeywordList() {
     const fragment = new DocumentFragment();
     this.container.innerHTML = '';
 
-    this.list.forEach((tag) => {
-      const keyword = new Keyword(tag.id, tag.text);
+    this.list.forEach((item) => {
+      const keyword = new Keyword(item);
       fragment.appendChild(keyword.getDOM());
     });
     this.container.appendChild(fragment);
+  }
+
+  tagSelectionTrigger(keyword) {
+    const { id, text } = keyword;
+    const hash = `${id}-${text}`;
+    if (this.list.has(hash)) {
+      console.log('hash already in map');
+      this.list.delete(hash);
+    } else {
+      console.log('hash not in map');
+      this.list.set(hash, keyword);
+    }
+    console.log('MAP UPDATED ', this.list);
+    this.updateKeywordList();
   }
 }

@@ -9,7 +9,7 @@ export default class Dropdown {
     this.placeholder = dropdownTexts[id].placeholder;
     this.list = '';
     this.input = '';
-    // this.tagSelectionCallbacks = [];
+    this.tagSelectionCallbacks = [];
   }
 
   createArrowIMG() {
@@ -77,10 +77,14 @@ export default class Dropdown {
 
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      const keyword = {
+      // const keyword = {
+      //   id: this.id,
+      //   text: string
+      // };
+      this.onSelectionTrigger({
         id: this.id,
         text: string
-      };
+      });
       btn.closest('[open').removeAttribute('open');
     });
 
@@ -110,5 +114,13 @@ export default class Dropdown {
       fragment.appendChild(this.createListItem(keyword));
     });
     this.list.appendChild(fragment);
+  }
+
+  onTagSelection(cb) {
+    this.tagSelectionCallbacks.push(cb);
+  }
+
+  onSelectionTrigger(keyword) {
+    this.tagSelectionCallbacks.forEach((cb) => cb(keyword));
   }
 }

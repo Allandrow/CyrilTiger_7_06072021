@@ -48,6 +48,11 @@ const displayPage = (DOMComponents) => {
 const onSearchDataChange = (DOMComponents, search) => {
   const { mainSearchBar, keywords, dropdowns } = DOMComponents;
   mainSearchBar.onInputValueChange((value) => search.setSearchTerms(value));
+
+  // on dropdown tag selection, fire event from keywords to create/delete a keyword
+  dropdowns.onTagSelection((keyword) => keywords.tagSelectionTrigger(keyword));
+
+  //#region KEYWORD STUFF
   // keywords.onKeywordChange((keywords) => search.setSearchKeywords(keywords));
   // dropdowns.onTagSelection((tag) => keywords.toggleKeyword(tag));
   // window.addEventListener('click', (e) => {
@@ -62,6 +67,7 @@ const onSearchDataChange = (DOMComponents, search) => {
   //     keywords.toggleKeyword(keyword);
   //   }
   // });
+  //#endregion
 };
 
 const onLoad = async () => {

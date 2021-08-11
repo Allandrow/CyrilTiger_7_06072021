@@ -1,7 +1,7 @@
 export default class Keyword {
-  constructor(id, text) {
-    this.id = id;
-    this.text = text;
+  constructor(keyword) {
+    this.id = keyword.id;
+    this.text = keyword.text;
   }
 
   createDOM() {
