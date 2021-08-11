@@ -85,7 +85,7 @@ export default class Dropdown {
         id: this.id,
         text: string
       });
-      btn.closest('[open').removeAttribute('open');
+      // btn.closest('[open').removeAttribute('open');
     });
 
     return li;

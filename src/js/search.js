@@ -67,7 +67,7 @@ export default class Search {
 
   setSearchKeywords(keywords) {
     this.keywords = keywords;
-    // this.doSearch();
+    this.doSearch();
   }
 
   //#region KEYWORDS FUNCTIONS
@@ -109,19 +109,19 @@ export default class Search {
   doSearch() {
     this.results.clear();
     const hasSearchTerms = this.searchTerms.size > 0;
-    // const hasKeywords = this.keywords.size > 0;
+    const hasKeywords = this.keywords.size > 0;
 
-    // if (hasSearchTerms || hasKeywords) {
-    if (hasSearchTerms) {
-      this.searchByTerms();
+    if (hasSearchTerms || hasKeywords) {
+      if (hasSearchTerms) {
+        this.searchByTerms();
+      }
+      // if (hasKeywords) {
+      //   this.setResultsByKeywords();
+      // }
+      // TODO : handle keywords here
+      const results = hasSearchTerms ? this.results : this.recipes;
+      this.onSearchTrigger(results);
     }
-    // if (hasKeywords) {
-    //   this.setResultsByKeywords();
-    // }
-    // TODO : handle keywords here
-    const results = hasSearchTerms ? this.results : this.recipes;
-    this.onSearchTrigger(results);
-    // }
   }
 
   onResult(callback) {
