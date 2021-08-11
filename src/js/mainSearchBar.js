@@ -1,11 +1,8 @@
-import { MINQUERYLENGTH } from './config.js';
-
 export default class MainSearchBar {
   constructor() {
-    this.searchTerms = new Set();
+    this.inputChangeCallbacks = [];
   }
 
-  // Create search bar
   createDOM() {
     const label = document.createElement('label');
     label.setAttribute('for', 'mainSearch');
@@ -17,6 +14,11 @@ export default class MainSearchBar {
     input.placeholder = 'Rechercher un ingrédient, appareil, ustensiles ou une recette';
 
     label.appendChild(input);
+
+    input.addEventListener('input', (e) => {
+      this.onInputValueTrigger(e.target.value);
+    });
+
     return label;
   }
 
@@ -24,16 +26,11 @@ export default class MainSearchBar {
     return this.createDOM();
   }
 
-  setSearchTerms(value) {
-    this.searchTerms.clear();
-    const words = value.toLowerCase().split(' ');
-
-    words.forEach((word) => {
-      if (word.length >= MINQUERYLENGTH) this.searchTerms.add(word);
-    });
+  onInputValueChange(cb) {
+    this.inputChangeCallbacks.push(cb);
   }
 
-  getSearchTerms() {
-    return this.searchTerms;
+  onInputValueTrigger(value) {
+    this.inputChangeCallbacks.forEach((cb) => cb(value));
   }
 }
