@@ -53,12 +53,12 @@ const onSearchDataChange = (DOMComponents, search) => {
 
 const onLoad = async () => {
   const [index, err] = await getIndex();
-  const DOMObjectInstances = initDOMComponents();
+  const DOMComponents = initDOMComponents();
 
   if (!err) {
-    displayPage(DOMObjectInstances);
-    const search = initSearch(DOMObjectInstances, index);
-    onSearchDataChange(DOMObjectInstances, search);
+    displayPage(DOMComponents);
+    const search = initSearch(DOMComponents, index);
+    onSearchDataChange(DOMComponents, search);
   }
 };
 
