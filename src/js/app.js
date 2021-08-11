@@ -17,7 +17,7 @@ const displayPage = (DOMComponents) => {
   const container = document.getElementById('jsForm');
   const { dropdowns, results } = DOMComponents;
   const fragment = new DocumentFragment();
-  for (const component of DOMComponents) {
+  for (const component in DOMComponents) {
     fragment.appendChild(DOMComponents[component].getDOM());
   }
   dropdowns.updateDropdownsLists();
