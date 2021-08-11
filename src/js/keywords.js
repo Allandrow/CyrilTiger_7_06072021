@@ -1,10 +1,12 @@
+import Keyword from './keyword.js';
+
 export default class Keywords {
   constructor() {
-    this.selectedKeywords = new Map();
     this.container = '';
+    this.list = new Map();
+    this.listChangeCallbacks = [];
   }
 
-  // create keywords container
   createDOM() {
     const container = document.createElement('div');
     container.className = 'keywords-container';
@@ -13,52 +15,41 @@ export default class Keywords {
     return container;
   }
 
-  // return DOM of keywords container
   getDOM() {
     return this.createDOM();
   }
 
-  // return keywords selection
-  getKeywords() {
-    return this.selectedKeywords;
-  }
+  updateKeywordDOMList() {
+    const fragment = new DocumentFragment();
+    this.container.innerHTML = '';
 
-  // create keyword DOM element
-  createKeywordButton(mapKeyword) {
-    const button = document.createElement('button');
-    button.classList.add('keyword', `${mapKeyword.id}-color`);
-    button.setAttribute('data-id', mapKeyword.id);
-    button.textContent = mapKeyword.label;
-
-    const img = document.createElement('img');
-    img.src = 'dist/img/cross.svg';
-
-    button.appendChild(img);
-    return button;
-  }
-
-  // empty current list and append a new one
-  updateKeywordList() {
-    const container = this.container;
-    const containerFragment = new DocumentFragment();
-    container.innerHTML = '';
-
-    this.selectedKeywords.forEach((keyword) => {
-      const btn = this.createKeywordButton(keyword);
-      containerFragment.appendChild(btn);
+    this.list.forEach((item) => {
+      const keyword = new Keyword(item);
+      keyword.onDeletion((keyword) => {
+        this.tagSelectionTrigger(keyword);
+      });
+      fragment.appendChild(keyword.getDOM());
     });
-
-    container.appendChild(containerFragment);
+    this.container.appendChild(fragment);
   }
 
-  // add keyword to map if not in it already, delete keyword if present, then updates the displayed list
-  onChange(id, label) {
-    const keywordHash = `${id}-${label}`;
-    if (this.selectedKeywords.get(keywordHash)) {
-      this.selectedKeywords.delete(keywordHash);
+  tagSelectionTrigger(keyword) {
+    const { id, text } = keyword;
+    const hash = `${id}-${text}`;
+    if (this.list.has(hash)) {
+      this.list.delete(hash);
     } else {
-      this.selectedKeywords.set(keywordHash, { id, label });
+      this.list.set(hash, keyword);
     }
-    this.updateKeywordList();
+    this.onUpdateTrigger(this.list);
+    this.updateKeywordDOMList();
+  }
+
+  onListChange(cb) {
+    this.listChangeCallbacks.push(cb);
+  }
+
+  onUpdateTrigger(keywords) {
+    this.listChangeCallbacks.forEach((cb) => cb(keywords));
   }
 }
