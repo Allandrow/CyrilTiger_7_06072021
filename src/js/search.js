@@ -10,6 +10,7 @@ export default class Search {
     this.resultsCallbacks = [];
   }
 
+  // sets Search Terms from mainSearchBar and start search
   setSearchTerms(value) {
     const previousSearchSize = this.searchTerms.size;
     this.searchTerms.clear();
