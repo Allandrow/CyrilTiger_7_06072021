@@ -6,9 +6,13 @@ import Search from './search.js';
 
 const getIndex = async () => {
   try {
+    const indexMap = new Map();
     const index = await fetch('src/js/data/index.json');
     const indexJSON = await index.json();
-    return [indexJSON, null];
+    await indexJSON.forEach((item) => {
+      indexMap.set(item.s, item.r);
+    });
+    return [indexMap, null];
   } catch (err) {
     return [null, err];
   }

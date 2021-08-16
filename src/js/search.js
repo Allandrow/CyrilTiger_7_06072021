@@ -40,9 +40,9 @@ export default class Search {
 
     // for each term, find matching substring in index and add recipe ids to resultIds
     this.searchTerms.forEach((term) => {
-      const match = this.index.find((wordIndex) => wordIndex.s === term);
+      const match = this.index.get(term);
       if (match) {
-        resultIds = [...resultIds, ...match.r];
+        resultIds = [...resultIds, ...match];
       }
     });
 
