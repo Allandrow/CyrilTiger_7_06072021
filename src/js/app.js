@@ -35,9 +35,9 @@ const initSearch = (DOMComponents) => {
 
 const onSearchDataChange = (DOMComponents, search) => {
   const { mainSearchBar, keywords, dropdowns } = DOMComponents;
-  mainSearchBar.onInputValueChange((value) => search.setSearchTerms(value));
+  mainSearchBar.onInputValueChange((value) => search.updateSearchTerms(value));
   dropdowns.onTagSelection((keyword) => keywords.tagSelectionTrigger(keyword));
-  keywords.onListChange((list) => search.setSearchKeywords(list));
+  keywords.onListChange((list) => search.updateSearchKeywords(list));
 };
 
 const onLoad = () => {
