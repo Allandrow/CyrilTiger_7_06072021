@@ -13,6 +13,7 @@ export default class Dropdown {
   createArrowIMG() {
     const img = document.createElement('img');
     img.src = 'dist/img/arrow.svg';
+    img.alt = 'flèche';
     return img;
   }
 

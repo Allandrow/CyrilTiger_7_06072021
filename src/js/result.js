@@ -60,6 +60,7 @@ export default class Result {
 
     const img = document.createElement('img');
     img.src = 'dist/img/timer.svg';
+    img.alt = 'clock icon';
 
     const timerText = document.createElement('span');
     timerText.textContent = `${time} min`;
