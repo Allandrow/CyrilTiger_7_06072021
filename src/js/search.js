@@ -46,6 +46,15 @@ export default class Search {
       }
     });
 
+    // skip occurence count if there is only one term
+    if (termNumbers === 1) {
+      resultIds.forEach((id) => {
+        const recipe = this.recipeMap.get(id);
+        this.results.add(recipe);
+      });
+      return;
+    }
+
     // count occurence of each id
     resultIds.forEach((id) => {
       if (occurenceCounts.has(id)) {
