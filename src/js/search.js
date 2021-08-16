@@ -20,7 +20,7 @@ export default class Search {
     return map;
   }
 
-  setSearchTerms(value) {
+  updateSearchTerms(value) {
     const previousSearchSize = this.searchTerms.size;
     this.searchTerms.clear();
     const words = value.toLowerCase().split(' ');
@@ -65,7 +65,7 @@ export default class Search {
     });
   }
 
-  setSearchKeywords(keywords) {
+  updateSearchKeywords(keywords) {
     this.keywords = keywords;
     this.doSearch();
   }
