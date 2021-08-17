@@ -30,6 +30,7 @@ export default class MainSearchBar {
     this.inputChangeCallbacks.push(cb);
   }
 
+  // TODO : trigger/fire as verb
   onInputValueTrigger(value) {
     this.inputChangeCallbacks.forEach((cb) => cb(value));
   }

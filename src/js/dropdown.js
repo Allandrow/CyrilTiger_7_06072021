@@ -1,5 +1,3 @@
-// TODO : handle tag selection to make a keyword
-
 import { APPLIANCE, dropdownTexts, INGREDIENTS, USTENSILS } from './config.js';
 
 export default class Dropdown {

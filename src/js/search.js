@@ -23,11 +23,14 @@ export default class Search {
   updateSearchTerms(value) {
     const previousSearchSize = this.searchTerms.size;
     this.searchTerms.clear();
+
     const words = value.toLowerCase().split(' ');
     words.forEach((word) => {
       if (word.length >= MINQUERYLENGTH) this.searchTerms.add(word);
     });
+
     const newSearchSize = this.searchTerms.size;
+    // TODO : make semantic constants to explain better
     if (newSearchSize > 0 || newSearchSize !== previousSearchSize) {
       this.doSearch();
     }

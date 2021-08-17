@@ -27,7 +27,7 @@ const initDOMComponents = () => {
   };
 };
 
-const initSearch = (DOMInstances, index) => {
+const makeSearch = (DOMInstances, index) => {
   const { dropdowns, results } = DOMInstances;
   const search = new Search(index);
   search.onResult((recipes) => dropdowns.updateDropdownsLists(recipes));
@@ -48,21 +48,16 @@ const displayPage = (DOMComponents) => {
   container.appendChild(fragment);
 };
 
-const onSearchDataChange = (DOMComponents, search) => {
-  const { mainSearchBar, keywords, dropdowns } = DOMComponents;
-  mainSearchBar.onInputValueChange((value) => search.updateSearchTerms(value));
-  dropdowns.onTagSelection((keyword) => keywords.tagSelectionTrigger(keyword));
-  keywords.onListChange((list) => search.updateSearchKeywords(list));
-};
-
 const onLoad = async () => {
   const [index, err] = await getIndex();
   const DOMComponents = initDOMComponents();
-
+  const { mainSearchBar, keywords, dropdowns } = DOMComponents;
   if (!err) {
     displayPage(DOMComponents);
-    const search = initSearch(DOMComponents, index);
-    onSearchDataChange(DOMComponents, search);
+    const search = makeSearch(DOMComponents, index);
+    mainSearchBar.onInputValueChange((value) => search.updateSearchTerms(value));
+    dropdowns.onTagSelection((keyword) => keywords.tagSelectionTrigger(keyword));
+    keywords.onListChange((list) => search.updateSearchKeywords(list));
   }
 };
 
