@@ -1,4 +1,4 @@
-import { dropdownTexts, INGREDIENTS, APPLIANCE, USTENSILS } from './config.js';
+import { APPLIANCE, dropdownTexts, INGREDIENTS, USTENSILS } from './config.js';
 
 export default class Dropdown {
   constructor(id) {
@@ -7,7 +7,7 @@ export default class Dropdown {
     this.placeholder = dropdownTexts[id].placeholder;
     this.list = '';
     this.input = '';
-    this.tagSelectionCallbacks = [];
+    this.triggerCallbacks = [];
   }
 
   createArrowIMG() {
@@ -76,7 +76,7 @@ export default class Dropdown {
 
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      this.onSelectionTrigger({
+      this.triggerEvents({
         id: this.id,
         text: string
       });
@@ -88,7 +88,8 @@ export default class Dropdown {
   updateList(results) {
     const keywordSet = new Set();
     const fragment = new DocumentFragment();
-    this.list.innerHTML = '';
+
+    while (this.list.lastElementChild) this.list.removeChild(this.list.lastElementChild);
 
     results.forEach((result) => {
       switch (this.id) {
@@ -111,10 +112,10 @@ export default class Dropdown {
   }
 
   onTagSelection(cb) {
-    this.tagSelectionCallbacks.push(cb);
+    this.triggerCallbacks.push(cb);
   }
 
-  onSelectionTrigger(keyword) {
-    this.tagSelectionCallbacks.forEach((cb) => cb(keyword));
+  triggerEvents(keyword) {
+    this.triggerCallbacks.forEach((cb) => cb(keyword));
   }
 }

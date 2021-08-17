@@ -7,21 +7,22 @@ export default class Search {
     this.searchTerms = new Set();
     this.keywords = new Map();
     this.results = new Set();
-    this.resultsCallbacks = [];
+    this.triggerCallbacks = [];
   }
 
-  // sets Search Terms from mainSearchBar and start search
   updateSearchTerms(value) {
     const previousSearchSize = this.searchTerms.size;
     this.searchTerms.clear();
+
     const words = value.toLowerCase().split(' ');
     words.forEach((word) => {
       if (word.length >= MINQUERYLENGTH) this.searchTerms.add(word);
     });
     const newSearchSize = this.searchTerms.size;
-    if (newSearchSize > 0 || newSearchSize !== previousSearchSize) {
-      this.doSearch();
-    }
+    const hasSearchTerms = newSearchSize > 0;
+    const isSearchReset = newSearchSize !== previousSearchSize;
+
+    if (hasSearchTerms || isSearchReset) this.doSearch();
   }
 
   isTermInRecipe(recipe, term) {
@@ -96,15 +97,15 @@ export default class Search {
       }
     }
     const results = hasSearchTerms || hasKeywords ? this.results : this.recipes;
-    this.onSearchTrigger(results);
+    this.triggerEvents(results);
   }
 
   onResult(callback) {
-    this.resultsCallbacks.push(callback);
+    this.triggerCallbacks.push(callback);
   }
 
-  onSearchTrigger(results) {
-    this.resultsCallbacks.forEach((cb) => {
+  triggerEvents(results) {
+    this.triggerCallbacks.forEach((cb) => {
       cb(results);
     });
   }

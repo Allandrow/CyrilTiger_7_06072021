@@ -13,6 +13,14 @@ const initDOMComponents = () => {
   };
 };
 
+const makeSearch = (DOMComponents) => {
+  const { dropdowns, results } = DOMComponents;
+  const search = new Search();
+  search.onResult((recipes) => dropdowns.updateDropdownsLists(recipes));
+  search.onResult((recipes) => results.displayResults(recipes));
+  return search;
+};
+
 const displayPage = (DOMComponents) => {
   const container = document.getElementById('jsForm');
   const { dropdowns, results } = DOMComponents;
@@ -25,26 +33,14 @@ const displayPage = (DOMComponents) => {
   container.appendChild(fragment);
 };
 
-const initSearch = (DOMComponents) => {
-  const { dropdowns, results } = DOMComponents;
-  const search = new Search();
-  search.onResult((recipes) => dropdowns.updateDropdownsLists(recipes));
-  search.onResult((recipes) => results.displayResults(recipes));
-  return search;
-};
-
-const onSearchDataChange = (DOMComponents, search) => {
-  const { mainSearchBar, keywords, dropdowns } = DOMComponents;
-  mainSearchBar.onInputValueChange((value) => search.updateSearchTerms(value));
-  dropdowns.onTagSelection((keyword) => keywords.tagSelectionTrigger(keyword));
-  keywords.onListChange((list) => search.updateSearchKeywords(list));
-};
-
 const onLoad = () => {
   const DOMComponents = initDOMComponents();
   displayPage(DOMComponents);
-  const search = initSearch(DOMComponents);
-  onSearchDataChange(DOMComponents, search);
+  const { mainSearchBar, keywords, dropdowns } = DOMComponents;
+  const search = makeSearch(DOMComponents);
+  mainSearchBar.onInputValueChange((value) => search.updateSearchTerms(value));
+  dropdowns.onTagSelection((keyword) => keywords.tagSelectionTrigger(keyword));
+  keywords.onListChange((list) => search.updateSearchKeywords(list));
 };
 
 window.addEventListener('DOMContentLoaded', onLoad);
