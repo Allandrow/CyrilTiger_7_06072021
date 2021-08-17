@@ -1,6 +1,6 @@
 export default class MainSearchBar {
   constructor() {
-    this.inputChangeCallbacks = [];
+    this.triggerCallbacks = [];
   }
 
   createDOM() {
@@ -16,7 +16,7 @@ export default class MainSearchBar {
     label.appendChild(input);
 
     input.addEventListener('input', (e) => {
-      this.onInputValueTrigger(e.target.value);
+      this.triggerEvents(e.target.value);
     });
 
     return label;
@@ -27,11 +27,10 @@ export default class MainSearchBar {
   }
 
   onInputValueChange(cb) {
-    this.inputChangeCallbacks.push(cb);
+    this.triggerCallbacks.push(cb);
   }
 
-  // TODO : trigger/fire as verb
-  onInputValueTrigger(value) {
-    this.inputChangeCallbacks.forEach((cb) => cb(value));
+  triggerEvents(value) {
+    this.triggerCallbacks.forEach((cb) => cb(value));
   }
 }
