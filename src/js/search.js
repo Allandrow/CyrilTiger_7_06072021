@@ -28,12 +28,11 @@ export default class Search {
     words.forEach((word) => {
       if (word.length >= MINQUERYLENGTH) this.searchTerms.add(word);
     });
-
     const newSearchSize = this.searchTerms.size;
-    // TODO : make semantic constants to explain better
-    if (newSearchSize > 0 || newSearchSize !== previousSearchSize) {
-      this.doSearch();
-    }
+    const hasSearchTerms = newSearchSize > 0;
+    const isSearchReset = newSearchSize !== previousSearchSize;
+
+    if (hasSearchTerms || isSearchReset) this.doSearch();
   }
 
   searchByTerms() {
