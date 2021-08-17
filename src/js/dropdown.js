@@ -88,7 +88,8 @@ export default class Dropdown {
   updateList(results) {
     const keywordSet = new Set();
     const fragment = new DocumentFragment();
-    this.list.innerHTML = '';
+
+    while (this.list.lastElementChild) this.list.removeChild(this.list.lastElementChild);
 
     results.forEach((result) => {
       switch (this.id) {

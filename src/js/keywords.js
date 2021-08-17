@@ -21,7 +21,9 @@ export default class Keywords {
 
   updateKeywordDOMList() {
     const fragment = new DocumentFragment();
-    this.container.innerHTML = '';
+
+    while (this.container.lastElementChild)
+      this.container.removeChild(this.container.lastElementChild);
 
     this.list.forEach((item) => {
       const keyword = new Keyword(item);
