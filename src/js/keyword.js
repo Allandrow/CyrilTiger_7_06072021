@@ -3,7 +3,7 @@ export default class Keyword {
     this.keyword = keyword;
     this.id = keyword.id;
     this.text = keyword.text;
-    this.deletionCallbacks = [];
+    this.triggerCallbacks = [];
   }
 
   createDOM() {
@@ -20,7 +20,7 @@ export default class Keyword {
 
     button.addEventListener('click', (e) => {
       e.preventDefault();
-      this.onDeletionTrigger(this.keyword);
+      this.triggerEvents(this.keyword);
     });
 
     return button;
@@ -31,10 +31,10 @@ export default class Keyword {
   }
 
   onDeletion(cb) {
-    this.deletionCallbacks.push(cb);
+    this.triggerCallbacks.push(cb);
   }
 
-  onDeletionTrigger(keyword) {
-    this.deletionCallbacks.forEach((cb) => cb(keyword));
+  triggerEvents(keyword) {
+    this.triggerCallbacks.forEach((cb) => cb(keyword));
   }
 }

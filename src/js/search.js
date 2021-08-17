@@ -8,7 +8,7 @@ export default class Search {
     this.searchTerms = new Set();
     this.keywords = new Map();
     this.results = new Set();
-    this.resultsCallbacks = [];
+    this.triggerCallbacks = [];
     this.recipeMap = this.createRecipeMap();
   }
 
@@ -127,15 +127,15 @@ export default class Search {
       }
     }
     const results = hasSearchTerms || hasKeywords ? this.results : this.recipes;
-    this.onSearchTrigger(results);
+    this.triggerEvents(results);
   }
 
   onResult(callback) {
-    this.resultsCallbacks.push(callback);
+    this.triggerCallbacks.push(callback);
   }
 
-  onSearchTrigger(results) {
-    this.resultsCallbacks.forEach((cb) => {
+  triggerEvents(results) {
+    this.triggerCallbacks.forEach((cb) => {
       cb(results);
     });
   }
