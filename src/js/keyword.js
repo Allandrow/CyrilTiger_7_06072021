@@ -14,6 +14,7 @@ export default class Keyword {
 
     const img = document.createElement('img');
     img.src = 'dist/img/cross.svg';
+    img.alt = 'delete';
 
     button.appendChild(img);
 
