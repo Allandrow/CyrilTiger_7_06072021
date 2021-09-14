@@ -100,7 +100,7 @@ export default class Search {
 
   searchByKeywords() {
     const keywordsValues = Array.from(this.keywords.values());
-    if (this.results.size > 0) {
+    if (this.searchTerms.size > 0) {
       for (const recipe of this.results) {
         const areKeywordsInRecipe = this.verifyKeywordsInRecipe(recipe, keywordsValues);
         if (!areKeywordsInRecipe) this.results.delete(recipe);
